@@ -135,7 +135,9 @@ void AppDelegate::applicationDidEnterBackground() {
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
     sdkbox::IAP::refresh();
+#endif
     
     Director::getInstance()->startAnimation();
 

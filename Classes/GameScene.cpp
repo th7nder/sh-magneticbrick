@@ -1374,7 +1374,7 @@ void GameScene::onBrickRewardEnded()
 
 void GameScene::onKielniaUsed()
 {
-    playClickSound();
+    //playClickSound();
     fadeOutLayout(kielniaLayout);
     
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_MAC)

@@ -41,7 +41,11 @@ private:
     cocos2d::Label* continueLabel;
     cocos2d::Label* remainingLabel;
     cocos2d::Label* kielniasRemaining;
+    cocos2d::Label* kielniasRemainingSecond;
     
+    cocos2d::Label* removeLabel;
+    
+    cocos2d::Label* removeSecondLabel;
     
 CC_CONSTRUCTOR_ACCESS:
     KielniaLayout();

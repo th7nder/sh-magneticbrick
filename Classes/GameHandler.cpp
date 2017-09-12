@@ -483,6 +483,7 @@ std::string GameHandler::getLastAdProvider() const
 void GameHandler::setLastAdProvider(std::string var)
 {
     lastAdProvider = var;
+    ud->setStringForKey("lastAdProvider", var);
 }
 
 bool GameHandler::getBlackout() const

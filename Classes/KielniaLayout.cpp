@@ -83,6 +83,12 @@ bool KielniaLayout::initWithSize(cocos2d::Size size, cocos2d::Color3B& color, in
     kielniasRemaining->setPosition(remainingNumberPos);
     addChild(kielniasRemaining);
     
+    kielniasRemainingSecond = Label::createWithTTF(StringUtils::format("%d", kielnias - 1), Globals::gameFont, 118);
+    kielniasRemainingSecond->setColor(Color3B(244, 190, 113));
+    kielniasRemainingSecond->setPosition(remainingNumberPos);
+    kielniasRemainingSecond->setVisible(false);
+    addChild(kielniasRemainingSecond);
+    
     
     sure = SHButton::create(gameHandler, Globals::resources["kielnia_popup_sure"]);
     sure->setPosition(surePos);
@@ -112,9 +118,35 @@ bool KielniaLayout::initWithSize(cocos2d::Size size, cocos2d::Color3B& color, in
     remainingLabel->setColor(color);
     addChild(remainingLabel);
     
+   /* const Vec2 removeLabelPos(400, 200);
+    removeLabel = Label::createWithTTF("-1", Globals::gameFont, 60);
+    removeLabel->setColor(Color3B(199,57,60));
+    removeLabel->setPosition(removeLabelPos);
+    addChild(removeLabel);*/
+    
+    
     
     sure->addClickEventListener([this](Ref* sender){
-        this->gameHandler->onKielniaUsed();
+        playClickSound();
+        int kielnias = gameHandler->getKielnias();
+        kielniasRemaining->setString(StringUtils::format("%d", kielnias - 1));
+        kielniasRemaining->setOpacity(0);
+        
+        kielniasRemainingSecond->setString(StringUtils::format("%d", kielnias));
+        kielniasRemainingSecond->setOpacity(255);
+        kielniasRemainingSecond->setVisible(true);
+        
+        auto func = CallFunc::create([this](){
+            kielniasRemainingSecond->setVisible(false);
+            kielniasRemainingSecond->setScale(1.0);
+            this->gameHandler->onKielniaUsed();
+        });
+        
+        auto seq = Sequence::create(FadeIn::create(0.5), DelayTime::create(0.3), func, NULL);
+        kielniasRemaining->runAction(seq);
+        kielniasRemainingSecond->runAction(Sequence::create(ScaleTo::create(0.3, 2.0), FadeOut::create(0.3), NULL));
+        
+        //
     });
     
     noThanks->addClickEventListener([this](Ref* sender){

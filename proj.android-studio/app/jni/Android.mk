@@ -27,6 +27,7 @@ $(LOCAL_PATH)/../../../Classes/Level.cpp \
 $(LOCAL_PATH)/../../../Classes/LevelObject.cpp \
 $(LOCAL_PATH)/../../../Classes/LoadingScene.cpp \
 $(LOCAL_PATH)/../../../Classes/WaitLayout.cpp \
+$(LOCAL_PATH)/../../../Classes/TH7Bridge.cpp \
 $(LOCAL_PATH)/../../../Classes/MovingObstacle.cpp \
 $(LOCAL_PATH)/../../../Classes/Player.cpp \
 $(LOCAL_PATH)/../../../Classes/SHButton.cpp \

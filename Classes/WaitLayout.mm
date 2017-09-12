@@ -329,6 +329,7 @@ void WaitLayout::onGameEnter()
     }
     else
     {
+        isCounting = false;
         launchTimer(scheduleCount);
     }
     

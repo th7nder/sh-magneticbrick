@@ -72,7 +72,7 @@
     <attr format="boolean" name="zOrderOnTop"/>
     <attr format="boolean" name="uiMapToolbar"/>
     <attr format="boolean" name="ambientEnabled"/>
-  </declare-styleable></file><file path="/Users/konrad/dev/src/skyhorn/MagneticBrick/cocos2d/cocos/platform/android/java/libs/gps/res/values/version.xml" qualifiers=""><integer name="google_play_services_version">10084000</integer></file><file path="/Users/konrad/dev/src/skyhorn/MagneticBrick/cocos2d/cocos/platform/android/java/libs/gps/res/values/wallet_attrs.xml" qualifiers=""><declare-styleable name="CustomWalletTheme">
+  </declare-styleable></file><file path="/Users/konrad/dev/src/skyhorn/MagneticBrick/cocos2d/cocos/platform/android/java/libs/gps/res/values/version.xml" qualifiers=""><integer name="google_play_services_version">11010000</integer></file><file path="/Users/konrad/dev/src/skyhorn/MagneticBrick/cocos2d/cocos/platform/android/java/libs/gps/res/values/wallet_attrs.xml" qualifiers=""><declare-styleable name="CustomWalletTheme">
         
         <attr format="enum" name="windowTransitionStyle">
             <enum name="slide" value="1"/>

@@ -88,7 +88,7 @@
             <enum name="dark" value="0"/>
             <enum name="light" value="1"/>
             <enum name="auto" value="2"/>
-        </attr><attr format="reference|string" name="scopeUris"/></declare-styleable><integer name="google_play_services_version">10084000</integer><color name="common_plus_signin_btn_text_dark_pressed">@android:color/white</color><string name="common_google_play_services_network_error_title">Network Error</string><declare-styleable name="CustomWalletTheme"><attr format="enum" name="windowTransitionStyle">
+        </attr><attr format="reference|string" name="scopeUris"/></declare-styleable><integer name="google_play_services_version">11010000</integer><color name="common_plus_signin_btn_text_dark_pressed">@android:color/white</color><string name="common_google_play_services_network_error_title">Network Error</string><declare-styleable name="CustomWalletTheme"><attr format="enum" name="windowTransitionStyle">
             <enum name="slide" value="1"/>
             <enum name="none" value="2"/>
         </attr></declare-styleable><string name="cast_notification_connected_message">Connected to <ns1:g id="name">%1$s</ns1:g></string><string name="common_google_play_services_invalid_account_text">The specified account does not exist on this device. Please choose a different account.</string><declare-styleable name="WalletFragmentOptions"><attr format="enum" name="appTheme">

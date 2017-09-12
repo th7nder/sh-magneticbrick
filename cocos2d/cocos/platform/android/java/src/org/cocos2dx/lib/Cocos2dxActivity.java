@@ -329,7 +329,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         super.onWindowFocusChanged(hasFocus);
         
         this.hasFocus = hasFocus;
-        resumeIfHasFocus();
+        //resumeIfHasFocus();
 
         // heheheh th7
         if(hasFocus) {

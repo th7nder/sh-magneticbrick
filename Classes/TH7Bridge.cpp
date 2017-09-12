@@ -1,0 +1,1 @@
+/Users/konrad/dev/src/skyhorn/MagneticBrick/Classes/TH7Bridge.mm
