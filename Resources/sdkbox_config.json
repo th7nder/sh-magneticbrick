@@ -1,0 +1,187 @@
+{
+    "android": {
+        "UnityAds": {
+            "gameId": "1540364",
+            "testMode": false
+        }, 
+        "AdMob": {
+            "test": false, 
+            "ads": {
+                "mb_video": {
+                    "type": "rewarded_video", 
+                    "id": "ca-app-pub-1181394133591241/8367725940"
+                }
+            }
+        }, 
+        "Chartboost": {
+            "signature": "5b21408d84b32770f10cda3daf213964bb783db2", 
+            "ads": {
+                "Video": {
+                    "type": "rewarded_video"
+                }
+            }, 
+            "id": "59b6efbc04b01615e9d4fa40"
+        }, 
+        "AdColony": {
+            "debug": false, 
+            "id": "app23790b119209472ea5", 
+            "ads": {
+                "video": {
+                    "v4vc": true, 
+                    "pre_popup": false, 
+                    "zone": "vz74d67d14243848bb87", 
+                    "post_popup": false
+                }
+            }
+        }, 
+        "iap": {
+            "items": {
+                "unlock9": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbrick.unlockhell"
+                }, 
+                "unlock8": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbrick.unlockmouth"
+                }, 
+                "unlock3": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbrick.unlockspace"
+                }, 
+                "unlock2": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbrick.unlockdesert"
+                }, 
+                "kielnia5": {
+                    "id": "com.skyhorn.magneticbrick.trowel5"
+                }, 
+                "kielnia10": {
+                    "id": "com.skyhorn.magneticbrick.trowel10"
+                }, 
+                "unlock7": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbrick.unlockgraveyard"
+                }, 
+                "unlock6": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbrick.unlockunderwater"
+                }, 
+                "unlock5": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbrick.unlocksnowland"
+                }, 
+                "unlock4": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbrick.unlockwestern"
+                }, 
+                "remove_ads": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbrick.removeads"
+                }, 
+                "kielnia20": {
+                    "id": "com.skyhorn.magneticbrick.trowel20"
+                }, 
+                "unlock1": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbrick.unlockjungle"
+                }, 
+                "kielnia50": {
+                    "id": "com.skyhorn.magneticbrick.trowel50"
+                }
+            }, 
+            "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2hIgUq6re+u6RdMaKv0kSv7uExfFQi0UdFgYXXM64ULkjqGTUO3oP2Z3IFEQgB/fMjFUov2theiLn8HWRhFji8QkmAHBZCN+A+PYzctFY1+Hk8BEiEM2Cw/1LpO4E0EJqwdIFR5UH7L9LEwBGGZlLsm3oFEF9Rn6t/gV1EXfUEttmMxgmBfyMX1qCt5fQ5QCAL10RF27iunn+fXd2/dVBDd6xCr3uoh5o2dB1M8v+c7xr4YONE7Rwb8wT8vmwAHbFS8F2MuotY7BCWF055/IVvBF+LIhs/+wm6omipi2qtbLMIKXi4r+93RQ7nlaaH9/EYPPMqb5WdhtuWd8YO5fSQIDAQAB"
+        }
+    }, 
+    "ios": {
+        "UnityAds": {
+            "gameId": "1540363",
+            "testMode": false
+        }, 
+        "AdMob": {
+            "test": false, 
+            "ads": {
+                "mb_video": {
+                    "type": "rewarded_video", 
+                    "id": "ca-app-pub-1181394133591241/5878004418"
+                }
+            }
+        }, 
+        "Chartboost": {
+            "signature": "30f9fb8679934290d6dbacd78703e3c4b0a39c70", 
+            "ads": {
+                "Video": {
+                    "type": "rewarded_video"
+                }
+            }, 
+            "id": "59b6effe04b01615e9d4fa4f"
+        }, 
+        "AdColony": {
+            "debug": false, 
+            "id": "appe8c6a5b2bf3a4da983", 
+            "ads": {
+                "video": {
+                    "v4vc": true, 
+                    "pre_popup": false, 
+                    "zone": "vz1781c9183b934c7ba7", 
+                    "post_popup": false
+                }
+            }
+        }, 
+        "iap": {
+            "items": {
+                "unlock9": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbricky.unlockhellB"
+                }, 
+                "unlock8": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbricky.unlockmouthB"
+                }, 
+                "unlock3": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbricky.unlockspaceB"
+                }, 
+                "unlock2": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbricky.unlockdesertB"
+                }, 
+                "kielnia5": {
+                    "id": "com.skyhorn.magneticbricky.kielnia5B"
+                }, 
+                "kielnia10": {
+                    "id": "com.skyhorn.magneticbricky.kielnia10B"
+                }, 
+                "unlock7": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbricky.unlockgraveyardB"
+                }, 
+                "unlock6": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbricky.unlockunderwaterB"
+                }, 
+                "unlock5": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbricky.unlocksnowlandB"
+                }, 
+                "unlock4": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbricky.unlockwesternB"
+                }, 
+                "remove_ads": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbricky.removeadsB"
+                }, 
+                "kielnia20": {
+                    "id": "com.skyhorn.magneticbricky.kielnia20B"
+                }, 
+                "unlock1": {
+                    "type": "non_consumable", 
+                    "id": "com.skyhorn.magneticbricky.unlockjungleB"
+                }, 
+                "kielnia50": {
+                    "id": "com.skyhorn.magneticbricky.kielnia50B"
+                }
+            }
+        }
+    }
+}

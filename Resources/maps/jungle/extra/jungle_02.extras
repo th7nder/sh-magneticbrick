@@ -1,0 +1,16 @@
+Parrot;left;256;700;0;1979
+JEDouble;left;398;406;0;3473
+Parrot;left;256;700;0;5906
+Parrot;left;256;700;0;8551
+JEReversed;left;609;458;0;10959
+JEDouble;left;398;406;0;12885
+JEReversed;left;609;458;0;14759
+JEDouble;right;398;406;682;912
+Parrot;right;256;700;824;2757
+JEDouble;right;398;406;682;5046
+JETriple;right;562;568;518;6433
+JEReversed;right;609;458;471;8090
+Parrot;right;256;700;824;10159
+JEReversed;right;609;458;471;11959
+JETriple;right;562;568;518;14304
+JEReversed;right;609;458;471;16024

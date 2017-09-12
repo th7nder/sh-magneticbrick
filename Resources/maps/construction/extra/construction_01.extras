@@ -1,0 +1,14 @@
+CSEMedium;left;476;591;0;2153
+CSEBarrier;right;476;410;604;681
+CSESmall;left;361;246;0;3734
+CSEBig;right;361;825;719;2210
+CSESmall;left;361;246;0;5298
+CSEBig;right;361;825;719;3924
+CSEMedium;left;476;591;0;6821
+CSEBarrier;right;476;410;604;5506
+CSEBall;left;404;363;0;8464
+CSESmall;right;361;246;719;7070
+CSEBig;left;361;825;0;9246
+CSEMedium;right;476;591;604;7775
+CSEBall;left;404;363;0;10749
+CSEMedium;right;476;591;604;9336

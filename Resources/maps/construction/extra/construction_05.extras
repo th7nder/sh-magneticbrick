@@ -1,0 +1,16 @@
+CSESmall;left;361;246;0;984
+CSEBarrier;right;476;410;604;1814
+CSEBall;left;404;363;0;1715
+CSEBarrier;right;476;410;604;3430
+CSEMedium;left;476;591;0;3318
+CSEBarrier;right;476;410;604;5234
+CSEBarrier;left;476;410;0;5227
+CSEMedium;right;476;591;604;6130
+CSESmall;left;361;246;0;6494
+CSEBarrier;right;476;410;604;7342
+CSEBig;left;361;825;0;7875
+CSEBall;right;404;363;676;8274
+CSEBig;left;361;825;0;9712
+CSEBall;right;404;363;676;9797
+CSEBall;left;404;363;0;11247
+CSESmall;right;361;246;719;11134
