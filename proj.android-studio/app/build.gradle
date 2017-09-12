@@ -14,8 +14,8 @@ android {
         applicationId "com.skyhorn.magneticbrick"
         minSdkVersion 14
         targetSdkVersion 16
-        versionCode 12
-        versionName "0.2.2"
+        versionCode 14
+        versionName "0.2.3"
     }
 
     sourceSets.main {
