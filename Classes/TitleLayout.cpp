@@ -57,9 +57,6 @@ bool TitleLayout::initWithSize(cocos2d::Size size, GameHandler* handler)
 void TitleLayout::updateUI()
 {
     playButton->loadTextureNormal(gameHandler->getLastTheme().getPlayButtonPath());
-    shopButton->loadTextureNormal(Globals::resources["icon_cart_" + gameHandler->getLastTheme().getElementsColor()]);
-    settingsButton->loadTextureNormal(Globals::resources["icon_settings_" + gameHandler->getLastTheme().getElementsColor()]);
-    bricksRemainingLabel->setColor(gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0));
     if(gameHandler->getRemoveAds())
     {
         bricksRemainingLabel->setString("∞");
@@ -68,9 +65,13 @@ void TitleLayout::updateUI()
     {
         bricksRemainingLabel->setString(StringUtils::format("%d", gameHandler->getBricksRemaining()));
     }
-
     
-    bricksRemainingTitleLabel->setColor(gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0));
+
+    Color3B color = gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
+    shopButton->setColor(color);
+    settingsButton->setColor(color);
+    bricksRemainingLabel->setColor(color);
+    bricksRemainingTitleLabel->setColor(color);
 }
 
 
@@ -79,15 +80,23 @@ void TitleLayout::createLogo()
     const cocos2d::Vec2 pos(320, 786);
     logo = cocos2d::Sprite::create(Globals::resources["logo_mb"]);
     logo->setPosition(pos);
+
+    
     addChild(logo);
 }
 
 void TitleLayout::createPlayButton()
-{//320 436
+{
+    
     const cocos2d::Vec2 pos(320, 436);
     playButton = SHButton::create(gameHandler, ThemeManager::getInstance()->getTheme(gameHandler->getLastThemeId()).getPlayButtonPath());
     playButton->setPosition(pos);
     playButton->addClickEventListener(TitleLayout::onPlayButtonClicked);
+    
+    
+    auto sequence = Sequence::create(ScaleTo::create(1, 1.15), ScaleTo::create(1, 1.0), NULL);
+    auto action = RepeatForever::create(sequence);
+    playButton->runAction(action);
     addChild(playButton);
 }
 
@@ -95,23 +104,45 @@ void TitleLayout::createPlayButton()
 void TitleLayout::createShopButton()
 {
 
-    shopButton = SHButton::create(gameHandler, Globals::resources["icon_cart_" + gameHandler->getLastTheme().getElementsColor()]);
+    auto color = gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
+    shopButton = SHButton::create(gameHandler, Globals::resources["icon_cart_white"]);
+    
     const cocos2d::Vec2 pos(90, Globals::getSmallPhone() ? 1056 - 30 : 1056);
     shopButton->setPosition(pos);
     shopButton->addClickEventListener([this](Ref* sender)
                                       {
                                           this->gameHandler->onShopButtonClicked();
                                       });
+    
+    auto spawnFirst = Spawn::create(ScaleTo::create(1.0, 1.2), Sequence::create(RotateBy::create(0.5, -10), RotateBy::create(0.5, 10), NULL), NULL);
+    auto spawnSecond = Spawn::create(ScaleTo::create(1.0, 1.0), Sequence::create(RotateBy::create(0.5, 10), RotateBy::create(0.5, -10), NULL), NULL);
+    
+    auto sequence = Sequence::create(spawnFirst, spawnSecond, NULL);
+    auto action = RepeatForever::create(sequence);
+    
+    shopButton->runAction(action);
+    shopButton->setColor(color);
     addChild(shopButton);
     
     
 }
 void TitleLayout::createSettingsButton()
 {
-    settingsButton = SHButton::create(gameHandler, Globals::resources["icon_settings_" + gameHandler->getLastTheme().getElementsColor()]);
     const cocos2d::Vec2 pos(550, Globals::getSmallPhone() ? 1056 - 30 : 1056);
+    auto color = gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
+
+    settingsButton = SHButton::create(gameHandler, Globals::resources["icon_settings_white"]);
+    settingsButton->setColor(color);
     settingsButton->setPosition(pos);
     settingsButton->addClickEventListener(TitleLayout::onSettingsButtonClicked);
+    
+    auto firstRep = Repeat::create(RotateBy::create(1.0, 90), 6);
+    auto secondRep = Repeat::create(RotateBy::create(1.0, -90), 6);
+    auto sequence = Sequence::create(firstRep, secondRep, NULL);
+    auto action = RepeatForever::create(sequence);
+    
+    
+    settingsButton->runAction(action);
     addChild(settingsButton);
 }
 
