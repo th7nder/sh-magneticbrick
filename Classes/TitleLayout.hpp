@@ -25,6 +25,8 @@ class TitleLayout : public cocos2d::ui::Layout
 private:
     typedef cocos2d::ui::Layout super;
     typedef TitleLayout self;
+    
+    
     cocos2d::Sprite* logo;
     void createLogo();
     
@@ -32,21 +34,19 @@ private:
     void createPlayButton();
     
     SHButton* shopButton;
-    void createShopButton();
+    void createShopButton(const Color3B& color);
     
     SHButton* settingsButton;
-    void createSettingsButton();
+    void createSettingsButton(const Color3B& color);
     
-    void createBricksRemaining();
+    void createBricksRemaining(const Color3B& color);
 
-    static void onSettingsButtonClicked(cocos2d::Ref* ref);
-    static void onPlayButtonClicked(cocos2d::Ref* ref);
+    void onSettingsButtonClicked(cocos2d::Ref* ref);
+    void onPlayButtonClicked(cocos2d::Ref* ref);
     
     cocos2d::Label* bricksRemainingTitleLabel;
     cocos2d::Label* bricksRemainingLabel;
-    
     GameHandler* gameHandler;
-
 
     virtual void onTouchMoved(cocos2d::Touch* t, cocos2d::Event* unusedEvent) override;
 

@@ -46,3 +46,20 @@ bool TH7Bridge::isInternetAvailable()
     return false;
 #endif
 }
+
+bool TH7Bridge::forceTouchAvailable()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    UIViewController* view = [UIApplication sharedApplication].keyWindow.rootViewController;
+    if ([view respondsToSelector:@selector(traitCollection)] &&
+        [view.traitCollection respondsToSelector:@selector(forceTouchCapability)] &&
+        view.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+        return true;
+    }
+
+    return false;
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    return false;
+#endif
+}

@@ -13,6 +13,7 @@ class TH7Bridge
 {
 public:
     static bool isInternetAvailable();
+    static bool forceTouchAvailable();
 };
 
 #endif /* TH7Bridge_hpp */

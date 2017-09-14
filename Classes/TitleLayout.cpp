@@ -42,14 +42,14 @@ bool TitleLayout::initWithSize(cocos2d::Size size, GameHandler* handler)
     gameHandler = handler;
     
     setContentSize(size);
+    Color3B color = gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
     createLogo();
     createPlayButton();
-    createShopButton();
-    createSettingsButton();
-    createBricksRemaining();
+    createShopButton(color);
+    createSettingsButton(color);
+    createBricksRemaining(color);
     
-
-
+    
     return true;
 }
 
@@ -57,6 +57,7 @@ bool TitleLayout::initWithSize(cocos2d::Size size, GameHandler* handler)
 void TitleLayout::updateUI()
 {
     playButton->loadTextureNormal(gameHandler->getLastTheme().getPlayButtonPath());
+    
     if(gameHandler->getRemoveAds())
     {
         bricksRemainingLabel->setString("∞");
@@ -66,7 +67,6 @@ void TitleLayout::updateUI()
         bricksRemainingLabel->setString(StringUtils::format("%d", gameHandler->getBricksRemaining()));
     }
     
-
     Color3B color = gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
     shopButton->setColor(color);
     settingsButton->setColor(color);
@@ -87,7 +87,6 @@ void TitleLayout::createLogo()
 
 void TitleLayout::createPlayButton()
 {
-    
     const cocos2d::Vec2 pos(320, 436);
     playButton = SHButton::create(gameHandler, ThemeManager::getInstance()->getTheme(gameHandler->getLastThemeId()).getPlayButtonPath());
     playButton->setPosition(pos);
@@ -101,10 +100,9 @@ void TitleLayout::createPlayButton()
 }
 
 
-void TitleLayout::createShopButton()
+void TitleLayout::createShopButton(const Color3B& color)
 {
 
-    auto color = gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
     shopButton = SHButton::create(gameHandler, Globals::resources["icon_cart_white"]);
     
     const cocos2d::Vec2 pos(90, Globals::getSmallPhone() ? 1056 - 30 : 1056);
@@ -126,15 +124,14 @@ void TitleLayout::createShopButton()
     
     
 }
-void TitleLayout::createSettingsButton()
+void TitleLayout::createSettingsButton(const Color3B& color)
 {
     const cocos2d::Vec2 pos(550, Globals::getSmallPhone() ? 1056 - 30 : 1056);
-    auto color = gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
 
     settingsButton = SHButton::create(gameHandler, Globals::resources["icon_settings_white"]);
     settingsButton->setColor(color);
     settingsButton->setPosition(pos);
-    settingsButton->addClickEventListener(TitleLayout::onSettingsButtonClicked);
+    settingsButton->addClickEventListener(CC_CALLBACK_1(TitleLayout::onSettingsButtonClicked, this));
     
     auto firstRep = Repeat::create(RotateBy::create(1.0, 90), 6);
     auto secondRep = Repeat::create(RotateBy::create(1.0, -90), 6);
@@ -146,11 +143,10 @@ void TitleLayout::createSettingsButton()
     addChild(settingsButton);
 }
 
-void TitleLayout::createBricksRemaining()
+void TitleLayout::createBricksRemaining(const Color3B& color)
 
 {
     Vec2 pos(320, 206);
-    auto color = gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
     bricksRemainingTitleLabel = Label::createWithTTF("BRICKS REMAINING:", Globals::gameFont, 30.0);
     bricksRemainingTitleLabel->setColor(color);
     bricksRemainingTitleLabel->setPosition(pos);
@@ -174,28 +170,7 @@ void TitleLayout::createBricksRemaining()
     
 }
 
-void TitleLayout::onSettingsButtonClicked(cocos2d::Ref *ref)
-{
-    auto button = dynamic_cast<SHButton*>(ref);
-    if(button != nullptr)
-    {
-        auto titleLayout = dynamic_cast<TitleLayout*>(button->getParent());
-        if(titleLayout != nullptr)
-        {
-             titleLayout->gameHandler->onSettingsButtonClicked();
-        }
-    }
-}
-
-void TitleLayout::onPlayButtonClicked(cocos2d::Ref *ref)
-{
-    auto button = dynamic_cast<cocos2d::ui::Button*>(ref);
-    auto title = dynamic_cast<TitleLayout*>(button->getParent());
-    if(title != nullptr)
-    {
-       title->gameHandler->onPlayButtonClicked();
-    }
-}
+///////////////// OVERRIDES
 
 void TitleLayout::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unusedEvent)
 {
@@ -229,3 +204,15 @@ void TitleLayout::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unusedEven
     }
 
 }
+
+///////////////// CALLBACKS
+void TitleLayout::onSettingsButtonClicked(cocos2d::Ref *ref)
+{
+    gameHandler->onSettingsButtonClicked();
+}
+
+void TitleLayout::onPlayButtonClicked(cocos2d::Ref *ref)
+{
+    gameHandler->onPlayButtonClicked();
+}
+
