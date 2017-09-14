@@ -10,7 +10,7 @@
 USING_NS_CC;
 #include "Player.hpp"
 
-GameHandler::GameHandler() : bricksRemaining(0), lastThemeId(0), currentPlayerSpeed(0.0), currentState(UI), lastLevelId(0), kielnias(0), musicVolume(0), sfxVolume(0), firstClick(false), bulletTime(false), gravity(false), infection(false), blackoutEnabled(false)
+GameHandler::GameHandler() : bricksRemaining(0), lastThemeId(0), currentPlayerSpeed(0.0), currentState(UI), lastLevelId(0), kielnias(0), musicVolume(0), sfxVolume(0), bulletTime(false), gravity(false), infection(false), blackoutEnabled(false)
 {
     ud = UserDefault::getInstance();
     bricksRemaining = ud->getIntegerForKey("bricksRemaining", Globals::startingBricks);

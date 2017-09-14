@@ -61,5 +61,7 @@ bool TH7Bridge::forceTouchAvailable()
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     return false;
+#else
+    return false;
 #endif
 }

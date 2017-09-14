@@ -104,6 +104,10 @@ bool GameScene::init()
     
     createPopupLayout();
     
+    
+    setForceTouchAvailable(TH7Bridge::forceTouchAvailable());
+    CCLOG("forceTouch available TH7: %d", TH7Bridge::forceTouchAvailable());
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) or (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     sdkbox::PluginAdColony::setListener(this);
     sdkbox::PluginAdColony::init();
@@ -141,13 +145,11 @@ void GameScene::watcher(float dt)
         
         if(getLastAdProvider() == "AdColony" && !sdkbox::PluginAdMob::isAvailable("mb_video"))
         {
-            CCLOG("caching admob");
             sdkbox::PluginAdMob::cache("mb_video");
         }
         
         if(getLastAdProvider() == "AdMob" && !sdkbox::PluginChartboost::isAvailable("Video"))
         {
-            CCLOG("caching chartboost");
             sdkbox::PluginChartboost::cache("Video");
         }
     }
@@ -347,6 +349,7 @@ void GameScene::createUI()
     uiContainer->addChild(winLoseLayout);
     
     createSettings();
+    createTutorialLayout();
     
     waitLayout = WaitLayout::createWithSize(visibleSize, this);
     waitLayout->setVisible(false);
@@ -389,14 +392,6 @@ void GameScene::createRewardLayout()
     uiContainer->addChild(rewardLayout);
 }
 
-void GameScene::onFirstClick()
-{
-    settingsLayout->removeFromParentAndCleanup(true);
-    createSettings();
-    
-    createTutorialLayout();
-}
-
 void GameScene::createSettings()
 {
     settingsLayout = SettingsLayout::createWithSize(visibleSize, this);
@@ -406,6 +401,7 @@ void GameScene::createSettings()
     settingsLayout->setTouchEnabled(true);
     settingsLayout->setBackTarget(titleLayout);
     uiContainer->addChild(settingsLayout);
+    
 
 }
 

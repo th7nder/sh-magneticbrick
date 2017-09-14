@@ -56,19 +56,6 @@ bool SHButton::hitTest(const cocos2d::Vec2 &pt, const cocos2d::Camera* camera, c
 
 bool SHButton::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unusedEvent)
 {
-    if(!gameHandler->firstClick)
-    {
-        if(touch->getMaxForce() == 0.0)
-        {
-            gameHandler->setForceTouch(false);
-            gameHandler->setForceTouchAvailable(false);
-        } else
-        {
-            gameHandler->setForceTouchAvailable(true);
-        }
-        gameHandler->firstClick = true;
-        gameHandler->onFirstClick();
-    }
     _hitted = false;
     if (isVisible() && isEnabled() && isAncestorsEnabled() && isAncestorsVisible(this) )
     {

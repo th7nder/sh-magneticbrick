@@ -295,6 +295,7 @@
 		71F29F201EFAED590028CF52 /* DECactus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71F29F1D1EFAED590028CF52 /* DECactus.cpp */; };
 		71F29F231EFAED970028CF52 /* DESkull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71F29F211EFAED970028CF52 /* DESkull.cpp */; };
 		71F29F241EFAED970028CF52 /* DESkull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71F29F211EFAED970028CF52 /* DESkull.cpp */; };
+		71F76CE41F6B2B0200BAC4D5 /* TH7Bridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7133B98D1F66D79600CADA59 /* TH7Bridge.mm */; };
 		75E64D5488B5BE6FDB30E2AE /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E5547AAABF9857D6B1A871D /* WebKit.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		84F741CE9D6E544A1C4BF20B /* PluginAdColony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35994C01AA80A80327359DFE /* PluginAdColony.framework */; };
@@ -1495,6 +1496,7 @@
 				711794F61E8C74ED0016E830 /* Laser.cpp in Sources */,
 				711795171E8C75150016E830 /* SHSlider.cpp in Sources */,
 				7137F21D1F040F7900B254E1 /* LevelFollower.cpp in Sources */,
+				71F76CE41F6B2B0200BAC4D5 /* TH7Bridge.mm in Sources */,
 				71CFA74F1EF9CE2B0039BB26 /* CSEBall.cpp in Sources */,
 				71DC650D1EF53A99007D4794 /* KielniaLayout.cpp in Sources */,
 				7117952B1E8C75230016E830 /* SelectLayout.cpp in Sources */,

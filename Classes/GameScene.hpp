@@ -206,7 +206,6 @@ public:
     virtual void onThemeAndLevelSelected(int themeId, int levelId) override;
     virtual void onPlayerUpdate(float dt, float playerY) override;
 
-    virtual void onFirstClick() override;
     virtual void onPlayerDeath() override;
     virtual void onPlayerWin() override;
     virtual void onPlayNextButtonClicked() override;

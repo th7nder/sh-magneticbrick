@@ -90,7 +90,7 @@ void TitleLayout::createPlayButton()
     const cocos2d::Vec2 pos(320, 436);
     playButton = SHButton::create(gameHandler, ThemeManager::getInstance()->getTheme(gameHandler->getLastThemeId()).getPlayButtonPath());
     playButton->setPosition(pos);
-    playButton->addClickEventListener(TitleLayout::onPlayButtonClicked);
+    playButton->addClickEventListener(CC_CALLBACK_1(TitleLayout::onPlayButtonClicked, this));
     
     
     auto sequence = Sequence::create(ScaleTo::create(1, 1.15), ScaleTo::create(1, 1.0), NULL);
@@ -174,21 +174,6 @@ void TitleLayout::createBricksRemaining(const Color3B& color)
 
 void TitleLayout::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unusedEvent)
 {
-
-    if(!gameHandler->firstClick)
-    {
-        if(touch->getMaxForce() == 0.0)
-        {
-            gameHandler->setForceTouch(false);
-            gameHandler->setForceTouchAvailable(false);
-        } else
-        {
-            gameHandler->setForceTouchAvailable(true);
-        }
-        gameHandler->firstClick = true;
-        gameHandler->onFirstClick();
-    }
-    
     if(isEnabled())
     {
         if(touch->getDelta().y > 50.0)

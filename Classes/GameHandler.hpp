@@ -96,7 +96,6 @@ public:
     {
         bulletTime = bullet;
     }
-    bool firstClick;
     void setPlayerStartY(float y)
     {
         playerStartY = y;
@@ -185,7 +184,6 @@ public:
     virtual void onShopFromWinLose() = 0;
     
     
-    virtual void onFirstClick() = 0;
     virtual void onStarCollected(int number) = 0;
     
     
