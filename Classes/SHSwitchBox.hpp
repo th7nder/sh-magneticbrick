@@ -26,11 +26,10 @@ class SHSwitchBox : public cocos2d::Node
 public:
     static SHSwitchBox* create(GameHandler* gameHandler, const std::string& leftImage, const float width);
     virtual bool init(GameHandler* gameHandler, const std::string& leftImage, const float width);
-    
-    virtual void update(const std::string& leftImage);
-    void addSwitchListener(const SHSwitch::ccWidgetClickCallback& callback);
+        void addSwitchListener(const SHSwitch::ccWidgetClickCallback& callback);
     void setState(bool state);
     void setEnabled(bool state);
+    virtual void setColor(const cocos2d::Color3B &color) override;
 };
 
 #endif /* SHSwitchBox_hpp */

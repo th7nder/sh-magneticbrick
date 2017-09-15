@@ -34,9 +34,9 @@ protected:
 public:
     static SHSliderBox* create(GameHandler* handler, const std::string& leftImage, const float width);
     virtual bool init(GameHandler* handler, const std::string& leftImage, const float width);
-    void update(const std::string& leftImage);
     virtual void setSliderCallback(const SHSlider::ccSliderCallback &callback);
     void setPercent(int percent);
     void setPreviousPercent(int percent);
+    virtual void setColor(const cocos2d::Color3B &color) override;
 };
 #endif /* SHSliderBox_hpp */

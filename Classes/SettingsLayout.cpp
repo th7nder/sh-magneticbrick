@@ -100,11 +100,12 @@ cocos2d::Label* SettingsLayout::createSettingsLabel(cocos2d::Vec2 pos, float fon
 void SettingsLayout::createMusicSliderBox()
 {
     auto size = getContentSize();
-    auto strColor = gameHandler->getLastTheme().getElementsColor();
-    msb = SHSliderBox::create(gameHandler, Globals::resources["icon_music_" + strColor], size.width * 0.86);
+    auto color = gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
+    msb = SHSliderBox::create(gameHandler, Globals::resources["icon_music_white"], size.width * 0.86);
     msb->setPosition(cocos2d::Vec2(size.width / 2, size.height / 2 + msb->getContentSize().height * 2.0));
     msb->setPercent(gameHandler->getMusicVolume());
     msb->setPreviousPercent(gameHandler->getPreviousMusicVolume());
+    msb->setColor(color);
     addChild(msb);
     
     
@@ -122,11 +123,12 @@ void SettingsLayout::createMusicSliderBox()
 void SettingsLayout::createSfxSliderBox()
 {
     auto size = getContentSize();
-    auto strColor = gameHandler->getLastTheme().getElementsColor();
-    ssb = SHSliderBox::create(gameHandler, Globals::resources["icon_sfx_" + strColor], size.width * 0.86);
+    auto color = gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
+    ssb = SHSliderBox::create(gameHandler, Globals::resources["icon_sfx_white"], size.width * 0.86);
     ssb->setPosition(cocos2d::Vec2(size.width / 2, size.height / 2 + (ssb->getContentSize().height * 0.5)));
     ssb->setPercent(gameHandler->getSfxVolume());
     ssb->setPreviousPercent(gameHandler->getPreviousSfxVolume());
+    ssb->setColor(color);
     addChild(ssb);
     
     ssb->setSliderCallback([this](Ref* sender, SHSlider::EventType type){
@@ -142,11 +144,12 @@ void SettingsLayout::createSfxSliderBox()
 void SettingsLayout::createBackButton()
 {
     auto size = getContentSize();
-    auto strColor = gameHandler->getLastTheme().getElementsColor();
-    
+    auto color = gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
     const Vec2 pos(58, Globals::getSmallPhone() ? 1056 - 30 : 1056);
-    backButton = SHButton::create(gameHandler, Globals::resources["icon_back_left_" + strColor]);
+    
+    backButton = SHButton::create(gameHandler, Globals::resources["icon_back_left_white"]);
     backButton->setPosition(pos);
+    backButton->setColor(color);
     backButton->addClickEventListener(SettingsLayout::onBackButtonClicked);
     addChild(backButton);
 
@@ -156,8 +159,8 @@ void SettingsLayout::createBackButton()
 void SettingsLayout::createForceBox()
 {
     auto size = getContentSize();
-    auto strColor = gameHandler->getLastTheme().getElementsColor();
-    forceBox = SHSwitchBox::create(gameHandler, Globals::resources["icon_forcetouch_" + strColor], size.width * 0.86);
+    auto color = gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
+    forceBox = SHSwitchBox::create(gameHandler, Globals::resources["icon_forcetouch_white"], size.width * 0.86);
     forceBox->setPosition(cocos2d::Vec2(size.width / 2, ssb->getPositionY() - (ssb->getContentSize().height * 1.5)));
     if(gameHandler->getForceTouchAvailable())
     {
@@ -168,6 +171,7 @@ void SettingsLayout::createForceBox()
         forceBox->setEnabled(false);
         
     }
+    forceBox->setColor(color);
     addChild(forceBox);
     
     forceBox->addSwitchListener([this](Ref* sender){
@@ -192,12 +196,11 @@ void SettingsLayout::onBackButtonClicked(cocos2d::Ref *ref)
 
 void SettingsLayout::updateUI()
 {
-    auto strColor = gameHandler->getLastTheme().getElementsColor();
     auto color = gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
-    backButton->loadTextureNormal(Globals::resources["icon_back_left_" + strColor]);
-    msb->update(Globals::resources["icon_music_" + strColor]);
-    ssb->update(Globals::resources["icon_sfx_" + strColor]);
-    forceBox->update(Globals::resources["icon_forcetouch_" + strColor]);
+    backButton->setColor(color);
+    msb->setColor(color);
+    ssb->setColor(color);
+    forceBox->setColor(color);
     settingsLabel->setColor(color);
     copyright->setColor(color);
 }

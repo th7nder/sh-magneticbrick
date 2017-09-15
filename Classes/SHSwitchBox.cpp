@@ -8,6 +8,8 @@
 //
 
 #include "SHSwitchBox.hpp"
+
+using namespace cocos2d;
 SHSwitchBox* SHSwitchBox::create(GameHandler* gameHandler, const std::string& leftImage, const float width)
 {
     SHSwitchBox * ret = new (std::nothrow) SHSwitchBox();
@@ -37,21 +39,19 @@ bool SHSwitchBox::init(GameHandler* handler, const std::string &leftImage, const
     leftButton->setPosition(cocos2d::Vec2(size.width / 2, size.height / 2));
     addChild(leftButton);
     
-    auto strColor = gameHandler->getLastTheme().getElementsColor();
-    shSwitch = SHSwitch::create(Globals::resources["icon_on_" + strColor], Globals::resources["icon_off_" + strColor], true);
+    shSwitch = SHSwitch::create(Globals::resources["icon_on_white"], Globals::resources["icon_off_white"], true);
     float targetX = leftButton->getPositionX() + size.width + (width - (leftButton->getPositionX() + size.width)) / 2;
     shSwitch->setPosition(cocos2d::Vec2(targetX, size.height / 2));
     addChild(shSwitch);
     return true;
 }
 
-
-void SHSwitchBox::update(const std::string &leftImage)
+void SHSwitchBox::setColor(const cocos2d::Color3B &color)
 {
-    leftButton->loadTextureNormal(leftImage);
-    auto strColor = gameHandler->getLastTheme().getElementsColor();
-    shSwitch->update(Globals::resources["icon_on_" + strColor], Globals::resources["icon_off_" + strColor]);
+    leftButton->setColor(color);
+    shSwitch->setColor(color);
 }
+
 
 void SHSwitchBox::addSwitchListener(const SHSwitch::ccWidgetClickCallback &callback)
 {

@@ -8,6 +8,8 @@
 
 #include "SHSliderBox.hpp"
 
+using namespace cocos2d;
+
 SHSliderBox::SHSliderBox() : leftButton(nullptr), minus(nullptr), slider(nullptr), plus(nullptr), previousPercent(0), sliderCallback(nullptr)
 {
     
@@ -41,17 +43,17 @@ bool SHSliderBox::init(GameHandler* handler, const std::string &leftImage, const
     leftButton->setPosition(cocos2d::Vec2(size.width / 2, size.height / 2));
     addChild(leftButton);
     
-    auto strColor = gameHandler->getLastTheme().getElementsColor();
+
     
-    minus = SHButton::create(gameHandler, Globals::resources["icon_minus_" + strColor]);
+    minus = SHButton::create(gameHandler, Globals::resources["icon_minus_white"]);
     minus->setPosition(cocos2d::Vec2(leftButton->getPositionX() + size.width, leftButton->getPositionY()));
     addChild(minus);    
     
-    slider = SHSlider::create(Globals::resources["icon_line_" + strColor], Globals::resources["icon_dot_" + strColor]);
+    slider = SHSlider::create(Globals::resources["icon_line_white"], Globals::resources["icon_dot_white"]);
     slider->setPosition(cocos2d::Vec2(minus->getPositionX() + size.width / 2 + slider->getContentSize().width / 2, leftButton->getPositionY()));
     addChild(slider);
     
-    plus =  SHButton::create(gameHandler, Globals::resources["icon_plus_" + strColor]);
+    plus =  SHButton::create(gameHandler, Globals::resources["icon_plus_white"]);
     plus->setPosition(cocos2d::Vec2(slider->getPositionX() + slider->getContentSize().width / 2 + size.width / 2, leftButton->getPositionY()));
     addChild(plus);
     
@@ -60,15 +62,15 @@ bool SHSliderBox::init(GameHandler* handler, const std::string &leftImage, const
     return true;
 }
 
-void SHSliderBox::update(const std::string &leftImage)
+void SHSliderBox::setColor(const cocos2d::Color3B &color)
 {
-    leftButton->loadTextureNormal(leftImage);
-    auto strColor = gameHandler->getLastTheme().getElementsColor();
-    minus->loadTextureNormal(Globals::resources["icon_minus_" + strColor]);
-    slider->loadSlidBallTextures(Globals::resources["icon_dot_" + strColor]);
-    slider->loadBarTexture(Globals::resources["icon_line_" + strColor]);
-    plus->loadTextureNormal(Globals::resources["icon_plus_" + strColor]);
+    super::setColor(color);
+    leftButton->setColor(color);
+    minus->setColor(color);
+    slider->setColor(color);
+    plus->setColor(color);
 }
+
 
 void SHSliderBox::setSliderCallback(const SHSlider::ccSliderCallback &callback)
 {
