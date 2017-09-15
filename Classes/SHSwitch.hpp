@@ -29,7 +29,7 @@ public:
     
     static SHSwitch* create(const std::string& onImage, const std::string& offImage, bool state);
     virtual bool init(const std::string& onImage, const std::string& offImage, bool state);
-    static void onClick(cocos2d::Ref* ref);
+    void onClick(cocos2d::Ref* ref);
     void setState(bool state);
     void update(const std::string& on, const std::string& off);
     void addSwitchListener(const ccWidgetClickCallback& callback);

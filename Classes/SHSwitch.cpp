@@ -33,7 +33,7 @@ bool SHSwitch::init(const std::string &onImage, const std::string &offImage, boo
     
 
     
-    addClickEventListener(SHSwitch::onClick);
+    addClickEventListener(CC_CALLBACK_1(SHSwitch::onClick, this));
     return true;
 }
 
@@ -46,12 +46,8 @@ void SHSwitch::update(const std::string &on, const std::string &off)
 
 void SHSwitch::onClick(cocos2d::Ref *ref)
 {
-    SHSwitch* switchNode = dynamic_cast<SHSwitch*>(ref);
-    if(switchNode != nullptr)
-    {
-        switchNode->setState(!switchNode->isOn);
-        if(switchNode->switchCallback) switchNode->switchCallback(ref);
-    }
+        setState(!isOn);
+        switchCallback(ref);
 }
 
 void SHSwitch::setState(bool state)

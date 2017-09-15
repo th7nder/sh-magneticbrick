@@ -334,12 +334,13 @@ void GameScene::createUI()
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
     const auto lastTheme = getLastTheme();
-    const auto color = lastTheme.isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
+    currentUIColor = lastTheme.isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
+  
     const bool removeAds = getRemoveAds();
     const int bricksRemaining = getBricksRemaining();
     const std::string playButton = lastTheme.getPlayButtonPath();
     
-    titleLayout = TitleLayout::createWithSize(visibleSize, this, color, removeAds, bricksRemaining, playButton);
+    titleLayout = TitleLayout::createWithSize(visibleSize, this, currentUIColor, removeAds, bricksRemaining, playButton);
     titleLayout->setEnabled(true);
     titleLayout->setTouchEnabled(true);
     titleLayout->setVisible(true);
@@ -375,7 +376,7 @@ void GameScene::createUI()
 
 void GameScene::createKielniaLayout()
 {
-    kielniaLayout = KielniaLayout::createWithSize(visibleSize, getLastTheme().getUIColor(), getKielnias(), this);
+    kielniaLayout = KielniaLayout::createWithSize(visibleSize, currentUIColor, getKielnias(), this);
     kielniaLayout->setCascadeOpacityEnabled(true);
     kielniaLayout->setVisible(false);
     kielniaLayout->setEnabled(true);
@@ -401,6 +402,7 @@ void GameScene::createRewardLayout()
 void GameScene::createSettings()
 {
     settingsLayout = SettingsLayout::createWithSize(visibleSize, this);
+    settingsLayout->setColor(currentUIColor);
     settingsLayout->setPositionX(visibleSize.width);
     settingsLayout->setVisible(false);
     settingsLayout->setEnabled(false);
@@ -1043,10 +1045,10 @@ void GameScene::showUI()
 void GameScene::updateUI()
 {
     const auto lastTheme = getLastTheme();
-    const auto color = lastTheme.isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
+    currentUIColor = lastTheme.isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
     const std::string playButton = lastTheme.getPlayButtonPath();
-    titleLayout->updateUITheme(color, playButton);
-    kielniaLayout->updateUI(color, getKielnias());
+    titleLayout->updateUITheme(currentUIColor, playButton);
+    kielniaLayout->updateUI(currentUIColor, getKielnias());
     
     
     
@@ -1054,7 +1056,7 @@ void GameScene::updateUI()
     levelPercentBar->loadTexture(Globals::resources["icon_progressbar_filled_white"]);
     levelPercentSprite->setTexture(Globals::resources["icon_progressbar_stroke_white"]);
 
-    settingsLayout->updateUI();
+    settingsLayout->setColor(currentUIColor);
     waitLayout->updateUI();
     winLoseLayout->updateUI();
     shopLayout->updateUI();

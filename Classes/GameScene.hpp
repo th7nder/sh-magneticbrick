@@ -263,6 +263,7 @@ public:
     virtual void onBackFromWait() override;
 
     void watcher(float dt);
+    cocos2d::Color3B currentUIColor;
 
 };
 #endif /* GameScene_hpp */
