@@ -17,9 +17,6 @@
 #include "Globals.hpp"
 #include "SHButton.hpp"
 
-#include "ThemeManager.hpp"
-#include "GameHandler.hpp"
-#include "Touchable.hpp"
 class TitleLayout : public cocos2d::ui::Layout
 {
 private:
@@ -31,31 +28,36 @@ private:
     void createLogo();
     
     SHButton* playButton;
-    void createPlayButton();
+    void createPlayButton(const std::string& playImage);
     
     SHButton* shopButton;
-    void createShopButton(const Color3B& color);
+    void createShopButton(const cocos2d::Color3B& color);
     
     SHButton* settingsButton;
-    void createSettingsButton(const Color3B& color);
+    void createSettingsButton(const cocos2d::Color3B& color);
     
-    void createBricksRemaining(const Color3B& color);
-
-    void onSettingsButtonClicked(cocos2d::Ref* ref);
-    void onPlayButtonClicked(cocos2d::Ref* ref);
     
     cocos2d::Label* bricksRemainingTitleLabel;
     cocos2d::Label* bricksRemainingLabel;
+    void createBricksRemaining(const cocos2d::Color3B& color, bool removeAds, int bricksRemaining);
+    
+    
     GameHandler* gameHandler;
-
+// OVERRIDES
     virtual void onTouchMoved(cocos2d::Touch* t, cocos2d::Event* unusedEvent) override;
+    
+// CALLBACKS
+    void onSettingsButtonClicked(cocos2d::Ref* ref);
+    void onPlayButtonClicked(cocos2d::Ref* ref);
+    void onShopButtonClicked(cocos2d::Ref* ref);
 
 CC_CONSTRUCTOR_ACCESS:
     TitleLayout();
     virtual ~TitleLayout();
 public:
-    void updateUI();
-    static TitleLayout* createWithSize(cocos2d::Size size, GameHandler* handler);
-    virtual bool initWithSize(cocos2d::Size size, GameHandler* handler);
+    void updateRemainingBricks(bool removeAds, int bricksRemaining = 0);
+    void updateUITheme(const cocos2d::Color3B& color, const std::string& playImage);
+    static TitleLayout* createWithSize(cocos2d::Size size, GameHandler* handler, const cocos2d::Color3B& color, bool removeAds, int bricksRemaining, const std::string& playImage);
+    virtual bool initWithSize(cocos2d::Size size, GameHandler* handler, const cocos2d::Color3B& color, bool removeAds, int bricksRemaining, const std::string& playImage);
 };
 #endif /* TitleLayout_hpp */

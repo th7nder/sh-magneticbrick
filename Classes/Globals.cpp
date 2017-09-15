@@ -26,7 +26,6 @@ std::vector<std::string> explode(std::string const & s, char delim)
 void playClickSound()
 {
     auto sae = CocosDenshion::SimpleAudioEngine::getInstance();
-    CCLOG("fajnie fajnie click sound");
     sae->playEffect(Globals::resources["effect_click"].c_str());
 }
 

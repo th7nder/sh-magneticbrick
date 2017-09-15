@@ -333,7 +333,13 @@ void GameScene::createUI()
     addChild(uiContainer);
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
-    titleLayout = TitleLayout::createWithSize(visibleSize, this);
+    const auto lastTheme = getLastTheme();
+    const auto color = lastTheme.isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
+    const bool removeAds = getRemoveAds();
+    const int bricksRemaining = getBricksRemaining();
+    const std::string playButton = lastTheme.getPlayButtonPath();
+    
+    titleLayout = TitleLayout::createWithSize(visibleSize, this, color, removeAds, bricksRemaining, playButton);
     titleLayout->setEnabled(true);
     titleLayout->setTouchEnabled(true);
     titleLayout->setVisible(true);
@@ -577,7 +583,7 @@ void GameScene::onPlayerDeath()
 
     setGameState(Died);
     winLoseLayout->updateUI();
-    titleLayout->updateUI();
+    
     selectLayout->updateLevel(getLastThemeId(), getLastLevelId());
     showUI();
     
@@ -607,8 +613,6 @@ void GameScene::onPlayerWin()
 {
     setGameState(Win);
     logEventWin(getLastThemeId(), getLastLevelId(), getCurrentProgress());
-
-    titleLayout->updateUI();
 
     for(int i = 0; i < 3; i++)
     {
@@ -709,9 +713,9 @@ void GameScene::onPlayerWaited(bool give)
     }
 #endif
     
-
+    const int remainingBricks = getBricksRemaining();
     winLoseLayout->updateUI();
-    titleLayout->updateUI();
+    titleLayout->updateRemainingBricks(getRemoveAds(), remainingBricks);
     
     
     if(waitLayout->isVisible())
@@ -1038,11 +1042,18 @@ void GameScene::showUI()
 
 void GameScene::updateUI()
 {
-    auto color = getLastTheme().getElementsColor();
-    background->setTexture(getLastTheme().getBackgroundPath());
-    levelPercentBar->loadTexture(Globals::resources["icon_progressbar_filled_" + color]);
-    levelPercentSprite->setTexture(Globals::resources["icon_progressbar_stroke_" + color]);
-    titleLayout->updateUI();
+    const auto lastTheme = getLastTheme();
+    const auto color = lastTheme.isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0);
+    const std::string playButton = lastTheme.getPlayButtonPath();
+    titleLayout->updateUITheme(color, playButton);
+    kielniaLayout->updateUI(color, getKielnias());
+    
+    
+    
+    background->setTexture(lastTheme.getBackgroundPath());
+    levelPercentBar->loadTexture(Globals::resources["icon_progressbar_filled_white"]);
+    levelPercentSprite->setTexture(Globals::resources["icon_progressbar_stroke_white"]);
+
     settingsLayout->updateUI();
     waitLayout->updateUI();
     winLoseLayout->updateUI();
@@ -1051,8 +1062,8 @@ void GameScene::updateUI()
     
     
     ///////////////////////////////////
-    const auto color3 = getLastTheme().getUIColor();
-    kielniaLayout->updateUI(color3, getKielnias());
+ 
+  
 }
 
 
@@ -1467,7 +1478,7 @@ void GameScene::onAdColonyReward(const sdkbox::AdColonyAdInfo& info,
         CCLOG("reward adColony %d", amount);
         setBricksRemaining(getBricksRemaining() + amount);
         winLoseLayout->updateUI();
-        titleLayout->updateUI();
+        titleLayout->updateRemainingBricks(getRemoveAds(), getBricksRemaining());
         auto sae = CocosDenshion::SimpleAudioEngine::getInstance();
         sae->resumeBackgroundMusic();
     }
@@ -1587,11 +1598,11 @@ void GameScene::onSuccess(sdkbox::Product const& p)
     else if(p.name == "remove_ads")
     {
         setRemoveAds(true);
+        titleLayout->updateRemainingBricks(true);
     }
 
     
     
-    titleLayout->updateUI();
     winLoseLayout->updateUI();
     shopLayout->updateUI();
 }
@@ -1613,6 +1624,7 @@ void GameScene::onRestored(sdkbox::Product const& p)
     if(p.name == "remove_ads")
     {
         setRemoveAds(true);
+        titleLayout->updateRemainingBricks(true);
     }
     else if(p.name == "unlock1")
     {
@@ -1677,8 +1689,6 @@ void GameScene::onRestored(sdkbox::Product const& p)
         selectLayout->updateTheme(i);
     }
     
-    
-    titleLayout->updateUI();
     winLoseLayout->updateUI();
     shopLayout->updateUI();
 }
@@ -1735,7 +1745,7 @@ void GameScene::reward(const std::string &name, const std::string &currency, dou
     CCLOG("reward %d", value);
     setBricksRemaining(getBricksRemaining() + value);
     winLoseLayout->updateUI();
-    titleLayout->updateUI();
+    titleLayout->updateRemainingBricks(getRemoveAds(), getBricksRemaining());
     auto sae = CocosDenshion::SimpleAudioEngine::getInstance();
     sae->resumeBackgroundMusic();
 }
@@ -1794,7 +1804,7 @@ void GameScene::onChartboostReward(const std::string& name, int reward)
     CCLOG("reward chartboost 20");
     setBricksRemaining(getBricksRemaining() + reward);
     winLoseLayout->updateUI();
-    titleLayout->updateUI();
+    titleLayout->updateRemainingBricks(getRemoveAds(), getBricksRemaining());
     auto sae = CocosDenshion::SimpleAudioEngine::getInstance();
     sae->resumeBackgroundMusic();
 }
