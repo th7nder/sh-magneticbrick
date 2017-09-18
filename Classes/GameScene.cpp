@@ -361,6 +361,7 @@ void GameScene::createUI()
     waitLayout = WaitLayout::createWithSize(visibleSize, this);
     waitLayout->setVisible(false);
     waitLayout->setCascadeOpacityEnabled(true);
+    waitLayout->setColor(currentUIColor);
     uiContainer->addChild(waitLayout);
     
     createShopLayout();
@@ -1057,7 +1058,7 @@ void GameScene::updateUI()
     levelPercentSprite->setTexture(Globals::resources["icon_progressbar_stroke_white"]);
 
     settingsLayout->setColor(currentUIColor);
-    waitLayout->updateUI();
+    waitLayout->setColor(currentUIColor);
     winLoseLayout->updateUI();
     shopLayout->updateUI();
     

@@ -129,6 +129,8 @@
 		711795401E8C75640016E830 /* 3x in Resources */ = {isa = PBXBuildFile; fileRef = 711795361E8C75640016E830 /* 3x */; };
 		7119184A1ED369DD001DA279 /* MeltingObstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 711918481ED369DD001DA279 /* MeltingObstacle.cpp */; };
 		7119184B1ED369DD001DA279 /* MeltingObstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 711918481ED369DD001DA279 /* MeltingObstacle.cpp */; };
+		7123078A1F6F43D500B7C4A8 /* BaseLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 712307881F6F43D500B7C4A8 /* BaseLayout.cpp */; };
+		7123078B1F6F43D500B7C4A8 /* BaseLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 712307881F6F43D500B7C4A8 /* BaseLayout.cpp */; };
 		713190711EE04F2E00F495A0 /* TriggerMelting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7131906F1EE04F2E00F495A0 /* TriggerMelting.cpp */; };
 		713190721EE04F2E00F495A0 /* TriggerMelting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7131906F1EE04F2E00F495A0 /* TriggerMelting.cpp */; };
 		713190761EE05C0700F495A0 /* BulletTimeStart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 713190741EE05C0700F495A0 /* BulletTimeStart.cpp */; };
@@ -480,6 +482,8 @@
 		711795361E8C75640016E830 /* 3x */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 3x; sourceTree = "<group>"; };
 		711918481ED369DD001DA279 /* MeltingObstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeltingObstacle.cpp; sourceTree = "<group>"; };
 		711918491ED369DD001DA279 /* MeltingObstacle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MeltingObstacle.hpp; sourceTree = "<group>"; };
+		712307881F6F43D500B7C4A8 /* BaseLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseLayout.cpp; sourceTree = "<group>"; };
+		712307891F6F43D500B7C4A8 /* BaseLayout.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BaseLayout.hpp; sourceTree = "<group>"; };
 		7131906F1EE04F2E00F495A0 /* TriggerMelting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriggerMelting.cpp; sourceTree = "<group>"; };
 		713190701EE04F2E00F495A0 /* TriggerMelting.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TriggerMelting.hpp; sourceTree = "<group>"; };
 		713190741EE05C0700F495A0 /* BulletTimeStart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BulletTimeStart.cpp; sourceTree = "<group>"; };
@@ -977,6 +981,8 @@
 			isa = PBXGroup;
 			children = (
 				711795051E8C75080016E830 /* Elements */,
+				712307881F6F43D500B7C4A8 /* BaseLayout.cpp */,
+				712307891F6F43D500B7C4A8 /* BaseLayout.hpp */,
 				7117951E1E8C75230016E830 /* TitleLayout.cpp */,
 				7117951F1E8C75230016E830 /* TitleLayout.hpp */,
 				711795201E8C75230016E830 /* SelectLayout.cpp */,
@@ -1441,6 +1447,7 @@
 				713190761EE05C0700F495A0 /* BulletTimeStart.cpp in Sources */,
 				711795121E8C75150016E830 /* SHLevel.cpp in Sources */,
 				7117951A1E8C75150016E830 /* SHSliderBox.cpp in Sources */,
+				7123078A1F6F43D500B7C4A8 /* BaseLayout.cpp in Sources */,
 				711794B61E8C743A0016E830 /* Touchable.cpp in Sources */,
 				71BD48671EFC52FC00333B90 /* HESkull.cpp in Sources */,
 				711795141E8C75150016E830 /* SHButton.cpp in Sources */,
@@ -1464,6 +1471,7 @@
 				711795291E8C75230016E830 /* TitleLayout.cpp in Sources */,
 				711794B51E8C743A0016E830 /* ThemeManager.cpp in Sources */,
 				71BD484B1EFC3C7100333B90 /* SESnowflakeBig.cpp in Sources */,
+				7123078B1F6F43D500B7C4A8 /* BaseLayout.cpp in Sources */,
 				711794CB1E8C74B60016E830 /* GB2ShapeCacheX.cpp in Sources */,
 				71BD48701EFC60FE00333B90 /* UEFishOrange.cpp in Sources */,
 				715DDE0D1EEEBDCD004F0519 /* Skin.cpp in Sources */,

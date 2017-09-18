@@ -59,6 +59,7 @@ $(LOCAL_PATH)/../../../Classes/BlackoutStart.cpp \
 $(LOCAL_PATH)/../../../Classes/BlackoutStop.cpp \
 $(LOCAL_PATH)/../../../Classes/Gravity.cpp \
 $(LOCAL_PATH)/../../../Classes/TriggerMelting.cpp \
+$(LOCAL_PATH)/../../../Classes/BaseLayout.cpp \
 $(LOCAL_PATH)/../../../Classes/Skin.cpp \
 $(LOCAL_PATH)/../../../Classes/SkinManager.cpp \
 $(LOCAL_PATH)/../../../Classes/ShopLayout.cpp \

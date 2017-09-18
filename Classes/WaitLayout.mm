@@ -40,6 +40,11 @@ WaitLayout* WaitLayout::createWithSize(cocos2d::Size size, GameHandler* handler)
     return ret;
 }
 
+void WaitLayout::actionBackButton()
+{
+    
+}
+
 
 bool WaitLayout::initWithSize(cocos2d::Size size, GameHandler* handler)
 {
@@ -202,14 +207,13 @@ void WaitLayout::createLabel()
 {
     seconds = Label::createWithTTF(StringUtils::format("%d seconds", Globals::timeToWait), Globals::gameFont, 47.0);
     seconds->setPosition(Vec2(320, 436));
-    seconds->setColor(gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0));
     addChild(seconds);
     
 }
 
 void WaitLayout::createBack()
 {
-    back = Sprite::create(Globals::resources["waitscreen_" + gameHandler->getLastTheme().getElementsColor()]);
+    back = Sprite::create(Globals::resources["waitscreen_white"]);
     back->setAnchorPoint(Vec2::ZERO);
     addChild(back);
 }
@@ -220,7 +224,7 @@ void WaitLayout::createBackButton()
     auto strColor = gameHandler->getLastTheme().getElementsColor();
     
     const Vec2 pos(58, Globals::getSmallPhone() ? 1026 - 30 : 1026);
-    backButton = SHButton::create(gameHandler, Globals::resources["icon_back_left_" + strColor]);
+    backButton = SHButton::create(gameHandler, Globals::resources["icon_back_left_white"]);
     backButton->setPosition(pos);
     backButton->addClickEventListener([this](Ref* sender){
         gameHandler->onBackFromWait();
@@ -233,7 +237,8 @@ void WaitLayout::createBackButton()
 
 void WaitLayout::createTimer()
 {
-    ball = Sprite::create(Globals::resources["icon_progressball_" + gameHandler->getLastTheme().getElementsColor()]);
+    ball = Sprite::create(Globals::resources["icon_progressball_white"]);
+    
     timer = ProgressTimer::create(ball);
     timer->setCascadeOpacityEnabled(true);
     timer->setType(cocos2d::ProgressTimer::Type::RADIAL);
@@ -287,15 +292,13 @@ void WaitLayout::launchTimer(int count)
     seconds->setString(StringUtils::format("%d seconds", Globals::timeToWait - scheduleCount));
     timer->runAction(seq);
 }
-void WaitLayout::updateUI()
+/*void WaitLayout::updateUI()
 {
-    auto strColor = gameHandler->getLastTheme().getElementsColor();
-    back->setTexture(Globals::resources["waitscreen_" + strColor]);
-    backButton->loadTextureNormal(Globals::resources["icon_back_left_" + strColor]);
-    seconds->setColor(gameHandler->getLastTheme().isWhite() ? Color3B(255, 255, 255) : Color3B(0, 0, 0));
+    back->setTexture(Globals::resources["waitscreen_white"]);
+    backButton->loadTextureNormal(Globals::resources["icon_back_left_white"]);
     timer->removeFromParent();
     createTimer();
-}
+}*/
 
 void WaitLayout::onGameExit()
 {
@@ -341,6 +344,7 @@ void WaitLayout::stopTimers()
     this->timer->stopAllActions();
     isCounting = false;
 }
+
 
 
 void WaitLayout::setOpacity(GLubyte opacity)

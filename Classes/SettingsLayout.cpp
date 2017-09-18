@@ -15,7 +15,7 @@ SettingsLayout::SettingsLayout() : backTarget(nullptr)
 
 SettingsLayout::~SettingsLayout()
 {
-    _eventDispatcher->removeEventListener(keyboardListener);
+   // _eventDispatcher->removeEventListener(keyboardListener);
 }
 
 void SettingsLayout::setBackTarget(cocos2d::ui::Layout *back)
@@ -53,12 +53,12 @@ bool SettingsLayout::initWithSize(cocos2d::Size size, GameHandler* handler)
     addChild(createCopyright(Vec2(320, 50), 20.0));
     addChild(createSettingsLabel(Vec2(340, Globals::getSmallPhone() ? 1056 - 30 : 1056), 51.0));
     
-    keyboardListener = EventListenerKeyboard::create();
+   /* keyboardListener = EventListenerKeyboard::create();
     keyboardListener->onKeyReleased = [this](cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event)
     {
         if (keyCode == EventKeyboard::KeyCode::KEY_BACK)
         {
-            if(this->getPositionY() == 0 && this->isEnabled() && this->isVisible() && this->getOpacity() >= 255)
+            if(isTopView())
             {
                 this->gameHandler->onBackButtonClicked();
             }
@@ -66,19 +66,24 @@ bool SettingsLayout::initWithSize(cocos2d::Size size, GameHandler* handler)
         }
     };
     
-   _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
+   _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);*/
     
 
     return true;
 }
 
-void SettingsLayout::setColor(const Color3B& color)
+
+void SettingsLayout::actionBackButton()
+{
+    gameHandler->onBackButtonClicked();
+}
+/*void SettingsLayout::setColor(const Color3B& color)
 {
     for(const auto& child : getChildren())
     {
         child->setColor(color);
     }
-}
+}*/
 
 
 

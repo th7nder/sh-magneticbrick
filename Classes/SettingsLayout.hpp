@@ -29,11 +29,13 @@
 #include "PluginIAP/PluginIAP.h"
 #endif
 
+#include "BaseLayout.hpp"
 
-class SettingsLayout : public cocos2d::ui::Layout
+
+class SettingsLayout : public BaseLayout
 {
 private:
-    typedef cocos2d::ui::Layout super;
+    typedef BaseLayout super;
     
     
     cocos2d::ui::Layout* backTarget;
@@ -62,13 +64,14 @@ public:
     }
     static SettingsLayout* createWithSize(cocos2d::Size size, GameHandler* handler);
     virtual bool initWithSize(cocos2d::Size size, GameHandler* handler);
-    virtual void setColor(const cocos2d::Color3B& color) override;
     void setBackTarget(cocos2d::ui::Layout* back);
     cocos2d::ui::Layout* getBackTarget()
     {
         return backTarget;
     }
     
+    
+    virtual void actionBackButton() override;
 };
 
 #endif /* SettingsLayout_hpp */

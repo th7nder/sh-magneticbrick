@@ -16,10 +16,12 @@
 #include "SHButton.hpp"
 #include "GameHandler.hpp"
 
+#include "BaseLayout.hpp"
+
 //#include "ui/UIProgressTimer.h"
-class WaitLayout : public cocos2d::ui::Layout
+class WaitLayout : public BaseLayout
 {
-    typedef cocos2d::ui::Layout super;
+    typedef BaseLayout super;
     typedef WaitLayout self;
     
     bool isCounting;
@@ -31,6 +33,8 @@ class WaitLayout : public cocos2d::ui::Layout
     int scheduleCount;
     
     cocos2d::ui::Layout* backLayout;
+    
+
 CC_CONSTRUCTOR_ACCESS:
     WaitLayout();
 public:
@@ -44,7 +48,7 @@ public:
     
     cocos2d::Sprite* back;
     void createBack();
-    void updateUI();
+    //void updateUI();
     void createTimer();
     void launchTimer(int count = 1);
     void createButton();
@@ -83,6 +87,8 @@ public:
     
     
     void pauseBackgroundMusic();
+    
+    virtual void actionBackButton() override;
 };
 
 

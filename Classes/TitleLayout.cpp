@@ -48,6 +48,7 @@ bool TitleLayout::initWithSize(cocos2d::Size size, GameHandler* handler, const C
     createSettingsButton(color);
     createBricksRemaining(color, removeAds, bricksRemaining);
     
+    
     return true;
 }
 
