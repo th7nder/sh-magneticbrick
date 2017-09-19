@@ -79,9 +79,8 @@ void LevelObject::setProperties(ValueMap &properties)
 
 void LevelObject::initPhysics(b2World* world)
 {
-    auto size = getContentSize();
-    body = world->CreateBody(createBody(getPositionX(), getPositionY()));
-    body->CreateFixture(createFixture(createRectangularShape(size.width, size.height)));
+    body = world->CreateBody(createBody(getPosition()));
+    body->CreateFixture(createFixture(createRectangularShape(getContentSize())));
 }
 
 
@@ -96,20 +95,20 @@ bool LevelObject::OnContactEnd(LevelObject *other)
 }
 
 
-b2BodyDef* LevelObject::createBody(float x, float y)
+b2BodyDef* LevelObject::createBody(const Vec2& pos)
 {
     b2BodyDef* bodyDef = new b2BodyDef();
     bodyDef->type = b2_staticBody;
-    bodyDef->position = b2Vec2(pixelsToMeters(x), pixelsToMeters(y));
+    bodyDef->position = b2Vec2(pixelsToMeters(pos.x), pixelsToMeters(pos.y));
     bodyDef->userData = this;
     bodyDef->fixedRotation = true;
     return bodyDef;
 }
 
-b2PolygonShape* LevelObject::createRectangularShape(float width, float height)
+b2PolygonShape* LevelObject::createRectangularShape(const Size& size)
 {
     b2PolygonShape* shape = new b2PolygonShape();
-    shape->SetAsBox(pixelsToMeters(width / 2), pixelsToMeters(height / 2));
+    shape->SetAsBox(pixelsToMeters(size.width / 2), pixelsToMeters(size.height / 2));
     return shape;
 }
 

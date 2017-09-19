@@ -20,6 +20,7 @@
 #include "LevelFollower.hpp"
 
 #include "DynamicLevelObject.hpp"
+#include "Skin.hpp"
 class Player : public DynamicLevelObject, public Touchable
 {
 private:
@@ -28,16 +29,20 @@ private:
 protected:
     float speed;
     bool forceTouch;
+    const Skin* currentSkin;
     
     b2Body* rightBody;
     Sprite* rightSprite;
     b2Body* leftBarrier;
     b2Body* rightBarrier;
     
+    bool modifierGravity;
+    
     cocos2d::Size playerSize;
     
     float startLeftPos;
     float startRightPos;
+    float halfPlayerWidth;
     float force;
     cocos2d::Vec2 startTouchPosition;
     
@@ -60,9 +65,9 @@ public:
     virtual ~Player();
     
     virtual int getZ() const override;
-    virtual Sprite* getRightSprite();
+    virtual cocos2d::Sprite* getRightSprite();
 
-    virtual void setProperties(ValueMap& props) override;
+    virtual void setProperties(cocos2d::ValueMap& props) override;
     virtual void addSprite() override;
     virtual void initPhysics(b2World* world) override;
     virtual bool OnContactBegin(LevelObject* other, b2Body* otherBody) override;
@@ -73,7 +78,7 @@ public:
     
     
     virtual b2FixtureDef* createFixture(b2Shape* shape) override;
-    virtual b2BodyDef* createBody(float x, float y) override;
+    virtual b2BodyDef* createBody(const cocos2d::Vec2& pos) override;
     b2Body* createBarrier(b2World* world, float x, float y);
     b2Body* createDestroyer(b2World* world, float x, float y);
     
@@ -89,10 +94,10 @@ public:
     
     
 
-    virtual void onTouchesBegan(const std::vector<Touch*>& touches, Event* event) override;
-    virtual void onTouchesMoved(const std::vector<Touch*>& touches, Event* event) override;
-    virtual void onTouchesEnded(const std::vector<Touch*>& touches, Event* event) override;
-    virtual void onTouchesCancelled(const std::vector<Touch*>& touches, Event* event) override;
+    virtual void onTouchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event) override;
+    virtual void onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event) override;
+    virtual void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event) override;
+    virtual void onTouchesCancelled(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event) override;
 
     /* virtual bool isInTeleport()
      {

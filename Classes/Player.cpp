@@ -16,6 +16,7 @@ rightBody(nullptr),
 rightSprite(nullptr),
 forceTouch(false),
 speed(0.0),
+currentSkin(nullptr),
 startLeftPos(0.0f),
 startRightPos(0.0f),
 startTouchPosition(Vec2::ZERO),
@@ -24,7 +25,9 @@ leftBarrier(nullptr),
 previousRightPosition(Vec2::ZERO),
 rightBarrier(nullptr),
 isTouching(false),
-inTeleport(false)
+inTeleport(false),
+modifierGravity(false),
+halfPlayerWidth(0.0)
 {
     currentTeleportTarget = "";
     
@@ -57,52 +60,81 @@ Sprite* Player::getRightSprite()
 
 
 
-// setCurrentPlayerSpeed
+// setCurrentPlayerSpeed, tutorialShit, stars, gravity
 void Player::setProperties(ValueMap &props)
 {
     super::setProperties(props);
     CCASSERT(!props["initialSpeed"].isNull(), "Player -> initialSpeed isNull");
     speed = (props["initialSpeed"].asFloat());
     
+    setContentSize(Size(_director->getVisibleSize().width, getContentSize().height));
+    setPositionX(getContentSize().width / 2);
     
-    /*tutorialPlayer = true;
-    if(props["tutorial"].isNull())
-    {
-        gameHandler->setCurrentPlayerSpeed(speed);
-        gameHandler->setPlayerStartY(getPositionY());
-        tutorialPlayer = false;
-    }*/
 }
 
+
+// separate Player into two Players or no? think about it
 void Player::addSprite()
 {
-    setContentSize(Size(ownVisibleSize.width, getContentSize().height));
-    
-    auto currentSkin = gameHandler->getCurrentSkin();
-    sprite = Sprite::create(currentSkin.getLeftPath());
-
+    sprite = Sprite::create(currentSkin->getLeftPath());
     playerSize = sprite->getContentSize();
+    halfPlayerWidth = playerSize.width / 2;
     startLeftPos = getPositionX() - playerSize.width / 2;
-    
     sprite->setPositionX(startLeftPos);
     sprite->setPositionY(playerSize.width / 2);
     addChild(sprite);
     
-    rightSprite = Sprite::create(currentSkin.getRightPath());
+    previousPosition = sprite->getPosition();
+    
+    rightSprite = Sprite::create(currentSkin->getRightPath());
     startRightPos = sprite->getPositionX() + sprite->getContentSize().width;
     rightSprite->setPositionX(startRightPos);
     rightSprite->setPositionY(playerSize.width / 2);
     addChild(rightSprite);
     
-    setPositionX(ownVisibleSize.width / 2);
+    previousRightPosition = rightSprite->getPosition();
     
-
 
 }
 
-b2BodyDef* Player::createBody(float x, float y)
+void Player::initPhysics(b2World* world)
 {
-    b2BodyDef* body = LevelObject::createBody(x, y);
+    float y = getPositionY();
+    body = world->CreateBody(createBody(Vec2(sprite->getPositionX(), y)));
+    body->CreateFixture(createFixture(createRectangularShape(playerSize)));
+    
+    rightBody = world->CreateBody(createBody(Vec2(rightSprite->getPositionX(),  y)));
+    rightBody->CreateFixture(createFixture(createRectangularShape(playerSize)));
+    
+    leftBarrier = createBarrier(world, sprite->getPositionX() + playerSize.width / 2, y);
+    rightBarrier = createBarrier(world, rightSprite->getPositionX() - playerSize.width / 2, y);
+    
+    
+    body->SetLinearVelocity(b2Vec2(0, pixelsToMeters(speed)));
+    rightBody->SetLinearVelocity(b2Vec2(0, pixelsToMeters(speed)));
+    
+    previousPosition = Vec2(body->GetPosition().x, body->GetPosition().y);
+    previousRightPosition = Vec2(rightBody->GetPosition().x, rightBody->GetPosition().y);
+}
+
+void Player::savePreviousStates()
+{
+    previousPosition = Vec2(metersToPixels(body->GetPosition().x), metersToPixels(body->GetPosition().y));
+    previousRightPosition = Vec2(metersToPixels(rightBody->GetPosition().x), metersToPixels(rightBody->GetPosition().y));
+}
+
+void Player::interpolate(float alpha)
+{
+    setPositionY(lerp(previousPosition.y, metersToPixels(body->GetPosition().y), alpha));
+    sprite->setPositionX(lerp(previousPosition.x, metersToPixels(body->GetPosition().x), alpha));
+    rightSprite->setPositionX(lerp(previousRightPosition.x, metersToPixels(rightBody->GetPosition().x), alpha));
+    
+}
+
+
+b2BodyDef* Player::createBody(const Vec2& pos)
+{
+    b2BodyDef* body = LevelObject::createBody(pos);
     body->type = b2_dynamicBody;
     body->bullet = true;
     return body;
@@ -121,7 +153,7 @@ b2FixtureDef* Player::createFixture(b2Shape *shape)
 
 b2Body* Player::createBarrier(b2World* world, float x, float y)
 {
-    auto bodyDef = createBody(x, y);
+    auto bodyDef = createBody(Vec2(x, y));
     bodyDef->type = b2_kinematicBody;
     
 
@@ -137,30 +169,10 @@ b2Body* Player::createBarrier(b2World* world, float x, float y)
 }
 
 
-void Player::initPhysics(b2World* world)
-{
-    float y = getPositionY();
-    body = world->CreateBody(createBody(sprite->getPositionX(), y));
-    body->CreateFixture(createFixture(createRectangularShape(playerSize.width, playerSize.height)));
-    
-    rightBody = world->CreateBody(createBody(rightSprite->getPositionX(),  y));
-    rightBody->CreateFixture(createFixture(createRectangularShape(playerSize.width, playerSize.height)));
-    
-    leftBarrier = createBarrier(world, sprite->getPositionX() + playerSize.width / 2, y);
-    rightBarrier = createBarrier(world, rightSprite->getPositionX() - playerSize.width / 2, y);
 
-    
-    body->SetLinearVelocity(b2Vec2(0, pixelsToMeters(speed)));
-    rightBody->SetLinearVelocity(b2Vec2(0, pixelsToMeters(speed)));
-    
-    previousPosition = Vec2(body->GetPosition().x, body->GetPosition().y);
-    previousRightPosition = Vec2(rightBody->GetPosition().x, rightBody->GetPosition().y);
-}
 
 void Player::setVelocities(float v)
 {
-
-    //gameHandler->setCurrentPlayerSpeed(v);
     v = pixelsToMeters(v);    
     body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, v));
     rightBody->SetLinearVelocity(b2Vec2(rightBody->GetLinearVelocity().x, v));
@@ -203,7 +215,7 @@ bool Player::OnContactBegin(LevelObject *other, b2Body* otherBody)
     {
         if(!inTeleport)
         {
-            float teleportY = other->getBody()->GetPosition().y - pixelsToMeters(other->height / 2);
+            float teleportY = other->getBody()->GetPosition().y - pixelsToMeters(other->getContentSize().height / 2);
             float brickY = body->GetPosition().y + pixelsToMeters(playerSize.height / 2);
             if(std::abs(brickY - teleportY) <= 0.15f)
             {
@@ -246,33 +258,9 @@ bool Player::OnContactBegin(LevelObject *other, b2Body* otherBody)
 
 
 
-void Player::savePreviousStates()
-{
-    previousPosition = Vec2(metersToPixels(body->GetPosition().x), metersToPixels(body->GetPosition().y));
-    previousRightPosition = Vec2(metersToPixels(rightBody->GetPosition().x), metersToPixels(rightBody->GetPosition().y));
-}
-
-void Player::interpolate(float alpha)
-{
-    //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
-    
-    setPositionY(lerp(previousPosition.y, metersToPixels(body->GetPosition().y), alpha));
-    sprite->setPositionX(lerp(previousPosition.x, metersToPixels(body->GetPosition().x), alpha));
-    rightSprite->setPositionX(lerp(previousRightPosition.x, metersToPixels(rightBody->GetPosition().x), alpha));
-    /*f(!isTouching && !inTeleport)
-    {
-        updateBricksSpacing();
-    }*/
-    
-}
-
-
 
 void Player::onTouchesBegan(const std::vector<Touch*>& touches, Event* event)
 {
-    
-    //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
-    //isTouching = true;
     startTouchPosition = touches[0]->getStartLocation();
     force = 0.0;
     
@@ -327,13 +315,11 @@ void Player::resetSpriteY()
 
 void Player::updateBricksSpacing()
 {
-    //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
-    
-
     if(inTeleport) return;
     auto width = getContentSize().width;
+    
     float force;
-    if(gameHandler->getGravity())
+    if(modifierGravity)
     {
         force = 1.0 - this->force;
     }
@@ -342,12 +328,11 @@ void Player::updateBricksSpacing()
         force = this->force;
     }
     
-    auto leftBarrierPos = pixelsToMeters(startLeftPos - ((startLeftPos  - playerSize.width / 2) * force));
+    auto leftBarrierPos = pixelsToMeters(startLeftPos - ((startLeftPos - halfPlayerWidth) * force));
     auto previousBrickXVel = body->GetLinearVelocity().x;
     auto previousRightBrickXVel = rightBody->GetLinearVelocity().x;
     auto leftBrickPos = body->GetPosition().x;
-    auto halfPlayerWidth = pixelsToMeters(playerSize.width / 2);
-    auto rightBarrierPos = pixelsToMeters(startRightPos + (width - (playerSize.width / 2) - startRightPos) * force);
+    auto rightBarrierPos = pixelsToMeters(startRightPos + (width - halfPlayerWidth - startRightPos) * force);
     
     float brickVelocity = -64.0f;
     float rightBrickVelocity = 64.0f;
@@ -385,8 +370,7 @@ void Player::updateBricksSpacing()
 
 void Player::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
 {
-    //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
-    Touch* touch;
+    Touch* touch = nullptr;
     if((touch = touches[0]))
     {
         if(forceTouch)
@@ -418,16 +402,12 @@ void Player::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
 
 void Player::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
 {
-    //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
-    //isTouching = false;
     force = 0.0;
     updateBricksSpacing();
 }
 
 void Player::onTouchesCancelled(const std::vector<Touch*>& touches, Event* event)
 {
-    //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
-    //isTouching = false;
     force = 0.0;
     updateBricksSpacing();
 }

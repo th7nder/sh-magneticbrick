@@ -36,8 +36,8 @@ public:
     virtual void setProperties(cocos2d::ValueMap& props);
     virtual void addSprite() {};
     virtual void initPhysics(b2World* world);
-    virtual b2BodyDef* createBody(float x, float y);
-    virtual b2PolygonShape* createRectangularShape(float width, float height);
+    virtual b2BodyDef* createBody(const cocos2d::Vec2& pos);
+    virtual b2PolygonShape* createRectangularShape(const cocos2d::Size& size);
     virtual b2CircleShape* createCircleShape(float radius);
     virtual b2FixtureDef* createFixture(b2Shape* shape);
     
