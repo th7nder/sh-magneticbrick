@@ -22,38 +22,27 @@ Walls::~Walls()
 }
 
 
-Walls* Walls::create(GameHandler* handler)
-{
-    self* ret = new (std::nothrow) self();
-    if (ret && ret->init(handler))
-    {
-        ret->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-    }
-    return ret;
-}
-
-bool Walls::init(GameHandler* handler)
-{
-    if(!super::init(gameHandler)) return false;
-    gameHandler = handler;
-    
-    return true;
-}
-
 void Walls::setProperties(ValueMap &props)
 {
-    LevelObject::setProperties(props);
-    CCASSERT(!props["initialSpeed"].isNull(), "initialSpeed was not set in map!");
+    super::setProperties(props);
+    CCASSERT(!props["initialSpeed"].isNull(), "LevelFollower -> initialSpeed isNull");
     speed = (props["initialSpeed"].asFloat());
 }
 
-b2Body* Walls::createDestroyer(b2World* world, float x, float y)
+bool Walls::OnContactBegin(LevelObject *other, b2Body *body)
 {
-    auto bodyDef = createBody(x, y);
+    return true;
+}
+
+b2Body* Walls::getRightBody()
+{
+    return rightBody;
+}
+
+
+b2Body* Walls::createDestroyer(b2World* world, const cocos2d::Vec2& pos)
+{
+    auto bodyDef = createBody(pos);
     bodyDef->type = b2_kinematicBody;
     
     auto ret = world->CreateBody(bodyDef);
@@ -71,6 +60,6 @@ b2Body* Walls::createDestroyer(b2World* world, float x, float y)
 
 void Walls::initPhysics(b2World* world)
 {
-    body = createDestroyer(world, 0, getPositionY());
-    rightBody = createDestroyer(world, ownVisibleSize.width, getPositionY());
+    body = createDestroyer(world, Vec2(0, getPositionY()));
+    rightBody = createDestroyer(world, Vec2(_director->getVisibleSize().width, getPositionY()));
 }

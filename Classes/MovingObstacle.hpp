@@ -10,28 +10,29 @@
 #define MovingObstacle_hpp
 
 #include "HorizontalObstacle.hpp"
+#include "DynamicLevelObject.hpp"
 
-class MovingObstacle : public HorizontalObstacle
+class MovingObstacle : public DynamicLevelObject
 {
+    typedef DynamicLevelObject super;
     typedef MovingObstacle self;
-    typedef HorizontalObstacle super;
     float velocity;
     float stopX;
     
-CC_CONSTRUCTOR_ACCESS:
-    MovingObstacle();
 public:
-    virtual int getZ() const override
-    {
-        return 4;
-    }
-    virtual ~MovingObstacle();
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
-    virtual void initPhysics(b2World* world) override;
-    virtual void setProperties(ValueMap& props) override;
+    static std::string leftTexture;
+    static std::string centerTexture;
+    static std::string rightTexture;
     
-    virtual void interpolate(float alpha) override;
+    MovingObstacle();
+    virtual ~MovingObstacle();
+    virtual int getZ() const override;
+    
+    virtual void setProperties(cocos2d::ValueMap& props) override;
+    virtual void addSprite() override;
+    virtual void initPhysics(b2World* world) override;
+
+    
     virtual void savePreviousStates() override;
     virtual void launch() override;
 };

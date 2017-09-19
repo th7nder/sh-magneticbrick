@@ -67,8 +67,8 @@ void Player::setProperties(ValueMap &props)
     CCASSERT(!props["initialSpeed"].isNull(), "Player -> initialSpeed isNull");
     speed = (props["initialSpeed"].asFloat());
     
-    setContentSize(Size(_director->getVisibleSize().width, getContentSize().height));
-    setPositionX(getContentSize().width / 2);
+    setContentSize(Size(_director->getVisibleSize().width, _contentSize.height));
+    setPositionX(_contentSize.width / 2);
     
 }
 
@@ -317,7 +317,7 @@ void Player::resetSpriteY()
 void Player::updateBricksSpacing()
 {
     if(inTeleport) return;
-    auto width = getContentSize().width;
+    auto width = _contentSize.width;
     
     float force;
     if(modifierGravity)

@@ -25,24 +25,21 @@ class HorizontalObstacle : public LevelObject
     };
     typedef LevelObject super;
     typedef HorizontalObstacle self;
-    bool physics;
 CC_CONSTRUCTOR_ACCESS:
-    HorizontalObstacle();
-    std::string leftTexture;
-    std::string centerTexture;
-    std::string rightTexture;
-public:
-    HorizontalState opened;
-    virtual ~HorizontalObstacle();
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
-    virtual void addSprite() override;
-    virtual void setProperties(ValueMap& properties) override;
+
     
-    virtual void initPhysics(b2World* world) override;
-    virtual bool OnContactBegin(LevelObject* other, b2Body* body) override
-    {
-        return true;
-    };
+public:
+    HorizontalObstacle();
+    HorizontalState opened;
+    
+    static std::string leftTexture;
+    static std::string centerTexture;
+    static std::string rightTexture;
+    
+    virtual ~HorizontalObstacle();
+    virtual void addSprite() override;
+    virtual void setProperties(cocos2d::ValueMap& properties) override;
+    
+    virtual bool OnContactBegin(LevelObject* other, b2Body* body) override;
 };
 #endif /* HorizontalObstacle_hpp */

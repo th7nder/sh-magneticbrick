@@ -30,10 +30,10 @@ private:
     };
     
     Side side;
-    Sprite* button;
+    cocos2d::Sprite* button;
     b2Body* buttonBody;
     b2Body* underBody;
-    Size buttonSize;
+    cocos2d::Size buttonSize;
     
     b2Body* createUnderbody(b2World* world, float x, float y, float width);
 CC_CONSTRUCTOR_ACCESS:
@@ -43,7 +43,7 @@ public:
     static self* create(GameHandler* handler);
     virtual bool init(GameHandler* handler) override;
     
-    virtual void setProperties(ValueMap& props) override;
+    virtual void setProperties(cocos2d::ValueMap& props) override;
     virtual void addSprite() override;
     std::string target;
     

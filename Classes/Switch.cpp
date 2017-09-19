@@ -7,7 +7,7 @@
 //
 
 #include "Switch.hpp"
-
+USING_NS_CC;
 Switch::Switch() : side(Side::NotSet), button(nullptr), buttonBody(nullptr), target(""), underBody(nullptr)
 {
     
@@ -18,29 +18,6 @@ Switch::~Switch()
     buttonBody->GetWorld()->DestroyBody(buttonBody);
     underBody->GetWorld()->DestroyBody(underBody);
 }
-
-Switch* Switch::create(GameHandler* handler)
-{
-    self* ret = new (std::nothrow) self();
-    if (ret && ret->init(handler))
-    {
-        ret->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-    }
-    return ret;
-}
-
-
-bool Switch::init(GameHandler* handler)
-{
-    if(!super::init(handler)) return false;
-    gameHandler = handler;
-    return true;
-}
-
 
 void Switch::setProperties(ValueMap &props)
 {
@@ -81,7 +58,7 @@ void Switch::addSprite()
 b2Body* Switch::createUnderbody(b2World *world, float x, float y, float width)
 {
   
-    auto ret = world->CreateBody(createBody(x, y));
+    auto ret = world->CreateBody(createBody(Vec2(x, y)));
     auto shape = new b2EdgeShape;
     shape->Set(b2Vec2(-width / 2, 0), b2Vec2(width / 2, 0));
     ret->CreateFixture(createFixture(shape));
@@ -91,13 +68,12 @@ b2Body* Switch::createUnderbody(b2World *world, float x, float y, float width)
 
 void Switch::initPhysics(b2World *world)
 {
-    auto contentSize = getContentSize();
+
+    body = world->CreateBody(createBody(Vec2(side == Side::Right ? getPositionX() : getPositionX() + _contentSize.width / 2, getPositionY())));
+    body->CreateFixture(createFixture(createRectangularShape(_contentSize)));
     
-    body = world->CreateBody(createBody(side == Side::Right ? getPositionX() : getPositionX() + contentSize.width / 2, getPositionY()));
-    body->CreateFixture(createFixture(createRectangularShape(contentSize.width, contentSize.height)));
     
-    
-    underBody = createUnderbody(world, side == Side::Right ? getPositionX() : getPositionX() + contentSize.width / 2, getPositionY() - contentSize.height / 2, pixelsToMeters(contentSize.width - 10));
+    underBody = createUnderbody(world, side == Side::Right ? getPositionX() : getPositionX() + contentSize.width / 2, getPositionY() - _contentSize.height / 2, pixelsToMeters(_contentSize.width - 10));
     
     
     buttonSize = button->getContentSize();
@@ -107,15 +83,15 @@ void Switch::initPhysics(b2World *world)
     b2Vec2 pos;
     if(side == Side::Right)
     {
-        pos = b2Vec2(getPositionX() + contentSize.width / 2 + buttonSize.width / 2, getPositionY());
+        pos = b2Vec2(getPositionX() + _contentSize.width / 2 + buttonSize.width / 2, getPositionY());
     } else if(side == Side::Left){
         pos = b2Vec2(getPositionX() - buttonSize.width / 2, getPositionY());
     }
     
-    auto bodyDef = createBody(pos.x, pos.y);
+    auto bodyDef = createBody(pos);
     bodyDef->type = b2_dynamicBody;
     buttonBody = world->CreateBody(bodyDef);
-    auto buttonFixture = createFixture(createRectangularShape(buttonSize.width, buttonSize.height));
+    auto buttonFixture = createFixture(createRectangularShape(buttonSize));
     buttonFixture->isSensor = true;
     buttonFixture->filter.categoryBits = kFilterCategoryNonSolidObject;
     buttonFixture->filter.maskBits = kFilterCategoryPlayer;
@@ -131,8 +107,8 @@ bool Switch::OnContactBegin(LevelObject *other, b2Body* otherBody)
         return true;
     }
     
-    float switchY = body->GetPosition().y - pixelsToMeters(height / 2);
-    float brickY = other->getBody()->GetPosition().y + pixelsToMeters(other->height / 2);
+    float switchY = body->GetPosition().y - pixelsToMeters(_contentSize.height / 2);
+    float brickY = other->getBody()->GetPosition().y + pixelsToMeters(other->getContentSize().height / 2);
     if(!invisible && brickY - switchY >= 0 && brickY - switchY <= 0.1f)
     {
         return true;
@@ -149,7 +125,7 @@ bool Switch::OnContactBegin(LevelObject *other, b2Body* otherBody)
     if(laser != nullptr)
     {
         sprite->setTexture(Globals::resources["obstacle_switch_green"]);
-        laser->remove = true;
+        laser->queueToRemove();
         auto sae = CocosDenshion::SimpleAudioEngine::getInstance();
         std::string effect = StringUtils::format("effect_laseroff_%d", random(1, 3));
         sae->playEffect(Globals::resources[effect.c_str()].c_str());

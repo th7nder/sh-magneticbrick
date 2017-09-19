@@ -80,7 +80,7 @@ void LevelObject::setProperties(ValueMap &properties)
 void LevelObject::initPhysics(b2World* world)
 {
     body = world->CreateBody(createBody(getPosition()));
-    body->CreateFixture(createFixture(createRectangularShape(getContentSize())));
+    body->CreateFixture(createFixture(createRectangularShape(_contentSize)));
 }
 
 
@@ -134,3 +134,8 @@ b2FixtureDef* LevelObject::createFixture(b2Shape *shape)
     return fixtureDef;
 }
 
+
+void LevelObject::queueToRemove()
+{
+    remove = true;
+}

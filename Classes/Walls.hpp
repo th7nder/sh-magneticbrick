@@ -11,7 +11,6 @@
 #include "cocos2d.h"
 #include <Box2D/Box2D.h>
 #include "LevelObject.hpp"
-#include "GameHandler.hpp"
 
 class Walls : public LevelObject
 {
@@ -19,19 +18,18 @@ private:
     typedef LevelObject super;
     typedef Walls self;
 CC_CONSTRUCTOR_ACCESS:
-    Walls();
     b2Body* rightBody;
     float speed;
     
 public:
+    Walls();
     virtual ~Walls();
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
-    virtual void setProperties(ValueMap& props) override;
+    virtual void setProperties(cocos2d::ValueMap& props) override;
     virtual void initPhysics(b2World* world) override;
-    b2Body* createDestroyer(b2World* world, float x, float y);
-    virtual bool OnContactBegin(LevelObject* other, b2Body* body) override {return true;}
-    b2Body* getRightBody() {return rightBody;}
+    virtual bool OnContactBegin(LevelObject* other, b2Body* body) override;
+    
+    b2Body* createDestroyer(b2World* world, const cocos2d::Vec2& pos);
+    b2Body* getRightBody();
     
 };
 

@@ -28,6 +28,8 @@ int SideExtra::getZ() const
 }
 void SideExtra::setProperties(ValueMap &props)
 {
+    
+    // ADD THIS FUCKIN SCALE
     super::setProperties(props);
     orientation = props["orientation"].asString();
 }

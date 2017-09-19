@@ -10,9 +10,10 @@
 
 #include "HorizontalObstacle.hpp"
 
-HorizontalObstacle::HorizontalObstacle() : leftTexture(""), centerTexture(""), rightTexture(""), physics(true)
+USING_NS_CC;
+HorizontalObstacle::HorizontalObstacle()
 {
-    
+
 }
 
 HorizontalObstacle::~HorizontalObstacle()
@@ -20,40 +21,7 @@ HorizontalObstacle::~HorizontalObstacle()
 
 }
 
-HorizontalObstacle* HorizontalObstacle::create(GameHandler* handler)
-{
-    self* ret = new (std::nothrow) self();
-    if (ret && ret->init(handler))
-    {
-        ret->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-    }
-    return ret;
-}
 
-
-bool HorizontalObstacle::init(GameHandler* handler)
-{
-    if(!super::init(handler)) return false;
-    gameHandler = handler;
-    const auto lastThemeCodename = "obstacle_" +  handler->getLastTheme().getCodeName();
-    leftTexture = Globals::resources[lastThemeCodename + "_left"];
-    centerTexture = Globals::resources[lastThemeCodename + "_center"];
-    rightTexture = Globals::resources[lastThemeCodename + "_right"];
-    
-    return true;
-}
-
-void HorizontalObstacle::initPhysics(b2World *world)
-{
-    if(physics)
-    {
-        super::initPhysics(world);
-    }
-}
 
 
 void HorizontalObstacle::setProperties(ValueMap &props)
@@ -68,14 +36,10 @@ void HorizontalObstacle::setProperties(ValueMap &props)
         opened = HorizontalState(props["opened"].asInt());
     }
     
-    if(!props["physics"].isNull())
-    {
-        physics = props["physics"].asBool();
-    } else {
-        physics = true;
-    }
 }
 
+
+// sth is reduntant here
 void HorizontalObstacle::addSprite()
 {
     Sprite* spr = nullptr;
@@ -120,4 +84,9 @@ void HorizontalObstacle::addSprite()
     spr->setAnchorPoint(Vec2::ZERO);
     spr->setPositionX(width + ((amount - 2) * width));
     addChild(spr);
+}
+
+bool HorizontalObstacle::OnContactBegin(LevelObject *other, b2Body *body)
+{
+    return true;
 }

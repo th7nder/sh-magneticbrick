@@ -439,6 +439,14 @@ bool Level::load(int themeId, int levelId)
     
     currentThemeId = themeId;
     currentLevelId = levelId;
+    
+    const auto lastThemeCodename = "obstacle_" +  gameHandler->getLastTheme().getCodeName();
+    HorizontalObstacle::leftTexture = Globals::resources[lastThemeCodename + "_left"];
+    HorizontalObstacle::centerTexture = Globals::resources[lastThemeCodename + "_center"];
+    HorizontalObstacle::rightTexture = Globals::resources[lastThemeCodename + "_right"];
+    MovingObstacle::leftTexture = Globals::resources[lastThemeCodename + "_left"];
+    MovingObstacle::centerTexture = Globals::resources[lastThemeCodename + "_center"];
+    MovingObstacle::rightTexture = Globals::resources[lastThemeCodename + "_right"];
 
 
     auto objectGroups = map->getObjectGroups();

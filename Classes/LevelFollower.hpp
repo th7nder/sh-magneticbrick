@@ -9,32 +9,24 @@
 #ifndef LevelFollower_hpp
 #define LevelFollower_hpp
 
-#include "cocos2d.h"
-#include <Box2D/Box2D.h>
-#include "LevelObject.hpp"
-#include "GameHandler.hpp"
 
-class LevelFollower : public LevelObject
+#include "DynamicLevelObject.hpp"
+
+class LevelFollower : public DynamicLevelObject
 {
 private:
     typedef LevelObject super;
     typedef LevelFollower self;
-CC_CONSTRUCTOR_ACCESS:
-    LevelFollower();
-    b2Body* rightBody;
+protected:
     float speed;
-    
 public:
+    LevelFollower();
     virtual ~LevelFollower();
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
-    virtual void setProperties(ValueMap& props) override;
+    virtual void setProperties(cocos2d::ValueMap& props) override;
     virtual void initPhysics(b2World* world) override;
-    b2Body* createDestroyer(b2World* world, float x, float y);
-    virtual bool OnContactBegin(LevelObject* other, b2Body* body) override {return true;}
+    virtual void launch() override;
     
-    virtual void interpolate(float alpha) override;
-    virtual void savePreviousStates() override;
+    b2Body* createDestroyer(b2World* world, const cocos2d::Vec2& pos);
     
 };
 #endif /* LevelFollower_hpp */
