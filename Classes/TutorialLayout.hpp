@@ -34,42 +34,42 @@ private:
     GameHandler* gameHandler;
 
 
-    ui::Layout* normalControl;
+    cocos2d::ui::Layout* normalControl;
     void createNormalControlTutorial();
-    ui::Layout* normalFirst;
+    cocos2d::ui::Layout* normalFirst;
     void createNormalFirst();
     
-    ui::Layout* normalSecond;
+    cocos2d::ui::Layout* normalSecond;
     void createNormalSecond();
     
-    ui::Layout* normalThird;
+    cocos2d::ui::Layout* normalThird;
     void createNormalThird();
     
-    ui::Layout* normalLast;
+    cocos2d::ui::Layout* normalLast;
     void createNormalLast();
     
     
-    ui::Layout* forceControl;
-    Sprite* forceDots;
+    cocos2d::ui::Layout* forceControl;
+    cocos2d::Sprite* forceDots;
     void createForceControlTutorial();
-    ui::Layout* forceFirst;
+    cocos2d::ui::Layout* forceFirst;
     void createForceFirst();
     
-    ui::Layout* forceSecond;
+    cocos2d::ui::Layout* forceSecond;
     void createForceSecond();
     
-    ui::Layout* forceThird;
+    cocos2d::ui::Layout* forceThird;
     void createForceThird();
     
-    ui::Layout* forceFourth;
+    cocos2d::ui::Layout* forceFourth;
     void createForceFourth();
     
-    ui::Layout* forceLast;
+    cocos2d::ui::Layout* forceLast;
     void createForceLast();
     
     
-    ui::Layout* levelTutorial;
-    Sprite* levelImg;
+    cocos2d::ui::Layout* levelTutorial;
+    cocos2d::Sprite* levelImg;
     void createLevelTutorial();
 
     int controlTutorialStage;

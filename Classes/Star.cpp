@@ -24,7 +24,7 @@ Star::~Star()
 void Star::setProperties(ValueMap &props)
 {
     LevelObject::setProperties(props);
-    CCASSERT(!props["name"].isNull(), "initialSpeed was not set in map!");
+    CCASSERT(!props["name"].isNull(), "Star -> name isNull");
     number = props["name"].asInt();
     
     

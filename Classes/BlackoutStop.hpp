@@ -20,13 +20,10 @@ private:
     typedef LevelObject super;
     typedef BlackoutStop self;
     
-CC_CONSTRUCTOR_ACCESS:
+public:
     BlackoutStop();
     virtual ~BlackoutStop();
-public:
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
-    
+
     virtual void initPhysics(b2World* world) override;
     virtual bool OnContactBegin(LevelObject* other, b2Body* body) override;
     

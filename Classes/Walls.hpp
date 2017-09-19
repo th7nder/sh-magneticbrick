@@ -22,6 +22,10 @@ CC_CONSTRUCTOR_ACCESS:
     float speed;
     
 public:
+    virtual std::string getDescription() const override
+    {
+        return "Walls";
+    }
     Walls();
     virtual ~Walls();
     virtual void setProperties(cocos2d::ValueMap& props) override;

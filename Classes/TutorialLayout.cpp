@@ -488,7 +488,7 @@ void TutorialLayout::displayControl()
     props["width"] = 216.0f / scale;
     props["height"] = 108.f / scale;
     
-    player = Player::create(gameHandler, nullptr, nullptr);
+    player = nullptr;
     player->setProperties(props);
     player->addSprite();
     player->initPhysics(gameHandler->getWorld());

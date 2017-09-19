@@ -18,28 +18,6 @@ TeleportIn::~TeleportIn()
     
 }
 
-TeleportIn* TeleportIn::create(GameHandler* handler)
-{
-    self* ret = new (std::nothrow) self();
-    if (ret && ret->init(handler))
-    {
-        ret->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-    }
-    return ret;
-}
-
-
-bool TeleportIn::init(GameHandler* handler)
-{
-    if(!super::init(handler)) return false;
-    gameHandler = handler;
-    
-    return true;
-}
 
 void TeleportIn::addSprite()
 {
@@ -68,9 +46,8 @@ void TeleportIn::setProperties(ValueMap &properties)
 
 void TeleportIn::initPhysics(b2World *world)
 {
-    auto size = getContentSize();
-    body = world->CreateBody(createBody(getPositionX(), getPositionY()));
-    auto fixture = createFixture(createRectangularShape(size.width, size.height));
+    body = world->CreateBody(createBody(getPosition()));
+    auto fixture = createFixture(createRectangularShape(_contentSize));
     fixture->isSensor = true;
     fixture->filter.categoryBits = kFilterCategoryNonSolidObject;
     fixture->filter.maskBits = kFilterCategoryPlayer;

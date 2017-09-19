@@ -19,24 +19,21 @@ class VerticalObstacle : public LevelObject
     typedef LevelObject super;
     typedef VerticalObstacle self;
     float angle;
-CC_CONSTRUCTOR_ACCESS:
-    VerticalObstacle();
-    std::string downTexture;
-    std::string centerTexture;
-    std::string upTexture;
 public:
+    VerticalObstacle();
+    static std::string downTexture;
+    static std::string centerTexture;
+    static std::string upTexture;
+    
     virtual int getZ() const override
     {
         return 10;
     }
     virtual ~VerticalObstacle();
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
     virtual void addSprite() override;
-    
+    virtual void setProperties(cocos2d::ValueMap& props) override;
     virtual bool OnContactBegin(LevelObject* other, b2Body* otherBody) override {return true;};
-    virtual void setProperties(ValueMap& props) override;
-    virtual void initPhysics(b2World* world) override;
+
 };
 
 #endif /* VerticalObstacle_hpp */

@@ -73,7 +73,7 @@ void Switch::initPhysics(b2World *world)
     body->CreateFixture(createFixture(createRectangularShape(_contentSize)));
     
     
-    underBody = createUnderbody(world, side == Side::Right ? getPositionX() : getPositionX() + contentSize.width / 2, getPositionY() - _contentSize.height / 2, pixelsToMeters(_contentSize.width - 10));
+    underBody = createUnderbody(world, side == Side::Right ? getPositionX() : getPositionX() + _contentSize.width / 2, getPositionY() - _contentSize.height / 2, pixelsToMeters(_contentSize.width - 10));
     
     
     buttonSize = button->getContentSize();
@@ -88,7 +88,8 @@ void Switch::initPhysics(b2World *world)
         pos = b2Vec2(getPositionX() - buttonSize.width / 2, getPositionY());
     }
     
-    auto bodyDef = createBody(pos);
+    
+    auto bodyDef = createBody(Vec2(pos.x, pos.y));
     bodyDef->type = b2_dynamicBody;
     buttonBody = world->CreateBody(bodyDef);
     auto buttonFixture = createFixture(createRectangularShape(buttonSize));

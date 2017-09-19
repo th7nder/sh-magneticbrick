@@ -24,7 +24,7 @@ public:
     virtual bool isDynamic() const override;
     virtual void launch() = 0;
     virtual void savePreviousStates();
-    virtual void interpolate(float alpha) = 0;
+    virtual void interpolate(float alpha);
     virtual void setProperties(cocos2d::ValueMap& props) override;
 };
 

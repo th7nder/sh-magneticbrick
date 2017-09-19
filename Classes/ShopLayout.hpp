@@ -46,34 +46,34 @@ private:
     SHButton* backButton;
     void createBackButton();
     
-    Sprite* starIndicator;
+    cocos2d::Sprite* starIndicator;
     void createStarIndicator();
     
-    Label* starLabel;
+    cocos2d::Label* starLabel;
     void createStarLabel();
     
-    Sprite* kielniaIndicator;
+    cocos2d::Sprite* kielniaIndicator;
     void createKielniaIndicator();
     
-    Label* kielniaLabel;
+    cocos2d::Label* kielniaLabel;
     void createKielniaLabel();
     
-    Sprite* brickAtSprite;
+    cocos2d::Sprite* brickAtSprite;
     void createBrickAtSprite();
     
-    ui::Layout* bricksContainer;
+    cocos2d::ui::Layout* bricksContainer;
     void createBricksContainer();
     
-    ui::ScrollView* scrollingBricks;
+    cocos2d::ui::ScrollView* scrollingBricks;
     void createScrollingBricks();
     
-    ui::Layout* bonusContainer;
+    cocos2d::ui::Layout* bonusContainer;
     void createBonusContainer();
     
-    ui::Button* removeAds;
+    cocos2d::ui::Button* removeAds;
     void createRemoveAds();
     
-    ui::ScrollView* scrollingBonus;
+    cocos2d::ui::ScrollView* scrollingBonus;
     void createScrollingBonus();
     cocos2d::Label *numberLabel;
     

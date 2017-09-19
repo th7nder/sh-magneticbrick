@@ -139,3 +139,8 @@ void LevelObject::queueToRemove()
 {
     remove = true;
 }
+
+bool LevelObject::isQueuedToRemove()
+{
+    return remove;
+}

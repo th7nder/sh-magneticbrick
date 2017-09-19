@@ -31,18 +31,18 @@ private:
     GameHandler* gameHandler;
     
     
-    ui::Layout* chapterReward;
-    Sprite* chapterUnlocked;
-    Sprite* chapterInfo;
-    Sprite* chapterImg;
+    cocos2d::ui::Layout* chapterReward;
+    cocos2d::Sprite* chapterUnlocked;
+    cocos2d::Sprite* chapterInfo;
+    cocos2d::Sprite* chapterImg;
     void createChapterReward();
     
-    LayerColor* layerColor;
-    Sprite* icon;
+    cocos2d::LayerColor* layerColor;
+    cocos2d::Sprite* icon;
     
-    ui::Layout* brickReward;
-    Sprite* brickUnlocked;
-    Sprite* brickBox;
+    cocos2d::ui::Layout* brickReward;
+    cocos2d::Sprite* brickUnlocked;
+    cocos2d::Sprite* brickBox;
     
     void createBrickReward();
     

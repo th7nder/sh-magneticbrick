@@ -9,29 +9,26 @@
 #ifndef BacteriaBlue_hpp
 #define BacteriaBlue_hpp
 
-#include "LevelObject.hpp"
+#include "DynamicLevelObject.hpp"
+#include "Globals.hpp"
 
-class BacteriaBlue : public LevelObject
+class BacteriaBlue : public DynamicLevelObject
 {
 private:
     typedef BacteriaBlue self;
-    typedef LevelObject super;
+    typedef DynamicLevelObject super;
     
     b2Vec2 velocity;
     float angle;
-CC_CONSTRUCTOR_ACCESS:
-    BacteriaBlue();
 public:
+    BacteriaBlue();
     virtual ~BacteriaBlue();
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
-    virtual void setProperties(ValueMap& props) override;
+    
+    virtual void setProperties(cocos2d::ValueMap& props) override;
     virtual void addSprite() override;
     virtual bool OnContactBegin(LevelObject* other, b2Body* otherBody) override {return true;};
     
     virtual void initPhysics(b2World* world) override;
-    virtual void interpolate(float alpha) override;
-    virtual void savePreviousStates() override;
     
     virtual void launch() override;
     

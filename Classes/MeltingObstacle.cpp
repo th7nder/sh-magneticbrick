@@ -9,6 +9,7 @@
 #include "MeltingObstacle.hpp"
 
 
+USING_NS_CC;
 MeltingObstacle::MeltingObstacle() : name(""), triggered(false)
 {
     
@@ -19,47 +20,17 @@ MeltingObstacle::~MeltingObstacle()
     
 }
 
-MeltingObstacle* MeltingObstacle::create(GameHandler* handler)
-{
-    self* ret = new (std::nothrow) self();
-    if (ret && ret->init(handler))
-    {
-        ret->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-    }
-    return ret;
-}
-
-
-bool MeltingObstacle::init(GameHandler* handler)
-{
-    if(!super::init(handler)) return false;
-    gameHandler = handler;
-    const auto lastThemeCodename = "obstacle_" +  handler->getLastTheme().getCodeName();
-    centerTexture = Globals::resources[lastThemeCodename + "_center"];
-
-
-    return true;
-}
-
 
 void MeltingObstacle::setProperties(ValueMap &props)
 {
     LevelObject::setProperties(props);
     auto scale = Director::getInstance()->getContentScaleFactor();
     size = (props["width"].asFloat() * scale / 54.0);
-    
-    //CCASSERT(!props["name"].isNull(), "Laser without a name!");
-    //auto name = props["name"].asString();
-    //setName(name);
 }
 
 void MeltingObstacle::addSprite()
 {
-    auto spr = Sprite::create(centerTexture);
+    auto spr = Sprite::create(HorizontalObstacle::centerTexture);
     spr->setAnchorPoint(Vec2::ZERO);
     addChild(spr);
     
@@ -74,7 +45,7 @@ void MeltingObstacle::addSprite()
     }
     if(amount > 1)
     {
-        spr = Sprite::create(centerTexture);
+        spr = Sprite::create(HorizontalObstacle::centerTexture);
         spr->setAnchorPoint(Vec2::ZERO);
         spr->setPosition(Vec2(width, 0));
         spr->setContentSize(Size((amount - 1) * width, height));
@@ -82,10 +53,10 @@ void MeltingObstacle::addSprite()
     }
     
 }
-void MeltingObstacle::launch()
+/*void MeltingObstacle::launch()
 {
     addIce();
-}
+}*/
 
 
 void MeltingObstacle::addIce()
@@ -101,9 +72,9 @@ void MeltingObstacle::addIce()
     sprite->setOpacity(0);
     
     float baseDistance = (600.0f / 1080.0f) * 1136;
-    float delayTime = (0.8f * baseDistance) / gameHandler->getCurrentPlayerSpeed();
-    float appearTime = (0.25f * baseDistance) / gameHandler->getCurrentPlayerSpeed();
-    float disappearTime = (0.10f * baseDistance) / gameHandler->getCurrentPlayerSpeed();
+    float delayTime = (0.8f * baseDistance) / 400.0f; //gameHandler->getCurrentPlayerSpeed();
+    float appearTime = (0.25f * baseDistance) / 400.0f; //gameHandler->getCurrentPlayerSpeed();
+    float disappearTime = (0.10f * baseDistance) / 400.0f;//gameHandler->getCurrentPlayerSpeed();
     //CCLOG("time: %f %f %f", delayTime, appearTime, disappearTime);
     
     auto sound = CallFunc::create([](){

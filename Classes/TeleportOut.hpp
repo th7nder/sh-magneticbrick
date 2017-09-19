@@ -11,8 +11,8 @@
 
 #include "cocos2d.h"
 #include <Box2D/Box2D.h>
-#include "GameHandler.hpp"
 #include "LevelObject.hpp"
+#include "Globals.hpp"
 
 class TeleportOut : public LevelObject
 {
@@ -20,21 +20,16 @@ class TeleportOut : public LevelObject
     typedef TeleportOut self;
     
     int textureSize;
-CC_CONSTRUCTOR_ACCESS:
-    TeleportOut();
 public:
+    TeleportOut();
     virtual std::string getDescription() const override
     {
         return "TeleportOut";
     }
     
     virtual ~TeleportOut();
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
+    virtual void setProperties(cocos2d::ValueMap &properties) override;
     virtual void addSprite() override;
-    
-    virtual void setProperties(ValueMap &properties) override;
-    
     virtual void initPhysics(b2World* world) override;
 };
 

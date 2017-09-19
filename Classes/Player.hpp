@@ -29,10 +29,10 @@ private:
 protected:
     float speed;
     bool forceTouch;
-    const Skin* currentSkin;
+    Skin currentSkin;
     
     b2Body* rightBody;
-    Sprite* rightSprite;
+    cocos2d::Sprite* rightSprite;
     b2Body* leftBarrier;
     b2Body* rightBarrier;
     
@@ -61,7 +61,11 @@ protected:
     std::string currentTeleportTarget;
     bool tutorialPlayer;
 public:
-    Player();
+    virtual std::string getDescription() const override
+    {
+        return "Player";
+    }
+    Player(Skin skin, LevelFollower* levelFollower, Walls* walls);
     virtual ~Player();
     
     virtual int getZ() const override;
@@ -75,6 +79,7 @@ public:
     
     virtual void interpolate(float alpha) override;
     virtual void savePreviousStates() override;
+    virtual void launch() override;
     
     
     virtual b2FixtureDef* createFixture(b2Shape* shape) override;

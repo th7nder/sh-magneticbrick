@@ -10,6 +10,11 @@
 
 USING_NS_CC;
 
+
+std::string Laser::leftTexture = "";
+std::string Laser::centerTexture = "";
+std::string Laser::rightTexture = "";
+
 Laser::Laser()
 {
     

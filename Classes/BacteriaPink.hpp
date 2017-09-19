@@ -10,9 +10,10 @@
 #define BacteriaPink_hpp
 
 
-#include "LevelObject.hpp"
+#include "DynamicLevelObject.hpp"
+#include "Globals.hpp"
 
-class BacteriaPink : public LevelObject
+class BacteriaPink : public DynamicLevelObject
 {
 private:
     typedef BacteriaPink self;
@@ -20,19 +21,14 @@ private:
     
     b2Vec2 velocity;
     float angle;
-CC_CONSTRUCTOR_ACCESS:
-    BacteriaPink();
 public:
+    BacteriaPink();
     virtual ~BacteriaPink();
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
-    virtual void setProperties(ValueMap& props) override;
+    virtual void setProperties(cocos2d::ValueMap& props) override;
     virtual void addSprite() override;
     virtual bool OnContactBegin(LevelObject* other, b2Body* otherBody) override {return true;};
     
     virtual void initPhysics(b2World* world) override;
-    virtual void interpolate(float alpha) override;
-    virtual void savePreviousStates() override;
     
     virtual void launch() override;
     

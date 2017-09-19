@@ -10,6 +10,11 @@
 #include "MovingObstacle.hpp"
 
 USING_NS_CC;
+
+std::string MovingObstacle::leftTexture = "";
+std::string MovingObstacle::centerTexture = "";
+std::string MovingObstacle::rightTexture = "";
+
 MovingObstacle::MovingObstacle() : velocity(0), stopX(0)
 {
     

@@ -11,12 +11,11 @@
 #include "Level.hpp"
 #include "Star.hpp"
 
-Player::Player() :
+Player::Player(Skin skin, LevelFollower* follower, Walls* walls) :
 rightBody(nullptr),
 rightSprite(nullptr),
 forceTouch(false),
 speed(0.0),
-currentSkin(nullptr),
 startLeftPos(0.0f),
 startRightPos(0.0f),
 startTouchPosition(Vec2::ZERO),
@@ -27,6 +26,8 @@ rightBarrier(nullptr),
 isTouching(false),
 inTeleport(false),
 modifierGravity(false),
+levelFollower(follower),
+walls(walls),
 halfPlayerWidth(0.0)
 {
     currentTeleportTarget = "";
@@ -38,6 +39,8 @@ halfPlayerWidth(0.0)
     listener->onTouchesCancelled = CC_CALLBACK_2(self::onTouchesCancelled, this);
     
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    currentSkin = skin;
+
 }
 
 Player::~Player()
@@ -76,7 +79,8 @@ void Player::setProperties(ValueMap &props)
 // separate Player into two Players or no? think about it
 void Player::addSprite()
 {
-    sprite = Sprite::create(currentSkin->getLeftPath());
+    CCLOG("OMG: %s", currentSkin.getLeftPath().c_str());
+    sprite = Sprite::create(currentSkin.getLeftPath());
     playerSize = sprite->getContentSize();
     halfPlayerWidth = playerSize.width / 2;
     startLeftPos = getPositionX() - playerSize.width / 2;
@@ -86,7 +90,7 @@ void Player::addSprite()
     
     previousPosition = sprite->getPosition();
     
-    rightSprite = Sprite::create(currentSkin->getRightPath());
+    rightSprite = Sprite::create(currentSkin.getRightPath());
     startRightPos = sprite->getPositionX() + sprite->getContentSize().width;
     rightSprite->setPositionX(startRightPos);
     rightSprite->setPositionY(playerSize.width / 2);
@@ -168,6 +172,11 @@ b2Body* Player::createBarrier(b2World* world, float x, float y)
     return ret;
 }
 
+
+void Player::launch()
+{
+    
+}
 
 
 
@@ -316,6 +325,7 @@ void Player::resetSpriteY()
 
 void Player::updateBricksSpacing()
 {
+    return;
     if(inTeleport) return;
     auto width = _contentSize.width;
     

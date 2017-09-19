@@ -357,7 +357,7 @@ void GameScene::createUI()
     uiContainer->addChild(winLoseLayout);
     
     createSettings();
-    createTutorialLayout();
+    //createTutorialLayout();
     
     waitLayout = WaitLayout::createWithSize(visibleSize, this);
     waitLayout->setVisible(false);
@@ -516,9 +516,9 @@ void GameScene::onThemeAndLevelSelected(int themeId, int levelId)
     
 
     
-    tutorialLayout->setVisible(true);
+    /*tutorialLayout->setVisible(true);
     tutorialLayout->setOpacity(255);
-    tutorialLayout->setEnabled(true);
+    tutorialLayout->setEnabled(true);*/
     setGameState(Tutorial);
     level->setStopped(true);
     if(!getTutorialDisplayed())
@@ -559,7 +559,7 @@ void GameScene::onThemeAndLevelSelected(int themeId, int levelId)
     else
     {
         level->setStopped(false);
-        tutorialLayout->setVisible(false);
+     //   tutorialLayout->setVisible(false);
         setGameState(ReadyToPlay);
         postEffect->setPostEffectsEnabled(false);
         tapToPlay->runAction(FadeTo::create(0.3, 255));
@@ -658,8 +658,8 @@ void GameScene::onPlayerWin()
     }), nullptr);
     seq->setTag(1666);
     runAction(seq);*/
-    level->player->getSprite()->runAction(MoveBy::create(6.0, Vec2(0, 6.0 * level->player->speed)));
-    level->player->getRightSprite()->runAction(MoveBy::create(6.0, Vec2(0, 6.0 * level->player->speed)));
+    //level->player->getSprite()->runAction(MoveBy::create(6.0, Vec2(0, 6.0 * level->player->speed)));
+    //level->player->getRightSprite()->runAction(MoveBy::create(6.0, Vec2(0, 6.0 * level->player->speed)));
     
     
     int starsCount = getStarCount();

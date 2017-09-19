@@ -9,7 +9,7 @@
 #include "Level.hpp"
 USING_NS_CC;
 
-
+// a lot of shit to dooooooooooo
 const double kSecondsPerUpdate = 1.0f / 40.0f;
 
 
@@ -17,7 +17,6 @@ const double kSecondsPerUpdate = 1.0f / 40.0f;
 Level::Level() : gameHandler(nullptr), world(nullptr), accumulator(0.0), currentThemeId(0), currentLevelId(0), currentTime(0), timeBetweenObstacles(0.6), lastObstacleTime(0), lastObstacleY(2000.0), player(nullptr), map(nullptr), lastSpawnTime(0), lastDeleteTime(0), requestUpdatePlayerSpacing(false), tutorialPlayer(nullptr)
 {
     this->scheduleUpdate();
-    LevelObject::ownVisibleSize = Director::getInstance()->getVisibleSize();
     stopped = false;
 }
 
@@ -130,7 +129,7 @@ void Level::update(float dt)
             auto levelObject = dynamic_cast<LevelObject*>(child);
             if(levelObject != nullptr)
             {
-                if(levelObject->remove || (levelObject->getPositionY() + getPositionY() < -levelObject->getContentSize().height))
+                if(levelObject->isQueuedToRemove() || (levelObject->getPositionY() + getPositionY() < -levelObject->getContentSize().height))
                 {
                     levelObject->removeFromParentAndCleanup(true);
                 }
@@ -155,7 +154,8 @@ void Level::update(float dt)
 #endif
 
     
-    if(unsigned long size = levelObjects.size())
+    // rewrite
+    /*if(unsigned long size = levelObjects.size())
     {
         auto obj = levelObjects.back();
         while(obj->getPositionY() + getPositionY() < 1136 + obj->getContentSize().height)
@@ -183,7 +183,7 @@ void Level::update(float dt)
             obj = levelObjects.back();
         }
             
-    }
+    }*/
     
 
 
@@ -196,16 +196,17 @@ void Level::update(float dt)
     while (accumulator >= kSecondsPerUpdate)
     {
 
+        // fix me
         for(const auto& child : children)
         {
-            if(tutorialPlayer != nullptr)
+            //if(tutorialPlayer != nullptr)
+            //{
+             //   tutorialPlayer->savePreviousStates();
+            //}
+            auto levelObject = dynamic_cast<DynamicLevelObject*>(child);
+            if(levelObject != nullptr)
             {
-                tutorialPlayer->savePreviousStates();
-            }
-            auto levelObject = dynamic_cast<LevelObject*>(child);
-            if(levelObject != nullptr && levelObject != walls)
-            {
-                if(levelObject != levelFollower && (levelObject->remove || levelObject->getPositionY() + getPositionY()  < -levelObject->getContentSize().height))
+                if(levelObject != levelFollower && (levelObject->isQueuedToRemove() || levelObject->getPositionY() + getPositionY()  < -levelObject->getContentSize().height))
                 {
                     levelObject->removeFromParentAndCleanup(true);
                 }
@@ -226,9 +227,10 @@ void Level::update(float dt)
 
     
     const float alpha = accumulator / kSecondsPerUpdate;
+    // fix me
     for(const auto& child : children)
     {
-        auto levelObject = dynamic_cast<LevelObject*>(child);
+        auto levelObject = dynamic_cast<DynamicLevelObject*>(child);
         if(levelObject != nullptr)
         {
             levelObject->interpolate(alpha);
@@ -258,8 +260,11 @@ void Level::BeginContact(b2Contact *contact)
     
     if((a->OnContactBegin(b, aBody) || b->OnContactBegin(a, bBody)))
     {
+        CCLOG("omg: %s, omg: %s", a->getDescription().c_str(), b->getDescription().c_str());
+        
+        return;
         gameHandler->setGameState(GameHandler::GameState::WinAfter);
-        player->die();
+        player->dieAnimation();
         auto seq = Sequence::create(CallFunc::create([this](){this->gameHandler->onPlayerDeath(); }),nullptr);
         runAction(seq);
 
@@ -451,7 +456,10 @@ bool Level::load(int themeId, int levelId)
     Laser::leftTexture = Globals::resources[laserName + "_left"];
     Laser::centerTexture = Globals::resources[laserName + "_center"];
     Laser::rightTexture = Globals::resources[laserName + "_right"];
-
+    const std::string vertName = "obstacle_" +  gameHandler->getLastTheme().getCodeName();
+    VerticalObstacle::downTexture = Globals::resources[vertName + "_vert_down"];
+    VerticalObstacle::centerTexture = Globals::resources[vertName + "_vert_center"];
+    VerticalObstacle::upTexture = Globals::resources[vertName + "_vert_up"];
 
     auto objectGroups = map->getObjectGroups();
     for (auto& objectGroup : objectGroups)
@@ -523,227 +531,232 @@ LevelObject* Level::addObject(std::string className, ValueMap& properties, bool 
     {
 
         walls = (Walls*)addObject("Walls", properties);
+        
+        
         levelFollower = (LevelFollower*)addObject("LevelFollower", properties);
-        player = Player::create(gameHandler, walls, levelFollower);
+        // fix me
+        
+        player = new Player(SkinManager::getInstance()->getSkin(0), levelFollower, walls);
+        //Player::create(gameHandler, walls, levelFollower);
         o = player;
     }
     else if(className == "Walls")
     {
-        o = Walls::create(gameHandler);
+        o = new Walls();
         random = true;
     }
     else if(className == "LevelFollower")
     {
-        o = LevelFollower::create(gameHandler);
+        o = new LevelFollower();
         random = true;
     }
     else if(className == "HorizontalObstacle")
     {
-        o = HorizontalObstacle::create(gameHandler);
+        o = new HorizontalObstacle();
     }
     else if(className == "Switch")
     {
-        o = Switch::create(gameHandler);
+        o = new Switch();
     }
     else if(className == "Laser")
     {
-        o = Laser::create(gameHandler);
+        o = new Laser();
     }
     else if(className == "Star")
     {
-        o = Star::create(gameHandler);
+        o = new Star();
     }
     else if(className == "MovingObstacle")
     {
-        o = MovingObstacle::create(gameHandler);
+        o = new MovingObstacle();
         push = true;
     }
     else if(className == "FinishLine")
     {
-        o = FinishLine::create(gameHandler);
+        o = new FinishLine();
     }
     else if(className == "VerticalObstacle")
     {
-        o = VerticalObstacle::create(gameHandler);
+        o = new VerticalObstacle();
     }
     else if(className == "TeleportIn")
     {
-        o = TeleportIn::create(gameHandler);
+        o = new TeleportIn();
     }
     else if(className == "TeleportOut")
     {
-        o = TeleportOut::create(gameHandler);
+        o = new TeleportOut();
     }
     else if(className == "MeltingObstacle")
     {
-        o = MeltingObstacle::create(gameHandler);
+        o = new MeltingObstacle();
         push = true;
     }
     /*else if(className == "TriggerMelting")
     {
-        o = TriggerMelting::create(gameHandler);
+        o = new TriggerMelting();
     }*/
     else if(className == "BulletTimeStart")
     {
-        o = BulletTimeStart::create(gameHandler);
+        o = new BulletTimeStart();
     }
     else if(className == "BulletTimeStop")
     {
-        o = BulletTimeEnd::create(gameHandler);
+        o = new BulletTimeEnd();
         push = true;
     }
     else if(className == "Bullet")
     {
-        o = Bullet::create(gameHandler);
+        o = new Bullet();
        // random = true;
     }
     else if(className == "BlackoutStart")
     {
-        o = BlackoutStart::create(gameHandler);
+        o = new BlackoutStart();
     }
     else if(className == "BlackoutStop")
     {
-        o = BlackoutStop::create(gameHandler);
+        o = new BlackoutStop();
     }
     else if(className == "Gravity")
     {
-        o = Gravity::create(gameHandler);
+        o = new Gravity();
     }
     else if(className == "BacteriaBlue")
     {
-        o = BacteriaBlue::create(gameHandler);
+        o = new BacteriaBlue();
         //random = true;
     }
     else if(className == "BacteriaPink")
     {
-        o = BacteriaPink::create(gameHandler);
+        o = new BacteriaPink();
         //random = true;
     }
     else if(className == "BacteriaGreen")
     {
-        o = BacteriaGreen::create(gameHandler);
+        o = new BacteriaGreen();
         //random = true;
     }
     else if(className == "InfectionStart")
     {
-        o = InfectionStart::create(gameHandler);
+        o = new InfectionStart();
     }
     else if(className == "InfectionStop")
     {
-        o = InfectionStop::create(gameHandler);
+        o = new InfectionStop();
         push = true;
     }
     /*else if(className == "CSESmall")
     {
-        o = CSESmall::create(gameHandler);
+        o = new CSESmall();
     }
     else if(className == "CSEMedium")
     {
-        o = CSEMedium::create(gameHandler);
+        o = new CSEMedium();
     }
     else if(className == "CSEBig")
     {
-        o = CSEBig::create(gameHandler);
+        o = new CSEBig();
     }
     else if(className == "CSEBarrier")
     {
-        o = CSEBarrier::create(gameHandler);
+        o = new CSEBarrier();
     }
     else if(className == "CSEBall")
     {
-        o = CSEBall::create(gameHandler);
+        o = new CSEBall();
     }
     else if(className == "JEDouble")
     {
-        o = JEDouble::create(gameHandler);
+        o = new JEDouble();
     }
     else if(className == "JETriple")
     {
-        o = JETriple::create(gameHandler);
+        o = new JETriple();
     }
     else if(className == "JEReversed")
     {
-        o = JEReversed::create(gameHandler);
+        o = new JEReversed();
     }
     else if(className == "DESkull")
     {
-        o = DESkull::create(gameHandler);
+        o = new DESkull();
     }
     else if(className == "DECactus")
     {
-        o = DECactus::create(gameHandler);
+        o = new DECactus();
     }
     else if(className == "CECometBlue")
     {
-        o = CECometBlue::create(gameHandler);
+        o = new CECometBlue();
     }
     else if(className == "CECometRed")
     {
-        o = CECometRed::create(gameHandler);
+        o = new CECometRed();
     }
     else if(className == "CEAlienRed")
     {
-        o = CEAlienRed::create(gameHandler);
+        o = new CEAlienRed();
     }
     else if(className == "CEAlienGreen")
     {
-        o = CEAlienGreen::create(gameHandler);
+        o = new CEAlienGreen();
     }
     else if(className == "CEAlienBlue")
     {
-        o = CEAlienBlue::create(gameHandler);
+        o = new CEAlienBlue();
     }
     else if(className == "WEBoot")
     {
-        o = WEBoot::create(gameHandler);
+        o = new WEBoot();
     }
     else if(className == "WEHat")
     {
-        o = WEHat::create(gameHandler);
+        o = new WEHat();
     }
     else if(className == "WEPistol")
     {
-        o = WEPistol::create(gameHandler);
+        o = new WEPistol();
     }
     else if(className == "SESnowflakeBig")
     {
-        o = SESnowflakeBig::create(gameHandler);
+        o = new SESnowflakeBig();
     }
     else if(className == "SESnowflakeSmall")
     {
-        o = SESnowflakeSmall::create(gameHandler);
+        o = new SESnowflakeSmall();
     }
     else if(className == "HETrident")
     {
-        o = HETrident::create(gameHandler);
+        o = new HETrident();
     }
     else if(className == "HESkull")
     {
-        o = HESkull::create(gameHandler);
+        o = new HESkull();
     }
     else if(className == "HETail")
     {
-        o = HETail::create(gameHandler);
+        o = new HETail();
     }
     else if(className == "UEFishOrange")
     {
-        o = UEFishOrange::create(gameHandler);
+        o = new UEFishOrange();
     }
     else if(className == "UEFishGreen")
     {
-        o = UEFishGreen::create(gameHandler);
+        o = new UEFishGreen();
     }
     else if(className == "UEFishRed")
     {
-        o = UEFishRed::create(gameHandler);
+        o = new UEFishRed();
     }
     else if(className == "UETentacle")
     {
-        o = UETentacle::create(gameHandler);
+        o = new UETentacle();
     }
     else if(className == "Parrot")
     {
-        o = Parrot::create(gameHandler);
+        o = new Parrot();
     }*/
     
     
@@ -756,7 +769,14 @@ LevelObject* Level::addObject(std::string className, ValueMap& properties, bool 
         o->initPhysics(world);
 
 
-        if(!random && (o->getPositionY() > 1136 * 1.5 || push))
+        addChild(o, o->getZ());
+        
+        auto moving = dynamic_cast<MovingObstacle*>(o);
+        if(moving != nullptr)
+        {
+            moving->launch();
+        }
+        /*if(!random && (o->getPositionY() > 1136 * 1.5 || push))
         {
             o->retain();
             levelObjects.push_back(o);
@@ -766,7 +786,7 @@ LevelObject* Level::addObject(std::string className, ValueMap& properties, bool 
         {
             addChild(o, o->getZ());
             o->launch();
-        }
+        }*/
     }
     
     return o;
@@ -780,6 +800,7 @@ void Level::resetPlayerPosY()
 
 void Level::createRandomObstacle()
 {
+    return;
     ValueMap props;
     float nextY = lastObstacleY + random(500.0f, 800.f);
     const float centerWidth = 2 * 108.0f + random(0.0f, 1080.0f - 8.0f * 108.0f); // 702 = 1080 - 3.5 * 108 | minimal size, space and margin

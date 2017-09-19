@@ -10,7 +10,14 @@
 
 #include "HorizontalObstacle.hpp"
 
+
+
 USING_NS_CC;
+
+std::string HorizontalObstacle::leftTexture = "";
+std::string HorizontalObstacle::centerTexture = "";
+std::string HorizontalObstacle::rightTexture = "";
+
 HorizontalObstacle::HorizontalObstacle()
 {
 

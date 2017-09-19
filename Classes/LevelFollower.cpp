@@ -60,3 +60,12 @@ void LevelFollower::launch()
 }
 
 
+
+void LevelFollower::interpolate(float alpha)
+{
+    Vec2 target(lerp(previousPosition.x, metersToPixels(body->GetPosition().x), alpha),
+                lerp(previousPosition.y, metersToPixels(body->GetPosition().y), alpha));
+    
+    _parent->setPosition(target);
+}
+

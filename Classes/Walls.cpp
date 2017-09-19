@@ -51,6 +51,8 @@ b2Body* Walls::createDestroyer(b2World* world, const cocos2d::Vec2& pos)
     auto fixture = super::createFixture(shape);
     fixture->filter.categoryBits = kFilterCategorySolidObject;
     fixture->filter.maskBits = kFilterCategoryPlayer;
+    //fixture->filter.categoryBits = 0;
+    //fixture->filter.maskBits = 0;
     ret->CreateFixture(fixture);
     ret->SetLinearVelocity(b2Vec2(0, pixelsToMeters(speed)));
     ret->SetBullet(true);

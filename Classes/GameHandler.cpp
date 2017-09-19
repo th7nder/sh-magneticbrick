@@ -10,6 +10,8 @@
 USING_NS_CC;
 #include "Player.hpp"
 
+GameHandler* GameHandler::instance = nullptr;
+
 GameHandler::GameHandler() : bricksRemaining(0), lastThemeId(0), currentPlayerSpeed(0.0), currentState(UI), lastLevelId(0), kielnias(0), musicVolume(0), sfxVolume(0), bulletTime(false), gravity(false), infection(false), blackoutEnabled(false)
 {
     ud = UserDefault::getInstance();

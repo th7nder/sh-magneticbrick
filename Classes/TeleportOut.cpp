@@ -18,28 +18,7 @@ TeleportOut::~TeleportOut()
     
 }
 
-TeleportOut* TeleportOut::create(GameHandler* handler)
-{
-    self* ret = new (std::nothrow) self();
-    if (ret && ret->init(handler))
-    {
-        ret->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-    }
-    return ret;
-}
 
-
-bool TeleportOut::init(GameHandler* handler)
-{
-    if(!super::init(handler)) return false;
-    gameHandler = handler;
-    
-    return true;
-}
 
 void TeleportOut::addSprite()
 {
@@ -64,9 +43,8 @@ void TeleportOut::setProperties(ValueMap &properties)
 
 void TeleportOut::initPhysics(b2World *world)
 {
-    auto size = getContentSize();
-    body = world->CreateBody(createBody(getPositionX(), getPositionY() + size.height / 2));
-    auto fixture = createFixture(createRectangularShape(size.width, size.height));
+    body = world->CreateBody(createBody(Vec2(getPositionX(), getPositionY() + _contentSize.height / 2)));
+    auto fixture = createFixture(createRectangularShape(_contentSize));
     fixture->filter.categoryBits = kFilterCategoryNonSolidObject;
     fixture->filter.maskBits = kFilterCategoryPlayer;
     fixture->isSensor = true;

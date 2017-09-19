@@ -18,33 +18,11 @@ BulletTimeStart::~BulletTimeStart()
     
 }
 
-BulletTimeStart* BulletTimeStart::create(GameHandler* handler)
-{
-    self* ret = new (std::nothrow) self();
-    if (ret && ret->init(handler))
-    {
-        ret->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-    }
-    return ret;
-}
-
-
-bool BulletTimeStart::init(GameHandler* handler)
-{
-    if(!super::init(handler)) return false;
-    gameHandler = handler;
-    return true;
-}
-
 
 bool BulletTimeStart::OnContactBegin(LevelObject *other, b2Body* otherBody)
 {
 
-    gameHandler->setBulletTime(true);
+// to do bulletTimeStart
     return false;
 }
 
@@ -52,10 +30,11 @@ bool BulletTimeStart::OnContactBegin(LevelObject *other, b2Body* otherBody)
 
 void BulletTimeStart::initPhysics(b2World *world)
 {
+    
+    //infinite runner refactor
     setPositionY(getPositionY() - 200);
-    auto size = getContentSize();
-    body = world->CreateBody(createBody(getPositionX(), getPositionY()));
-    auto fixture = createFixture(createRectangularShape(size.width, size.height));
+    body = world->CreateBody(createBody(getPosition()));
+    auto fixture = createFixture(createRectangularShape(_contentSize));
     fixture->isSensor = true;
     fixture->filter.categoryBits = kFilterCategoryNonSolidObject;
     fixture->filter.maskBits = kFilterCategoryPlayer;

@@ -35,7 +35,6 @@
 #include "TeleportOut.hpp"
 #include "MeltingObstacle.hpp"
 #include "Walls.hpp"
-#include "TriggerMelting.hpp"
 #include "Bullet.hpp"
 #include "BulletTimeStart.hpp"
 #include "BulletTimeEnd.hpp"
@@ -53,6 +52,8 @@
 #include "InfectionStop.hpp"
 
 #include "LevelFollower.hpp"
+
+#include "DynamicLevelObject.hpp"
 
 /*#include "CSESmall.hpp"
 #include "CSEMedium.hpp"

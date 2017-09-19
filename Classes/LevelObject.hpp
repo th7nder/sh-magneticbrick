@@ -44,7 +44,8 @@ public:
     virtual bool OnContactBegin(LevelObject* other, b2Body* body);
     virtual bool OnContactEnd(LevelObject* other);
     
-    virtual void queueToRemove();
+    void queueToRemove();
+    bool isQueuedToRemove();
     
 
 };

@@ -20,13 +20,10 @@ private:
     typedef LevelObject super;
     typedef BulletTimeStart self;
     
-CC_CONSTRUCTOR_ACCESS:
+public:
     BulletTimeStart();
     virtual ~BulletTimeStart();
-public:
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
-    
+
     virtual void initPhysics(b2World* world) override;
     virtual bool OnContactBegin(LevelObject* other, b2Body* body) override;
     

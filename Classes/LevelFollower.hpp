@@ -20,11 +20,16 @@ private:
 protected:
     float speed;
 public:
+    virtual std::string getDescription() const override
+    {
+        return "LevelFollower";
+    }
     LevelFollower();
     virtual ~LevelFollower();
     virtual void setProperties(cocos2d::ValueMap& props) override;
     virtual void initPhysics(b2World* world) override;
     virtual void launch() override;
+    virtual void interpolate(float alpha) override;
     
     b2Body* createDestroyer(b2World* world, const cocos2d::Vec2& pos);
     

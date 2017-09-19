@@ -131,8 +131,6 @@
 		7119184B1ED369DD001DA279 /* MeltingObstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 711918481ED369DD001DA279 /* MeltingObstacle.cpp */; };
 		7123078A1F6F43D500B7C4A8 /* BaseLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 712307881F6F43D500B7C4A8 /* BaseLayout.cpp */; };
 		7123078B1F6F43D500B7C4A8 /* BaseLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 712307881F6F43D500B7C4A8 /* BaseLayout.cpp */; };
-		713190711EE04F2E00F495A0 /* TriggerMelting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7131906F1EE04F2E00F495A0 /* TriggerMelting.cpp */; };
-		713190721EE04F2E00F495A0 /* TriggerMelting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7131906F1EE04F2E00F495A0 /* TriggerMelting.cpp */; };
 		713190761EE05C0700F495A0 /* BulletTimeStart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 713190741EE05C0700F495A0 /* BulletTimeStart.cpp */; };
 		713190771EE05C0700F495A0 /* BulletTimeStart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 713190741EE05C0700F495A0 /* BulletTimeStart.cpp */; };
 		7131907A1EE060F500F495A0 /* Bullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 713190781EE060F500F495A0 /* Bullet.cpp */; };
@@ -420,8 +418,6 @@
 		711918491ED369DD001DA279 /* MeltingObstacle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MeltingObstacle.hpp; sourceTree = "<group>"; };
 		712307881F6F43D500B7C4A8 /* BaseLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseLayout.cpp; sourceTree = "<group>"; };
 		712307891F6F43D500B7C4A8 /* BaseLayout.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BaseLayout.hpp; sourceTree = "<group>"; };
-		7131906F1EE04F2E00F495A0 /* TriggerMelting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriggerMelting.cpp; sourceTree = "<group>"; };
-		713190701EE04F2E00F495A0 /* TriggerMelting.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TriggerMelting.hpp; sourceTree = "<group>"; };
 		713190741EE05C0700F495A0 /* BulletTimeStart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BulletTimeStart.cpp; sourceTree = "<group>"; };
 		713190751EE05C0700F495A0 /* BulletTimeStart.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BulletTimeStart.hpp; sourceTree = "<group>"; };
 		713190781EE060F500F495A0 /* Bullet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bullet.cpp; sourceTree = "<group>"; };
@@ -983,8 +979,6 @@
 				711794EA1E8C74ED0016E830 /* TeleportOut.hpp */,
 				711918481ED369DD001DA279 /* MeltingObstacle.cpp */,
 				711918491ED369DD001DA279 /* MeltingObstacle.hpp */,
-				7131906F1EE04F2E00F495A0 /* TriggerMelting.cpp */,
-				713190701EE04F2E00F495A0 /* TriggerMelting.hpp */,
 				713190741EE05C0700F495A0 /* BulletTimeStart.cpp */,
 				713190751EE05C0700F495A0 /* BulletTimeStart.hpp */,
 				713190801EE07CAF00F495A0 /* BulletTimeEnd.cpp */,
@@ -1302,7 +1296,6 @@
 				711794AE1E8C743A0016E830 /* Globals.cpp in Sources */,
 				711794B01E8C743A0016E830 /* GameHandler.cpp in Sources */,
 				7137F21C1F040F7900B254E1 /* LevelFollower.cpp in Sources */,
-				713190711EE04F2E00F495A0 /* TriggerMelting.cpp in Sources */,
 				71CE74FD1F714C610070F125 /* DynamicLevelObject.cpp in Sources */,
 				711794F71E8C74ED0016E830 /* Star.cpp in Sources */,
 				711795161E8C75150016E830 /* SHSlider.cpp in Sources */,
@@ -1420,7 +1413,6 @@
 				711794C11E8C749F0016E830 /* GameScene.cpp in Sources */,
 				71343F7D1EF82702009D5C70 /* BacteriaBlue.cpp in Sources */,
 				715DDE1A1EEEE20E004F0519 /* BlackoutStop.cpp in Sources */,
-				713190721EE04F2E00F495A0 /* TriggerMelting.cpp in Sources */,
 				7117951B1E8C75150016E830 /* SHSliderBox.cpp in Sources */,
 				711794FA1E8C74ED0016E830 /* FinishLine.cpp in Sources */,
 				71343F8E1EF876BE009D5C70 /* InfectionStop.cpp in Sources */,

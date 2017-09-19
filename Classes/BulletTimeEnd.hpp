@@ -22,16 +22,12 @@ private:
     typedef LevelObject super;
     typedef BulletTimeEnd self;
     
-CC_CONSTRUCTOR_ACCESS:
+public:
     BulletTimeEnd();
     virtual ~BulletTimeEnd();
-public:
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
-    
+
     virtual void initPhysics(b2World* world) override;
     virtual bool OnContactBegin(LevelObject* other, b2Body* body) override;
-    virtual void launch() override;
 };
 
 

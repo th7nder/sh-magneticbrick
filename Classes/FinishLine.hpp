@@ -10,18 +10,16 @@
 #define FinishLine_hpp
 #include "cocos2d.h"
 #include "LevelObject.hpp"
+#include "Globals.hpp"
 
 class FinishLine : public LevelObject
 {
 private:
     typedef FinishLine self;
     typedef LevelObject super;
-CC_CONSTRUCTOR_ACCESS:
-    FinishLine();
 public:
+    FinishLine();
     virtual ~FinishLine();
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
     
     virtual void addSprite() override;
     virtual void initPhysics(b2World* world) override;

@@ -30,7 +30,7 @@ public:
         return "Star";
     }
     
-        int getNumber() {return number;}
+    int getNumber() {return number;}
     
     virtual void setProperties(cocos2d::ValueMap& props) override;
     virtual void addSprite() override;
