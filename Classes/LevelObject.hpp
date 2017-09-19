@@ -8,14 +8,6 @@
 
 #ifndef LevelObject_hpp
 #define LevelObject_hpp
-#include "cocos2d.h"
-#include <Box2D/Box2D.h>
-
-#include "constants.cpp"
-#include "GameHandler.hpp"
-
-using namespace cocos2d;
-class GameNode;
 
 class LevelObject : public Node
 {
@@ -24,17 +16,9 @@ private:
     typedef Node super;
 CC_CONSTRUCTOR_ACCESS:
     LevelObject();
-    GameHandler* gameHandler;
     Sprite* sprite;
     b2Body* body;
-    float startX;
-    float startY;
-    float width;
-    float height;
     bool remove;
-    
-    cocos2d::Vec2 previousPosition;
-    
 public:
     virtual std::string getDescription() const override
     {
@@ -50,13 +34,11 @@ public:
         return sprite;
     }
     
-    static cocos2d::Size ownVisibleSize;
-    virtual ~LevelObject();
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler);
+    b2Body* getBody() {return body;}
     
+    virtual ~LevelObject();
     virtual void interpolate(float alpha) {};
-    virtual void update(float dt) {};
+    virtual void update(float dt) override {};
     virtual void setProperties(ValueMap& props);
     virtual void addSprite() {};
     virtual void initPhysics(b2World* world);
@@ -68,11 +50,9 @@ public:
     virtual bool OnContactBegin(LevelObject* other, b2Body* body) {return false;};
     virtual bool OnContactEnd(LevelObject* other) {return false;};
     virtual void savePreviousStates() {}
-    virtual void scheduleRemove(float time);
     virtual void launch() {};
     
-    virtual b2Body* getBody() {return body;}
-    
+  
     
 
 };

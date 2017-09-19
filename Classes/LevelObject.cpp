@@ -7,13 +7,20 @@
 //
 
 
-#include "LevelObject.hpp"
+#include "cocos2d.h"
+#include <Box2D/Box2D.h>
+#include "constants.cpp"
+
+
+// TO DO: previousPos, StartX, StartY, dynamicLevelObject
 USING_NS_CC;
+#include "LevelObject.hpp"
 
-Size LevelObject::ownVisibleSize(0, 0);
 
-
-LevelObject::LevelObject() : body(nullptr), sprite(nullptr), remove(false), gameHandler(nullptr), width(0.0), startX(0.0)
+LevelObject::LevelObject() :
+body(nullptr),
+sprite(nullptr),
+remove(false)
 {
     
 }
@@ -25,53 +32,27 @@ LevelObject::~LevelObject()
         body->GetWorld()->DestroyBody(body);
     }
 
-    gameHandler = nullptr;
-    removeAllChildrenWithCleanup(true);
 }
-
-LevelObject* LevelObject::create(GameHandler* handler)
-{
-    self* ret = new (std::nothrow) self();
-    if (ret && ret->init(handler))
-    {
-        ret->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-    }
-    return ret;
-}
-
-bool LevelObject::init(GameHandler *handler)
-{
-    if(!super::init())
-    {
-        return false;
-    }
-    gameHandler = handler;
-    
-    return true;
-}
-
 
 void LevelObject::setProperties(ValueMap &properties)
 {
-    auto scale =_director->getContentScaleFactor();
     CCASSERT(!properties["width"].isNull(), "h3h3h3");
     CCASSERT(!properties["height"].isNull(), "noniemozliwe");
-    width = (properties["width"].asFloat() / 1080.0) * 640 * scale;
-    height = (properties["height"].asFloat() / 1920.0) * 1136 * scale;
     
-    startX = properties["x"].asFloat() / 1080.0 * 640 * scale;
-    startX += width / 2;
-    startY = properties["y"].asFloat() / 1920.0 * 1136 * scale;
-    startY += height / 2;
+    auto scale =_director->getContentScaleFactor();
     
-    previousPosition = Vec2(pixelsToMeters(startX), pixelsToMeters(startY));
-    this->setAnchorPoint(Vec2(0.5, 0.5));
-    this->setPosition(Point(startX, startY));
-    this->setContentSize(Size(width, height));
+    float width = (properties["width"].asFloat() / 1080.0) * 640 * scale;
+    float height = (properties["height"].asFloat() / 1920.0) * 1136 * scale;
+    
+    float x = properties["x"].asFloat() / 1080.0 * 640 * scale;
+    x += width / 2;
+    float y = properties["y"].asFloat() / 1920.0 * 1136 * scale;
+    y += height / 2;
+    
+    
+    setAnchorPoint(Vec2(0.5, 0.5));
+    setPosition(Point(x, y));
+    setContentSize(Size(width, height));
 }
 
 b2BodyDef* LevelObject::createBody(float x, float y)
@@ -119,15 +100,3 @@ void LevelObject::initPhysics(b2World* world)
     body = world->CreateBody(createBody(getPositionX(), getPositionY()));
     body->CreateFixture(createFixture(createRectangularShape(size.width, size.height)));
 }
-
-void LevelObject::scheduleRemove(float time)
-{
-    auto func = CallFunc::create([this](){
-        this->remove = true;
-    });
-    
-
-    auto seq = Sequence::create(DelayTime::create(time), func, NULL);
-    runAction(seq);
-}
-

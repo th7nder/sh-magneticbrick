@@ -64,9 +64,7 @@ void Level::resetRandomBackground()
         }
     }
     levelObjects.clear();
-    
 
-    
 
 }
 bool Level::init(GameHandler *handler)
