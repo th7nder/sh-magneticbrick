@@ -11,7 +11,6 @@
 
 #include "cocos2d.h"
 #include <Box2D/Box2D.h>
-#include "GameHandler.hpp"
 #include "Touchable.hpp"
 #include "LevelObject.hpp"
 #include "SimpleAudioEngine.h"
@@ -19,13 +18,14 @@
 #include "TeleportOut.hpp"
 #include "Walls.hpp"
 #include "LevelFollower.hpp"
-class Player : public LevelObject, public Touchable
+
+#include "DynamicLevelObject.hpp"
+class Player : public DynamicLevelObject, public Touchable
 {
 private:
     typedef LevelObject super;
     typedef Player self;
-CC_CONSTRUCTOR_ACCESS:
-    Player();
+protected:
     b2Body* rightBody;
     Sprite* rightSprite;
     b2Body* leftBarrier;
@@ -45,19 +45,18 @@ CC_CONSTRUCTOR_ACCESS:
     bool inTeleport;
     
     
-    double tempTime;
     double tempStartPos;
-    double getCurrentTimeInSeconds();
     
     /**************************/
     
     Vec2 previousRightPosition;
     Walls* walls;
     LevelFollower* levelFollower;
-    EventListenerTouchAllAtOnce* listener;
+    cocos2d::EventListenerTouchAllAtOnce* listener;
     std::string currentTeleportTarget;
     bool tutorialPlayer;
 public:
+    Player();
     virtual int getZ() const override
     {
         return 30;
@@ -67,8 +66,6 @@ public:
         return inTeleport;
     }
     virtual ~Player();
-    static self* create(GameHandler* handler, Walls* w, LevelFollower* lf);
-    virtual bool init(GameHandler* handler, Walls* w, LevelFollower* lf);
     virtual void setProperties(ValueMap& props) override;
     virtual void addSprite() override;
     b2Body* createBarrier(b2World* world, float x, float y);
@@ -80,7 +77,6 @@ public:
     virtual b2FixtureDef* createFixture(b2Shape* shape) override;
     virtual b2BodyDef* createBody(float x, float y) override;
     virtual bool OnContactBegin(LevelObject* other, b2Body* otherBody) override;
-    virtual bool OnContactEnd(LevelObject* other) override;
         virtual void onTouchesBegan(const std::vector<Touch*>& touches, Event* event) override;
     virtual void onTouchesMoved(const std::vector<Touch*>& touches, Event* event) override;
     virtual void onTouchesEnded(const std::vector<Touch*>& touches, Event* event) override;

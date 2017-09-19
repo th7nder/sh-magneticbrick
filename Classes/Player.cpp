@@ -18,6 +18,14 @@ speed(0.0),
 startLeftPos(0.0f), startRightPos(0.0f), startTouchPosition(Vec2::ZERO), playerSize(Vec2::ZERO), leftBarrier(nullptr),previousRightPosition(Vec2::ZERO),rightBarrier(nullptr), isTouching(false), inTeleport(false)
 {
     currentTeleportTarget = "";
+    
+    listener = EventListenerTouchAllAtOnce::create();
+    listener->onTouchesBegan = CC_CALLBACK_2(self::onTouchesBegan, this);
+    listener->onTouchesMoved = CC_CALLBACK_2(self::onTouchesMoved, this);
+    listener->onTouchesEnded = CC_CALLBACK_2(self::onTouchesEnded, this);
+    listener->onTouchesCancelled = CC_CALLBACK_2(self::onTouchesCancelled, this);
+    
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
 Player::~Player()
@@ -30,58 +38,21 @@ Player::~Player()
 
 
 
-double Player::getCurrentTimeInSeconds()
-{
-    static struct timeval currentTime;
-    gettimeofday(&currentTime, nullptr);
-    return (currentTime.tv_sec) + (currentTime.tv_usec / 1000000.0);
-}
-
-
-Player* Player::create(GameHandler* handler, Walls* w, LevelFollower* lf)
-{
-    self* ret = new (std::nothrow) self();
-    if (ret && ret->init(handler, w, lf))
-    {
-        ret->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-    }
-    return ret;
-}
-
-bool Player::init(GameHandler* handler, Walls* w, LevelFollower* lf)
-{
-    if(!super::init(gameHandler)) return false;
-    gameHandler = handler;
-    walls = w;
-    levelFollower = lf;
-    listener = EventListenerTouchAllAtOnce::create();
-    listener->onTouchesBegan = CC_CALLBACK_2(self::onTouchesBegan, this);
-    listener->onTouchesMoved = CC_CALLBACK_2(self::onTouchesMoved, this);
-    listener->onTouchesEnded = CC_CALLBACK_2(self::onTouchesEnded, this);
-    listener->onTouchesCancelled = CC_CALLBACK_2(self::onTouchesCancelled, this);
-    
-
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
-    return true;
-}
-
 // setCurrentPlayerSpeed
 void Player::setProperties(ValueMap &props)
 {
-    LevelObject::setProperties(props);
-    CCASSERT(!props["initialSpeed"].isNull(), "initialSpeed was not set in map!");
+    super::setProperties(props);
+    CCASSERT(!props["initialSpeed"].isNull(), "Player -> initialSpeed isNull");
     speed = (props["initialSpeed"].asFloat());
-    tutorialPlayer = true;
+    
+    
+    /*tutorialPlayer = true;
     if(props["tutorial"].isNull())
     {
         gameHandler->setCurrentPlayerSpeed(speed);
         gameHandler->setPlayerStartY(getPositionY());
         tutorialPlayer = false;
-    }
+    }*/
 }
 
 void Player::addSprite()
@@ -110,13 +81,13 @@ void Player::addSprite()
 
 }
 
-
 b2BodyDef* Player::createBody(float x, float y)
 {
     b2BodyDef* body = LevelObject::createBody(x, y);
     body->type = b2_dynamicBody;
     return body;
 }
+
 b2FixtureDef* Player::createFixture(b2Shape *shape)
 {
     b2FixtureDef* fixture = LevelObject::createFixture(shape);
@@ -145,27 +116,9 @@ b2Body* Player::createBarrier(b2World* world, float x, float y)
     return ret;
 }
 
-b2Body* Player::createDestroyer(b2World* world, float x, float y)
-{
-    auto bodyDef = createBody(x, y);
-    bodyDef->type = b2_kinematicBody;
-    
-    
-    auto ret = world->CreateBody(bodyDef);
-    auto shape = new b2EdgeShape;
-    shape->Set(b2Vec2(0, -1), b2Vec2(0, 1));
-    auto fixture = super::createFixture(shape);
-    fixture->filter.categoryBits = kFilterCategorySolidObject;
-    fixture->filter.maskBits = kFilterCategoryPlayer;
-    ret->CreateFixture(fixture);
-    ret->SetLinearVelocity(b2Vec2(0, pixelsToMeters(speed)));
-    ret->SetBullet(true);
-    return ret;
-}
 
 void Player::initPhysics(b2World* world)
 {
-    
     
     body = world->CreateBody(createBody(sprite->getPositionX(), getPositionY()));
     body->CreateFixture(createFixture(createRectangularShape(playerSize.width, playerSize.height)));
@@ -188,7 +141,7 @@ void Player::initPhysics(b2World* world)
 void Player::setVelocities(float v)
 {
 
-    gameHandler->setCurrentPlayerSpeed(v);
+    //gameHandler->setCurrentPlayerSpeed(v);
     v = pixelsToMeters(v);    
     body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, v));
     rightBody->SetLinearVelocity(b2Vec2(rightBody->GetLinearVelocity().x, v));
@@ -273,13 +226,6 @@ bool Player::OnContactBegin(LevelObject *other, b2Body* otherBody)
 }
 
 
-bool Player::OnContactEnd(LevelObject *other)
-{
-    
-    
-    return false;
-}
-
 
 void Player::savePreviousStates()
 {
@@ -312,7 +258,6 @@ void Player::onTouchesBegan(const std::vector<Touch*>& touches, Event* event)
     force = 0.0;
     if(gameHandler->getGameState() == GameHandler::GameState::ReadyToPlay)
     {
-        tempTime = getCurrentTimeInSeconds();
         tempStartPos = getPositionY();
         gameHandler->setGameState(GameHandler::GameState::Playing);
         setVelocities(speed);

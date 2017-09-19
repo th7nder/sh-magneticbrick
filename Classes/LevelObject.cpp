@@ -7,15 +7,9 @@
 //
 
 
-#include "cocos2d.h"
-#include <Box2D/Box2D.h>
-#include "constants.cpp"
 
-
-// TO DO: previousPos, StartX, StartY, dynamicLevelObject
-USING_NS_CC;
 #include "LevelObject.hpp"
-
+USING_NS_CC;
 
 LevelObject::LevelObject() :
 body(nullptr),
@@ -34,10 +28,38 @@ LevelObject::~LevelObject()
 
 }
 
+
+std::string LevelObject::getDescription() const
+{
+    return "LevelObject";
+}
+
+int LevelObject::getZ() const 
+{
+    return 1;
+}
+
+bool LevelObject::isDynamic() const
+{
+    return false;
+}
+
+Sprite* LevelObject::getSprite()
+{
+    return sprite;
+}
+
+b2Body* LevelObject::getBody()
+{
+    return body;
+}
+
+
+
 void LevelObject::setProperties(ValueMap &properties)
 {
-    CCASSERT(!properties["width"].isNull(), "h3h3h3");
-    CCASSERT(!properties["height"].isNull(), "noniemozliwe");
+    CCASSERT(!properties["width"].isNull(), "LevelObject -> width isNull");
+    CCASSERT(!properties["height"].isNull(), "LevelObject -> height isNull");
     
     auto scale =_director->getContentScaleFactor();
     
@@ -51,9 +73,28 @@ void LevelObject::setProperties(ValueMap &properties)
     
     
     setAnchorPoint(Vec2(0.5, 0.5));
-    setPosition(Point(x, y));
+    setPosition(Vec2(x, y));
     setContentSize(Size(width, height));
 }
+
+void LevelObject::initPhysics(b2World* world)
+{
+    auto size = getContentSize();
+    body = world->CreateBody(createBody(getPositionX(), getPositionY()));
+    body->CreateFixture(createFixture(createRectangularShape(size.width, size.height)));
+}
+
+
+bool LevelObject::OnContactBegin(LevelObject *other, b2Body *body)
+{
+    return false;
+}
+
+bool LevelObject::OnContactEnd(LevelObject *other)
+{
+    return false;
+}
+
 
 b2BodyDef* LevelObject::createBody(float x, float y)
 {
@@ -94,9 +135,3 @@ b2FixtureDef* LevelObject::createFixture(b2Shape *shape)
     return fixtureDef;
 }
 
-void LevelObject::initPhysics(b2World* world)
-{
-    auto size = getContentSize();
-    body = world->CreateBody(createBody(getPositionX(), getPositionY()));
-    body->CreateFixture(createFixture(createRectangularShape(size.width, size.height)));
-}
