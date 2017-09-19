@@ -26,20 +26,19 @@ private:
     typedef LevelObject super;
     typedef Player self;
 protected:
+    float speed;
+    
     b2Body* rightBody;
     Sprite* rightSprite;
     b2Body* leftBarrier;
     b2Body* rightBarrier;
-    
-    float speed;
-    
     
     cocos2d::Size playerSize;
     
     float startLeftPos;
     float startRightPos;
     float force;
-    Vec2 startTouchPosition;
+    cocos2d::Vec2 startTouchPosition;
     
     bool isTouching;
     bool inTeleport;
@@ -49,7 +48,7 @@ protected:
     
     /**************************/
     
-    Vec2 previousRightPosition;
+    cocos2d::Vec2 previousRightPosition;
     Walls* walls;
     LevelFollower* levelFollower;
     cocos2d::EventListenerTouchAllAtOnce* listener;
@@ -57,46 +56,47 @@ protected:
     bool tutorialPlayer;
 public:
     Player();
-    virtual int getZ() const override
-    {
-        return 30;
-    }
-    virtual bool isInTeleport()
-    {
-        return inTeleport;
-    }
     virtual ~Player();
+    
+    virtual int getZ() const override;
+    virtual Sprite* getRightSprite();
+
     virtual void setProperties(ValueMap& props) override;
     virtual void addSprite() override;
-    b2Body* createBarrier(b2World* world, float x, float y);
-
-    b2Body* createDestroyer(b2World* world, float x, float y);
-    void die();
-    
     virtual void initPhysics(b2World* world) override;
+    virtual bool OnContactBegin(LevelObject* other, b2Body* otherBody) override;
+    
+    
+    virtual void interpolate(float alpha) override;
+    virtual void savePreviousStates() override;
+    
+    
     virtual b2FixtureDef* createFixture(b2Shape* shape) override;
     virtual b2BodyDef* createBody(float x, float y) override;
-    virtual bool OnContactBegin(LevelObject* other, b2Body* otherBody) override;
-        virtual void onTouchesBegan(const std::vector<Touch*>& touches, Event* event) override;
-    virtual void onTouchesMoved(const std::vector<Touch*>& touches, Event* event) override;
-    virtual void onTouchesEnded(const std::vector<Touch*>& touches, Event* event) override;
-    virtual void onTouchesCancelled(const std::vector<Touch*>& touches, Event* event) override;
+    b2Body* createBarrier(b2World* world, float x, float y);
+    b2Body* createDestroyer(b2World* world, float x, float y);
+    
+    
+    void dieAnimation();
     void updateBricksSpacing();
-    virtual void interpolate(float alpha) override;
-
-    virtual void savePreviousStates() override;
-
+    void resetSpriteY();
 
     void setVelocities(float v);
     void disableCollisionWithSolids();
     void enableCollisionWithSolids();
     
-    void resetSpriteY();
     
-    virtual Sprite* getRightSprite() {return rightSprite;}
     
 
-    
+    virtual void onTouchesBegan(const std::vector<Touch*>& touches, Event* event) override;
+    virtual void onTouchesMoved(const std::vector<Touch*>& touches, Event* event) override;
+    virtual void onTouchesEnded(const std::vector<Touch*>& touches, Event* event) override;
+    virtual void onTouchesCancelled(const std::vector<Touch*>& touches, Event* event) override;
+
+    /* virtual bool isInTeleport()
+     {
+     return inTeleport;
+     }*/
 };
 
 #endif /* Player_hpp */

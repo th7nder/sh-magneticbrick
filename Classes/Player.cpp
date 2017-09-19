@@ -36,6 +36,16 @@ Player::~Player()
     _eventDispatcher->removeEventListener(listener);
 }
 
+int Player::getZ() const
+{
+    return 30;
+}
+
+Sprite* Player::getRightSprite()
+{
+    return rightSprite;
+}
+
 
 
 // setCurrentPlayerSpeed
@@ -85,6 +95,7 @@ b2BodyDef* Player::createBody(float x, float y)
 {
     b2BodyDef* body = LevelObject::createBody(x, y);
     body->type = b2_dynamicBody;
+    body->bullet = true;
     return body;
 }
 
@@ -119,18 +130,17 @@ b2Body* Player::createBarrier(b2World* world, float x, float y)
 
 void Player::initPhysics(b2World* world)
 {
-    
-    body = world->CreateBody(createBody(sprite->getPositionX(), getPositionY()));
+    float y = getPositionY();
+    body = world->CreateBody(createBody(sprite->getPositionX(), y));
     body->CreateFixture(createFixture(createRectangularShape(playerSize.width, playerSize.height)));
-    body->SetBullet(true);
-    leftBarrier = createBarrier(world, sprite->getPositionX() + playerSize.width / 2, getPositionY());
     
-    rightBody = world->CreateBody(createBody(rightSprite->getPositionX(),  getPositionY()));
+    rightBody = world->CreateBody(createBody(rightSprite->getPositionX(),  y));
     rightBody->CreateFixture(createFixture(createRectangularShape(playerSize.width, playerSize.height)));
-    rightBody->SetBullet(true);
     
-    rightBarrier = createBarrier(world, rightSprite->getPositionX() - playerSize.width / 2, getPositionY());
+    leftBarrier = createBarrier(world, sprite->getPositionX() + playerSize.width / 2, y);
+    rightBarrier = createBarrier(world, rightSprite->getPositionX() - playerSize.width / 2, y);
 
+    
     body->SetLinearVelocity(b2Vec2(0, pixelsToMeters(speed)));
     rightBody->SetLinearVelocity(b2Vec2(0, pixelsToMeters(speed)));
     
@@ -364,10 +374,10 @@ void Player::updateBricksSpacing()
 
 void Player::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
 {
-    if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
+    //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
     for(const auto& touch : touches)
     {
-        if(gameHandler->getForceTouch())
+        if(true/*gameHandler->getForceTouch()*/)
         {
             force = touch->getCurrentForce() / touch->getMaxForce();
         }
@@ -398,7 +408,7 @@ void Player::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
 
 void Player::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
 {
-    if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
+    //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
     isTouching = false;
     force = 0.0;
     updateBricksSpacing();
@@ -406,14 +416,14 @@ void Player::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
 
 void Player::onTouchesCancelled(const std::vector<Touch*>& touches, Event* event)
 {
-    if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
+    //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
     isTouching = false;
     force = 0.0;
     updateBricksSpacing();
 }
 
 
-void Player::die()
+void Player::dieAnimation()
 {
     auto sae = CocosDenshion::SimpleAudioEngine::getInstance();
     sae->playEffect(Globals::resources["effect_brick_destroy"].c_str());
@@ -451,6 +461,4 @@ void Player::die()
     sprite->runAction(Spawn::create(BezierTo::create(0.5, bezierLeft), RotateBy::create(0.5, Vec3(0, 0, -90)), nullptr));
     
     runAction(Sequence::create(DelayTime::create(0.55), CallFunc::create([this]() {this->setVisible(false);}), nullptr));
- 
-    
 }

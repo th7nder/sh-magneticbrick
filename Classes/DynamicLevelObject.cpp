@@ -23,5 +23,7 @@ bool DynamicLevelObject::isDynamic() const
 void DynamicLevelObject::setProperties(cocos2d::ValueMap &props)
 {
     super::setProperties(props);
+    
+// pixelsToMeters?
     previousPosition = startPosition = getPosition();
 }
