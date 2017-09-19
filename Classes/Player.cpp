@@ -239,21 +239,21 @@ bool Player::OnContactBegin(LevelObject *other, b2Body* otherBody)
 
 void Player::savePreviousStates()
 {
-    previousPosition = Vec2(body->GetPosition().x, body->GetPosition().y);
-    previousRightPosition = Vec2(rightBody->GetPosition().x, rightBody->GetPosition().y);
+    previousPosition = Vec2(metersToPixels(body->GetPosition().x), metersToPixels(body->GetPosition().y));
+    previousRightPosition = Vec2(metersToPixels(rightBody->GetPosition().x), metersToPixels(rightBody->GetPosition().y));
 }
 
 void Player::interpolate(float alpha)
 {
-    if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
+    //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
     
-    setPositionY(metersToPixels(lerp(previousPosition.y, body->GetPosition().y, alpha)));
-    sprite->setPositionX(metersToPixels(lerp(previousPosition.x, body->GetPosition().x, alpha)));
-    rightSprite->setPositionX(metersToPixels(lerp(previousRightPosition.x, rightBody->GetPosition().x, alpha)));
-    if(!isTouching && !inTeleport)
+    setPositionY(lerp(previousPosition.y, body->GetPosition().y, alpha));
+    sprite->setPositionX(lerp(previousPosition.x, body->GetPosition().x, alpha));
+    rightSprite->setPositionX(lerp(previousRightPosition.x, rightBody->GetPosition().x, alpha));
+    /*f(!isTouching && !inTeleport)
     {
         updateBricksSpacing();
-    }
+    }*/
     
 }
 

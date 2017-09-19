@@ -24,6 +24,6 @@ void DynamicLevelObject::setProperties(cocos2d::ValueMap &props)
 {
     super::setProperties(props);
     
-// pixelsToMeters?
+// pixelsToMeters? nah -> interpolation workin with sprites not b2Bodies
     previousPosition = startPosition = getPosition();
 }
