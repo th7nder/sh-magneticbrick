@@ -27,6 +27,7 @@ private:
     typedef Player self;
 protected:
     float speed;
+    bool forceTouch;
     
     b2Body* rightBody;
     Sprite* rightSprite;

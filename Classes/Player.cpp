@@ -14,8 +14,17 @@
 Player::Player() :
 rightBody(nullptr),
 rightSprite(nullptr),
+forceTouch(false),
 speed(0.0),
-startLeftPos(0.0f), startRightPos(0.0f), startTouchPosition(Vec2::ZERO), playerSize(Vec2::ZERO), leftBarrier(nullptr),previousRightPosition(Vec2::ZERO),rightBarrier(nullptr), isTouching(false), inTeleport(false)
+startLeftPos(0.0f),
+startRightPos(0.0f),
+startTouchPosition(Vec2::ZERO),
+playerSize(Vec2::ZERO),
+leftBarrier(nullptr),
+previousRightPosition(Vec2::ZERO),
+rightBarrier(nullptr),
+isTouching(false),
+inTeleport(false)
 {
     currentTeleportTarget = "";
     
@@ -227,8 +236,8 @@ bool Player::OnContactBegin(LevelObject *other, b2Body* otherBody)
     {
         if(!inTeleport)
         {
-            other->remove = true;
-            gameHandler->onStarCollected(((Star*)other)->getNumber());
+            //other->remove = true;
+            //gameHandler->onStarCollected(((Star*)other)->getNumber());
         }
         
     }
@@ -247,9 +256,9 @@ void Player::interpolate(float alpha)
 {
     //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
     
-    setPositionY(lerp(previousPosition.y, body->GetPosition().y, alpha));
-    sprite->setPositionX(lerp(previousPosition.x, body->GetPosition().x, alpha));
-    rightSprite->setPositionX(lerp(previousRightPosition.x, rightBody->GetPosition().x, alpha));
+    setPositionY(lerp(previousPosition.y, metersToPixels(body->GetPosition().y), alpha));
+    sprite->setPositionX(lerp(previousPosition.x, metersToPixels(body->GetPosition().x), alpha));
+    rightSprite->setPositionX(lerp(previousRightPosition.x, metersToPixels(rightBody->GetPosition().x), alpha));
     /*f(!isTouching && !inTeleport)
     {
         updateBricksSpacing();
@@ -262,11 +271,13 @@ void Player::interpolate(float alpha)
 void Player::onTouchesBegan(const std::vector<Touch*>& touches, Event* event)
 {
     
-    if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
-    isTouching = true;
+    //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
+    //isTouching = true;
     startTouchPosition = touches[0]->getStartLocation();
     force = 0.0;
-    if(gameHandler->getGameState() == GameHandler::GameState::ReadyToPlay)
+    
+    // W T F
+    /*if(gameHandler->getGameState() == GameHandler::GameState::ReadyToPlay)
     {
         tempStartPos = getPositionY();
         gameHandler->setGameState(GameHandler::GameState::Playing);
@@ -293,7 +304,7 @@ void Player::onTouchesBegan(const std::vector<Touch*>& touches, Event* event)
             runAction(seq);
         }
 
-    }
+    }*/
 }
 
 void Player::resetSpriteY()
@@ -316,7 +327,7 @@ void Player::resetSpriteY()
 
 void Player::updateBricksSpacing()
 {
-    if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
+    //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
     
 
     if(inTeleport) return;
@@ -375,25 +386,24 @@ void Player::updateBricksSpacing()
 void Player::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
 {
     //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
-    for(const auto& touch : touches)
+    Touch* touch;
+    if((touch = touches[0]))
     {
-        if(true/*gameHandler->getForceTouch()*/)
+        if(forceTouch)
         {
             force = touch->getCurrentForce() / touch->getMaxForce();
         }
         else
         {
             auto touchPos = touch->getLocation();
-            if(/*touchPos.y > startTouchPosition.y || */touchPos.x > startTouchPosition.x) // second or
+            if(touchPos.x > startTouchPosition.x)
             {
-                //float difference = (touchPos.y - startTouchPosition.y); // old
                 float difference = (touchPos.x - startTouchPosition.x);
-                static const float base = 640 / 2.5;//(ownVisibleSize.height / 7);
+                static const float base = 640 / 2.5;
                 force = difference / base;
                 if(force >= 1.0)
                 {
                     startTouchPosition.x += touchPos.x - (startTouchPosition.x + base);
-                    // startTouchPosition.y += touchPos.y - (startTouchPosition.y + base); old
                     force = 1.0;
                 }
             } else {
@@ -409,7 +419,7 @@ void Player::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
 void Player::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
 {
     //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
-    isTouching = false;
+    //isTouching = false;
     force = 0.0;
     updateBricksSpacing();
 }
@@ -417,7 +427,7 @@ void Player::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
 void Player::onTouchesCancelled(const std::vector<Touch*>& touches, Event* event)
 {
     //if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
-    isTouching = false;
+    //isTouching = false;
     force = 0.0;
     updateBricksSpacing();
 }
