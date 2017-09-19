@@ -9,7 +9,8 @@
 #include "DynamicLevelObject.hpp"
 USING_NS_CC;
 DynamicLevelObject::DynamicLevelObject() :
-previousPosition(Vec2::ZERO)
+previousPosition(Vec2::ZERO),
+startPosition(Vec2::ZERO)
 {
     
 }

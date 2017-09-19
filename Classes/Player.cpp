@@ -259,13 +259,14 @@ bool Player::OnContactBegin(LevelObject *other, b2Body* otherBody)
 
 
 
+// refactor
 void Player::onTouchesBegan(const std::vector<Touch*>& touches, Event* event)
 {
     startTouchPosition = touches[0]->getStartLocation();
     force = 0.0;
     
-    // W T F
-    /*if(gameHandler->getGameState() == GameHandler::GameState::ReadyToPlay)
+    auto gameHandler = GameHandler::sharedInstance();
+    if(gameHandler->getGameState() == GameHandler::GameState::ReadyToPlay)
     {
         tempStartPos = getPositionY();
         gameHandler->setGameState(GameHandler::GameState::Playing);
@@ -292,7 +293,7 @@ void Player::onTouchesBegan(const std::vector<Touch*>& touches, Event* event)
             runAction(seq);
         }
 
-    }*/
+    }
 }
 
 void Player::resetSpriteY()

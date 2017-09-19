@@ -621,7 +621,7 @@ LevelObject* Level::addObject(std::string className, ValueMap& properties, bool 
         o = InfectionStop::create(gameHandler);
         push = true;
     }
-    else if(className == "CSESmall")
+    /*else if(className == "CSESmall")
     {
         o = CSESmall::create(gameHandler);
     }
@@ -732,7 +732,7 @@ LevelObject* Level::addObject(std::string className, ValueMap& properties, bool 
     else if(className == "Parrot")
     {
         o = Parrot::create(gameHandler);
-    }
+    }*/
     
     
     

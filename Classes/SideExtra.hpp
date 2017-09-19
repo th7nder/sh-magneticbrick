@@ -16,21 +16,16 @@ class SideExtra : public LevelObject
 private:
     typedef SideExtra self;
     typedef LevelObject super;
-CC_CONSTRUCTOR_ACCESS:
-    SideExtra();
+protected:
     std::string orientation;
+    std::string texture;
 public:
-    virtual int getZ() const override
-    {
-        return -1;
-    }
+    SideExtra(const std::string& texture);
     virtual ~SideExtra();
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
+    virtual int getZ() const override;
     
-
-    virtual void initPhysics(b2World* world) override;
-    virtual void setProperties(ValueMap& props) override;
+    virtual void addSprite() override;
+    virtual void setProperties(cocos2d::ValueMap& props) override;
     
 };
 

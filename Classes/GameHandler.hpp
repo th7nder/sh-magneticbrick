@@ -22,6 +22,15 @@ class GameHandler
 {
     cocos2d::UserDefault* ud;
 public:
+    static GameHandler* instance;
+    static void setInstance(GameHandler* handler)
+    {
+        instance = handler;
+    }
+    static GameHandler* sharedInstance()
+    {
+        return instance;
+    }
     enum GameState
     {
         UI = 0,

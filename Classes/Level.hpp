@@ -54,7 +54,7 @@
 
 #include "LevelFollower.hpp"
 
-#include "CSESmall.hpp"
+/*#include "CSESmall.hpp"
 #include "CSEMedium.hpp"
 #include "CSEBig.hpp"
 #include "CSEBarrier.hpp"
@@ -90,7 +90,7 @@
 #include "UEFishRed.hpp"
 #include "UETentacle.hpp"
 
-#include "Parrot.hpp"
+#include "Parrot.hpp"*/
 
 class Level : public cocos2d::Node, public b2ContactListener
 {

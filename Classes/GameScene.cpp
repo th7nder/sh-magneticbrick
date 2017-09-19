@@ -96,6 +96,7 @@ bool GameScene::init()
 {
     if(!super::init()) return false;
     
+    instance = this;
     visibleSize = Director::getInstance()->getVisibleSize();
     createBackground();
     createLevel();

@@ -8,8 +8,11 @@
 
 #include "SideExtra.hpp"
 
+USING_NS_CC;
 
-SideExtra::SideExtra()
+SideExtra::SideExtra(const std::string& texture) :
+texture(texture),
+orientation("")
 {
     
 }
@@ -19,43 +22,19 @@ SideExtra::~SideExtra()
     
 }
 
-SideExtra* SideExtra::create(GameHandler* handler)
+int SideExtra::getZ() const
 {
-    self* ret = new (std::nothrow) self();
-    if (ret && ret->init(handler))
-    {
-        ret->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-    }
-    return ret;
+    return -1;
 }
-
 void SideExtra::setProperties(ValueMap &props)
 {
-    LevelObject::setProperties(props);
-    startX = props["x"].asFloat() / 1080.0 * 640;
-    startX += width / 2;
-    startY = props["y"].asFloat() / 1080.0 * 1136; 
-    startY += height / 2;
-    setPosition(Vec2(startX, startY));
+    super::setProperties(props);
     orientation = props["orientation"].asString();
 }
 
-
-bool SideExtra::init(GameHandler* handler)
+void SideExtra::addSprite()
 {
-    if(!super::init(handler)) return false;
-    gameHandler = handler;
-    return true;
-}
-
-
-
-
-void SideExtra::initPhysics(b2World *world)
-{
-    
+    sprite = cocos2d::Sprite::create(texture);
+    sprite->setAnchorPoint(Vec2::ZERO);
+    addChild(sprite);
 }
