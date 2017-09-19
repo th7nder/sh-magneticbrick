@@ -11,8 +11,8 @@
 
 #include "cocos2d.h"
 #include "LevelObject.hpp"
+#include "Globals.hpp"
 
-class Level;
 class Star : public LevelObject
 {
 private:
@@ -20,18 +20,19 @@ private:
     typedef LevelObject super;
     int number;
 CC_CONSTRUCTOR_ACCESS:
-    Star();
+    
 public:
+    Star();
+    virtual ~Star();
+    
     virtual std::string getDescription() const override
     {
         return "Star";
     }
     
-    int getNumber() {return number;}
-    virtual ~Star();
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
-    virtual void setProperties(ValueMap& props) override;
+        int getNumber() {return number;}
+    
+    virtual void setProperties(cocos2d::ValueMap& props) override;
     virtual void addSprite() override;
     virtual void initPhysics(b2World* world) override;
     virtual bool OnContactBegin(LevelObject* other, b2Body* otherBody) override;

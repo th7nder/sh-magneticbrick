@@ -447,6 +447,10 @@ bool Level::load(int themeId, int levelId)
     MovingObstacle::leftTexture = Globals::resources[lastThemeCodename + "_left"];
     MovingObstacle::centerTexture = Globals::resources[lastThemeCodename + "_center"];
     MovingObstacle::rightTexture = Globals::resources[lastThemeCodename + "_right"];
+    const std::string laserName = "obstacle_laser";
+    Laser::leftTexture = Globals::resources[laserName + "_left"];
+    Laser::centerTexture = Globals::resources[laserName + "_center"];
+    Laser::rightTexture = Globals::resources[laserName + "_right"];
 
 
     auto objectGroups = map->getObjectGroups();

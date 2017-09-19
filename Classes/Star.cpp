@@ -7,9 +7,8 @@
 //
 
 #include "Star.hpp"
-#include "Level.hpp"
 
-
+USING_NS_CC;
 Star::Star() : number(0)
 {
   
@@ -20,42 +19,23 @@ Star::~Star()
     
 }
 
-Star* Star::create(GameHandler* handler)
-{
-    self* ret = new (std::nothrow) self();
-    if (ret && ret->init(handler))
-    {
-        ret->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-    }
-    return ret;
-}
-
-
-bool Star::init(GameHandler* handler)
-{
-    if(!super::init(handler)) return false;
-    gameHandler = handler;
-    return true;
-}
-
+// to do removing stars, colors
 
 void Star::setProperties(ValueMap &props)
 {
     LevelObject::setProperties(props);
     CCASSERT(!props["name"].isNull(), "initialSpeed was not set in map!");
     number = props["name"].asInt();
-    if(gameHandler->getStar(number)) remove = true;
+    
+    
+    //if(gameHandler->getStar(number)) remove = true;
 }
 
 
 void Star::addSprite()
 {
     if(remove) return;
-    sprite = cocos2d::Sprite::create(Globals::resources["icon_star_collect_" + gameHandler->getLastTheme().getElementsColor()]);
+    sprite = cocos2d::Sprite::create(Globals::resources["icon_star_collect_white"]);
     sprite->setAnchorPoint(Vec2::ZERO);
     sprite->setCascadeOpacityEnabled(true);
     auto seq = Sequence::create(FadeTo::create(0.5, 10), FadeIn::create(0.3), DelayTime::create(0.4), NULL);
@@ -70,9 +50,8 @@ bool Star::OnContactBegin(LevelObject *other, b2Body* otherBody)
 
 void Star::initPhysics(b2World *world)
 {
-    auto size = getContentSize();
-    body = world->CreateBody(createBody(getPositionX(), getPositionY()));
-    auto fixture = createFixture(createRectangularShape(size.width, size.height));
+    body = world->CreateBody(createBody(getPosition()));
+    auto fixture = createFixture(createRectangularShape(_contentSize));
     fixture->isSensor = true;
     fixture->filter.categoryBits = kFilterCategoryNonSolidObject;
     fixture->filter.maskBits = kFilterCategoryPlayer;

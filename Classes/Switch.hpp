@@ -40,9 +40,6 @@ CC_CONSTRUCTOR_ACCESS:
     Switch();
     virtual ~Switch();
 public:
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
-    
     virtual void setProperties(cocos2d::ValueMap& props) override;
     virtual void addSprite() override;
     std::string target;

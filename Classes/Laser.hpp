@@ -10,21 +10,23 @@
 #define Laser_hpp
 
 #include "cocos2d.h"
-#include "HorizontalObstacle.hpp"
+#include "LevelObject.hpp"
 
-class Laser : public HorizontalObstacle
+class Laser : public LevelObject
 {
     typedef Laser self;
-    typedef HorizontalObstacle super;
-protected:
-    Laser();
+    typedef LevelObject super;
+
 public:
+    Laser();
     virtual ~Laser();
-    static self* create(GameHandler* handler);
-    virtual bool init(GameHandler* handler) override;
-    
+    static std::string leftTexture;
+    static std::string centerTexture;
+    static std::string rightTexture;
+
     virtual void addSprite() override;
-    virtual void setProperties(ValueMap& properties) override;
+    virtual void setProperties(cocos2d::ValueMap& properties) override;
+    virtual bool OnContactBegin(LevelObject* other, b2Body* body) override;
 };
 
 #endif /* Laser_hpp */
