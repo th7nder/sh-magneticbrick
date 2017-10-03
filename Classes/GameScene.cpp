@@ -800,7 +800,7 @@ void GameScene::onReplayButtonClicked()
 
 void GameScene::setTutorialPlayer(Player *player)
 {
-    level->setTutorialPlayer(player);
+    
 }
 
 
@@ -1289,7 +1289,7 @@ void GameScene::onLetsTryClicked()
     auto seq = Sequence::create(DelayTime::create(0.3), func, NULL);
     runAction(seq);
     
-    level->setTutorialPlayer(nullptr);
+
     level->setStopped(false);
 }
 
@@ -1300,7 +1300,6 @@ void GameScene::onLetsTryClickedFromLevel()
     setGameState(ReadyToPlay);
     tapToPlay->runAction(FadeTo::create(0.3, 255));
     fadeOutLayout(tutorialLayout);
-    level->setTutorialPlayer(nullptr);
     level->setStopped(false);
 }
 

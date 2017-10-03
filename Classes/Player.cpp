@@ -192,7 +192,7 @@ void Player::setVelocities(float v)
     }
     if(walls != nullptr)
     {
-        walls->getRightBody()->SetLinearVelocity(b2Vec2(0, v));
+        //walls->getRightBody()->SetLinearVelocity(b2Vec2(0, v));
         walls->getBody()->SetLinearVelocity(b2Vec2(0, v));
     }
     if(levelFollower != nullptr)

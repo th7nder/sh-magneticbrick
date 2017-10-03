@@ -44,7 +44,7 @@ void LoadingScene::loadResources()
 {
     
     maxResources = (int)Globals::resources.size();
-    for(auto resource : Globals::resources)
+    /*for(auto resource : Globals::resources)
     {
         if(resource.second.find(".mp3") != -1)
         {
@@ -67,7 +67,7 @@ void LoadingScene::loadResources()
                             });
         }
 
-    }
+    }*/
 }
 
 void LoadingScene::updateLoadingBar()

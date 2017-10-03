@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
 #include "LoadingScene.hpp"
+#include "GameScene.hpp"
 #include "Globals.hpp"
 
 #if defined ADS
@@ -104,7 +105,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
         Globals::setSmallPhone(true);
     }
     FileUtils::getInstance()->setSearchPaths(searchPaths);
-    auto scene = LoadingScene::create();
+    auto scene = GameScene::create();
     director->runWithScene(scene);
     return true;
 }

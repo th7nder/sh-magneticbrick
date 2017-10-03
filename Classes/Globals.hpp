@@ -16,7 +16,7 @@
 #include "SkinManager.hpp"
 #include "SimpleAudioEngine.h"
 
-//#define DEBUG_LAYER 1
+#define DEBUG_LAYER 1
 //#define DOWNLOAD_MAPS 1
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_MAC)

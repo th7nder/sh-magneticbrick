@@ -201,7 +201,7 @@ std::unordered_map<std::string, std::string> Globals::initializeResources()
     for(const auto& theme: themes)
     {
         auto codename = theme.getCodeName();
-        resources["music_" + codename] = "sound/music/" + codename + ".mp3";
+        //resources["music_" + codename] = "sound/music/" + codename + ".mp3";
         resources["background_" + codename] = "themes/" + codename + "/background.png";
         resources["icon_" + codename + "_play"] = "themes/" + codename + "/play_button.png";
         resources["icon_" + codename + "_replay"] = "themes/" + codename + "/replay_button.png";

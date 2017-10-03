@@ -25,39 +25,8 @@ Walls::~Walls()
 void Walls::setProperties(ValueMap &props)
 {
     super::setProperties(props);
-    CCASSERT(!props["initialSpeed"].isNull(), "LevelFollower -> initialSpeed isNull");
+    CCASSERT(!props["initialSpeed"].isNull(), "Walls -> initialSpeed isNull");
     speed = (props["initialSpeed"].asFloat());
-}
-
-bool Walls::OnContactBegin(LevelObject *other, b2Body *body)
-{
-    return true;
-}
-
-b2Body* Walls::getRightBody()
-{
-    return rightBody;
-}
-
-
-b2Body* Walls::createDestroyer(b2World* world, const cocos2d::Vec2& pos)
-{
-    auto bodyDef = createBody(pos);
-    bodyDef->type = b2_kinematicBody;
-    
-    auto ret = world->CreateBody(bodyDef);
-    auto shape = new b2EdgeShape;
-    shape->Set(b2Vec2(0, -1), b2Vec2(0, 1));
-    auto fixture = super::createFixture(shape);
-    fixture->filter.categoryBits = kFilterCategorySolidObject;
-    fixture->filter.maskBits = kFilterCategoryPlayer;
-    //fixture->filter.categoryBits = 0;
-    //fixture->filter.maskBits = 0;
-    ret->CreateFixture(fixture);
-    ret->SetLinearVelocity(b2Vec2(0, pixelsToMeters(speed)));
-    ret->SetBullet(true);
-    ret->SetType(b2_kinematicBody);
-    return ret;
 }
 
 void Walls::initPhysics(b2World* world)
@@ -65,3 +34,31 @@ void Walls::initPhysics(b2World* world)
     body = createDestroyer(world, Vec2(0, getPositionY()));
     rightBody = createDestroyer(world, Vec2(_director->getVisibleSize().width, getPositionY()));
 }
+
+
+bool Walls::OnContactBegin(LevelObject *other, b2Body *body)
+{
+    return true;
+}
+
+void Walls::interpolate(float alpha)
+{
+    
+}
+
+void Walls::savePreviousStates()
+{
+    
+}
+
+void Walls::launch()
+{
+    body->SetLinearVelocity(b2Vec2(0, pixelsToMeters(speed)));
+    rightBody->SetLinearVelocity(b2Vec2(0, pixelsToMeters(speed)));
+}
+
+
+
+
+
+

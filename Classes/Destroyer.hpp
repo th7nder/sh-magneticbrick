@@ -1,32 +1,30 @@
 //
-//  Walls.hpp
+//  Destroyer.hpp
 //  MagneticBrick
 //
-//  Created by Konrad Stepniak on 26/05/2017.
-//
+//  Created by Konrad Stepniak on 27/09/2017.
 //
 
-#ifndef Walls_hpp
-#define Walls_hpp
+#ifndef Destroyer_hpp
+#define Destroyer_hpp
 #include "cocos2d.h"
 #include <Box2D/Box2D.h>
 #include "DynamicLevelObject.hpp"
 
-class Walls : public DynamicLevelObject
+class Destroyer : public DynamicLevelObject
 {
 private:
     typedef LevelObject super;
-    typedef Walls self;
+    typedef Destroyer self;
 CC_CONSTRUCTOR_ACCESS:
     float speed;
-    b2Body* rightBody;
 public:
     virtual std::string getDescription() const override
     {
-        return "Walls";
+        return "Destroyer";
     }
-    Walls();
-    virtual ~Walls();
+    Destroyer();
+    virtual ~Destroyer();
     virtual void setProperties(cocos2d::ValueMap& props) override;
     virtual void initPhysics(b2World* world) override;
     virtual bool OnContactBegin(LevelObject* other, b2Body* body) override;
@@ -37,4 +35,4 @@ public:
     virtual void launch() override;
 };
 
-#endif /* Walls_hpp */
+#endif /* Destroyer_hpp */

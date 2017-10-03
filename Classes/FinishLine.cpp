@@ -25,9 +25,9 @@ FinishLine::~FinishLine()
 void FinishLine::addSprite()
 {
     //gameHandler->setFinishLineY(getPositionY() + getContentSize().height);
-    sprite = cocos2d::Sprite::create(Globals::resources["obstacle_finishline"]);
-    sprite->setAnchorPoint(Vec2::ZERO);
-    addChild(sprite);
+    //sprite = cocos2d::Sprite::create(Globals::resources["obstacle_finishline"]);
+    //sprite->setAnchorPoint(Vec2::ZERO);
+    //addChild(sprite);
 }
 
 bool FinishLine::OnContactBegin(LevelObject *other, b2Body* otherBody)

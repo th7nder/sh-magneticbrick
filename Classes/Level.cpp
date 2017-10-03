@@ -108,54 +108,14 @@ void Level::update(float dt)
     accumulator += dt;
     
     
- 
-
-    
-    
-    const auto children = getChildren();
-    if(gameState == GameHandler::GameState::UI)
-    {
-        if(currentTime - lastObstacleTime >= timeBetweenObstacles)
-        {
-            lastObstacleTime = currentTime;
-            createRandomObstacle();
-        }
-        
-        gameHandler->onPlayerUpdate(dt, -466.0);
-        
-
-        for(const auto& child : children)
-        {
-            auto levelObject = dynamic_cast<LevelObject*>(child);
-            if(levelObject != nullptr)
-            {
-                if(levelObject->isQueuedToRemove() || (levelObject->getPositionY() + getPositionY() < -levelObject->getContentSize().height))
-                {
-                    levelObject->removeFromParentAndCleanup(true);
-                }
-            }
-        }
-        
-        return;
-    }
-    
-    
     if(!player)
     {
         return;
     }
     
     
-#if !defined DOWNLOAD_MAPS
-    if(player != nullptr)
-    {
-        gameHandler->onPlayerUpdate(dt, player->getPositionY());
-    }
-#endif
-
-    
     // rewrite
-    /*if(unsigned long size = levelObjects.size())
+    if(unsigned long size = levelObjects.size())
     {
         auto obj = levelObjects.back();
         while(obj->getPositionY() + getPositionY() < 1136 + obj->getContentSize().height)
@@ -170,10 +130,9 @@ void Level::update(float dt)
                 extrasContainer->addChild(obj);
             }
 
-
-            obj->release();
+            //obj->release();
             levelObjects.pop_back();
-            obj->launch();
+            //obj->launch();
             
             size--;
             if(!size)
@@ -181,41 +140,31 @@ void Level::update(float dt)
                 break;
             }
             obj = levelObjects.back();
+            
+            CCLOG("creating new");
         }
             
-    }*/
+    }
     
 
 
-    if(requestUpdatePlayerSpacing)
-    {
-        player->updateBricksSpacing();
-        requestUpdatePlayerSpacing = false;
-    }
 
     while (accumulator >= kSecondsPerUpdate)
     {
 
         // fix me
-        for(const auto& child : children)
+        for(const auto& child : _children)
         {
-            //if(tutorialPlayer != nullptr)
-            //{
-             //   tutorialPlayer->savePreviousStates();
-            //}
             auto levelObject = dynamic_cast<DynamicLevelObject*>(child);
             if(levelObject != nullptr)
             {
-                if(levelObject != levelFollower && (levelObject->isQueuedToRemove() || levelObject->getPositionY() + getPositionY()  < -levelObject->getContentSize().height))
-                {
-                    levelObject->removeFromParentAndCleanup(true);
-                }
-                else
-                {
-                    levelObject->savePreviousStates();
-                }
+                levelObject->savePreviousStates();
             }
+            
+
         }
+        
+        
 
         
         accumulator -= kSecondsPerUpdate;
@@ -223,26 +172,45 @@ void Level::update(float dt)
         world->ClearForces();
         
     }
-  
-
     
+
+
+    std::vector<LevelObject*> toRemove;
+
     const float alpha = accumulator / kSecondsPerUpdate;
     // fix me
-    for(const auto& child : children)
+
+    int i = 0;
+    for(const auto& child : _children)
     {
-        auto levelObject = dynamic_cast<DynamicLevelObject*>(child);
-        if(levelObject != nullptr)
+        
+        auto levelObject = dynamic_cast<LevelObject*>(child);
+       /* if(levelObject != nullptr && levelObject != levelFollower && (levelObject->getPositionY() + getPositionY()  < -levelObject->getContentSize().height))
         {
-            levelObject->interpolate(alpha);
+            CCLOG("clearing lO %s %p %d", levelObject->getDescription().c_str(), levelObject, i);
+            toRemove.push_back(levelObject);
+        }*/
+        
+        auto dynamicLevelObject = dynamic_cast<DynamicLevelObject*>(child);
+        if(dynamicLevelObject != nullptr)
+        {
+            dynamicLevelObject->interpolate(alpha);
         }
     }
     
-    if(tutorialPlayer != nullptr)
-    {
-        tutorialPlayer->interpolate(alpha);
-    }
     
-
+    if(unsigned long size = toRemove.size())
+    {
+        do
+        {
+            auto obj = toRemove.back();
+            toRemove.pop_back();
+            obj->removeFromParent();
+            delete obj;
+            
+            size--;
+        } while(size > 0);
+    }
     
 }
 
@@ -319,88 +287,6 @@ std::string Level::getExtrasPath(int themeId, int levelId)
 }
 
 
-void Level::downloadMap(int themeId, int levelId)
-{
-    stopped = true;
-    downloadingThemeId = themeId;
-    downloadingLevelId = levelId;
-    std::string url = StringUtils::format("https://skyhorn.tech/apps/magneticbrick/maps/%s_0%d.tmx", gameHandler->getTheme(themeId).getCodeName().c_str(), levelId);
-    network::HttpRequest* request = new cocos2d::network::HttpRequest();
-    request->setUrl(url.c_str());
-    request->setRequestType(cocos2d::network::HttpRequest::Type::GET);
-    request->setResponseCallback(CC_CALLBACK_2(Level::onHttpMapDownloaded, this));
-    request->setTag(StringUtils::format("%s_0%d.tmx", gameHandler->getTheme(themeId).getCodeName().c_str(), levelId));
-    cocos2d::network::HttpClient::getInstance()->send(request);
-    request->release();
-}
-
-
-void Level::onHttpMapDownloaded(network::HttpClient *pSender, network::HttpResponse *pResponse)
-{
-    CCLOG("sth happened %ld", pResponse->getResponseCode());
-    if(pResponse->getResponseCode() != 200) return;
-    
-    std::string writablePath = FileUtils::getInstance()->getInstance()->getWritablePath();
-    writablePath.append(pResponse->getHttpRequest()->getTag());
-    CCLOG("writablePath: %s", writablePath.c_str());
-    std::vector<char> *buffer = pResponse->getResponseData();
-
-    std::FILE* f = std::fopen(writablePath.c_str(), "wb");
-    std::fwrite(buffer->data(), sizeof((*buffer)[0]), buffer->size(), f);
-    std::fclose(f);
-    
-
-     
-    int themeId = downloadingThemeId;
-    int levelId = downloadingLevelId;
-    if(currentThemeId != themeId || currentLevelId != levelId)
-    {
-        if(map != nullptr)
-        {
-            CC_SAFE_RELEASE_NULL(map);
-        }
-        map = TMXTiledMap::create(writablePath);
-        map->retain();
-    }
-    
-    
-    currentThemeId = themeId;
-    currentLevelId = levelId;
-    
-    
-    auto objectGroups = map->getObjectGroups();
-    for (auto& objectGroup : objectGroups)
-    {
-        auto objects = objectGroup->getObjects();
-        auto className = objectGroup->getGroupName();
-        for (auto& object : objects)
-        {
-            auto properties = object.asValueMap();
-            auto type = properties.at("type");
-            if (!type.isNull())
-            {
-                addObject(type.asString().c_str(), properties);
-            }
-            else
-            {
-                addObject(className.c_str(), properties);
-            }
-            
-        }
-    }
-    
-    loadExtras(themeId, levelId);
-    
-    
-    std::sort(levelObjects.begin(), levelObjects.end(), [](const LevelObject* s1, const LevelObject* s2) -> bool {
-        return s1->getPositionY() - (s1->getContentSize().height / 2) > s2->getPositionY() - (s2->getContentSize().height / 2);
-    });
-    
-    stopped = false;
-    
-}
-
-
 bool Level::load(int themeId, int levelId)
 {
 
@@ -426,9 +312,6 @@ bool Level::load(int themeId, int levelId)
         }
     }
     levelObjects.clear();
-#if defined DOWNLOAD_MAPS
-    downloadMap(themeId, levelId);
-#else
 
     if(currentThemeId != themeId || currentLevelId != levelId)
     {
@@ -489,7 +372,6 @@ bool Level::load(int themeId, int levelId)
         return s1->getPositionY() - (s1->getContentSize().height / 2) > s2->getPositionY() - (s2->getContentSize().height / 2);
     });
     
-#endif
 
     return true;
 }
@@ -530,15 +412,18 @@ LevelObject* Level::addObject(std::string className, ValueMap& properties, bool 
     if(className == "Player")
     {
 
+        CCLOG("creating player");
         walls = (Walls*)addObject("Walls", properties);
-        
-        
         levelFollower = (LevelFollower*)addObject("LevelFollower", properties);
-        // fix me
-        
-        player = new Player(SkinManager::getInstance()->getSkin(0), levelFollower, walls);
-        //Player::create(gameHandler, walls, levelFollower);
+        auto destroyer = (Destroyer*)addObject("Destroyer", properties);
+        player = new Player(gameHandler->getCurrentSkin(), levelFollower, walls);
         o = player;
+    }
+    else if(className == "Destroyer")
+    {
+        // to do destruction of destroyer
+        o = new Destroyer();
+        random = true;
     }
     else if(className == "Walls")
     {
@@ -767,26 +652,27 @@ LevelObject* Level::addObject(std::string className, ValueMap& properties, bool 
         o->setProperties(properties);
         o->addSprite();
         o->initPhysics(world);
-
-
-        addChild(o, o->getZ());
-        
-        auto moving = dynamic_cast<MovingObstacle*>(o);
-        if(moving != nullptr)
+    
+        if(o->isDynamic())
         {
-            moving->launch();
+            dynamicLevelObjects.push_back(static_cast<DynamicLevelObject*>(o));
         }
-        /*if(!random && (o->getPositionY() > 1136 * 1.5 || push))
+        
+        
+        if(!random && (o->getPositionY() > 1136 * 1.5 || push))
         {
-            o->retain();
             levelObjects.push_back(o);
-            //addChild(o, o->getZ());
         }
         else
         {
             addChild(o, o->getZ());
-            o->launch();
-        }*/
+            Destroyer* d;
+            if((d = dynamic_cast<Destroyer*>(o)) != nullptr)
+            {
+                d->launch();
+            }
+                
+        }
     }
     
     return o;

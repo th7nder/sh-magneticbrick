@@ -31,24 +31,6 @@ void LevelFollower::setProperties(cocos2d::ValueMap& props)
 }
 
 
-b2Body* LevelFollower::createDestroyer(b2World* world, const Vec2& pos)
-{
-    auto bodyDef = createBody(pos);
-    bodyDef->type = b2_kinematicBody;
-    
-    auto ret = world->CreateBody(bodyDef);
-    auto shape = new b2EdgeShape;
-    shape->Set(b2Vec2(0, -1), b2Vec2(0, 1));
-    auto fixture = super::createFixture(shape);
-    fixture->filter.categoryBits = 0;
-    fixture->filter.maskBits = 0;
-    ret->CreateFixture(fixture);
-    ret->SetBullet(true);
-    ret->SetType(b2_kinematicBody);
-    return ret;
-}
-
-
 void LevelFollower::initPhysics(b2World* world)
 {
     body = createDestroyer(world, Vec2::ZERO);

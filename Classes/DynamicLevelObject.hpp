@@ -26,6 +26,7 @@ public:
     virtual void savePreviousStates();
     virtual void interpolate(float alpha);
     virtual void setProperties(cocos2d::ValueMap& props) override;
+    
 };
 
 #endif /* DynamicLevelObject_hpp */

@@ -17,6 +17,7 @@ enum
     kFilterCategorySolidObject = 0x02,
     kFilterCategoryNonSolidObject = 0x04,
     kFilterCategoryPlayer = 0x08,
+    kFilterCategoryDestroyer = 0x10,
 };
 
 const float kPixelsPerMeter = 100.0f;

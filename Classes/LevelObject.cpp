@@ -134,6 +134,29 @@ b2FixtureDef* LevelObject::createFixture(b2Shape *shape)
     return fixtureDef;
 }
 
+b2Body* LevelObject::createDestroyer(b2World* world, const cocos2d::Vec2& pos, b2Vec2 leftBound, b2Vec2 rightBound)
+{
+    b2BodyDef* bodyDef = createBody(pos);
+    bodyDef->type = b2_kinematicBody;
+    
+    b2Body* body = world->CreateBody(bodyDef);
+    b2EdgeShape* shape = new b2EdgeShape;
+    shape->Set(leftBound, rightBound);
+    
+    
+    b2FixtureDef* fixture = createFixture(shape);
+    fixture->filter.categoryBits = kFilterCategorySolidObject;
+    fixture->filter.maskBits = kFilterCategoryPlayer | kFilterCategoryDestroyer;
+    
+    body->CreateFixture(fixture);
+    body->SetBullet(true);
+    body->SetType(b2_kinematicBody);
+    
+    return body;
+}
+
+
+
 
 void LevelObject::queueToRemove()
 {

@@ -54,6 +54,7 @@
 #include "LevelFollower.hpp"
 
 #include "DynamicLevelObject.hpp"
+#include "Destroyer.hpp"
 
 /*#include "CSESmall.hpp"
 #include "CSEMedium.hpp"
@@ -104,6 +105,7 @@ class Level : public cocos2d::Node, public b2ContactListener
   
     
     std::vector<LevelObject*> levelObjects;
+    std::vector<DynamicLevelObject*> dynamicLevelObjects;
     
 
     Node* extrasContainer;
@@ -134,11 +136,6 @@ class Level : public cocos2d::Node, public b2ContactListener
     std::string getExtrasPath(int themeId, int levelId);
     TMXTiledMap* map;
     
-    int downloadingThemeId;
-    int downloadingLevelId;
-    
-    void downloadMap(int themeId, int levelId);
-    void onHttpMapDownloaded(network::HttpClient* pSender, network::HttpResponse* pResponse);
 CC_CONSTRUCTOR_ACCESS:
     Level();
 public:
@@ -161,10 +158,6 @@ public:
     void updatePlayerPos();
     bool isPlayerInTeleport();
     
-    void setTutorialPlayer(Player* player)
-    {
-        tutorialPlayer = player;
-    }
 };
 
 #endif /* Level_hpp */

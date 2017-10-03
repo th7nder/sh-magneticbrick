@@ -31,7 +31,6 @@ public:
     virtual void launch() override;
     virtual void interpolate(float alpha) override;
     
-    b2Body* createDestroyer(b2World* world, const cocos2d::Vec2& pos);
     
 };
 #endif /* LevelFollower_hpp */

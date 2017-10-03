@@ -40,12 +40,14 @@ public:
     virtual b2PolygonShape* createRectangularShape(const cocos2d::Size& size);
     virtual b2CircleShape* createCircleShape(float radius);
     virtual b2FixtureDef* createFixture(b2Shape* shape);
+    virtual b2Body* createDestroyer(b2World* world, const cocos2d::Vec2& pos, b2Vec2 leftBound = b2Vec2(0, -1), b2Vec2 rightBound = b2Vec2(0, 1));
     
     virtual bool OnContactBegin(LevelObject* other, b2Body* body);
     virtual bool OnContactEnd(LevelObject* other);
     
     void queueToRemove();
     bool isQueuedToRemove();
+    
     
 
 };
