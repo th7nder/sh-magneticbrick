@@ -31,6 +31,7 @@ public:
     std::string getElementsColor() const
     {
         return whiteElements ? "white" : "black";
+        //return "white";
     }
     
     cocos2d::Color3B getUIColor()

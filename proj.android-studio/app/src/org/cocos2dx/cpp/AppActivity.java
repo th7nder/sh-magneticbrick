@@ -45,9 +45,16 @@ public class AppActivity extends Cocos2dxActivity {
         return (info != null && info.isConnected());
     }
 
+
     public static boolean isConnectedToInternet()
     {
         return isConnected(AppActivity.getContext());
+    }
+
+
+    public static boolean isConnectedWifi(){
+        NetworkInfo info = getNetworkInfo(AppActivity.getContext());
+        return (info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI);
     }
 
 }

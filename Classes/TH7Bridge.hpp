@@ -12,6 +12,7 @@
 class TH7Bridge
 {
 public:
+    static bool isConnectedToWifi();
     static bool isInternetAvailable();
     static bool forceTouchAvailable();
 };

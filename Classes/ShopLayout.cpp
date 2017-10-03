@@ -446,7 +446,8 @@ void ShopLayout::createBrickAtSprite()
     bricksContainer->addChild(label);
     
     
-    auto star = Sprite::create(Globals::resources["shop_bigstar_indicator_black"]);
+    auto star = Sprite::create(Globals::resources["shop_bigstar_indicator_white"]);
+    star->setColor(Color3B::BLACK);
     star->setPosition(Vec2(pos.x + 32 + 24, pos.y - 23));
     bricksContainer->addChild(star);
     

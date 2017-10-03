@@ -47,6 +47,38 @@ bool TH7Bridge::isInternetAvailable()
 #endif
 }
 
+bool TH7Bridge::isConnectedToWifi()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    bool ret = false;
+    cocos2d::JniMethodInfo t;
+    if (cocos2d::JniHelper::getStaticMethodInfo(t, "org/cocos2dx/cpp/AppActivity", "isConnectedToWifi", "()Z")) {
+        jboolean result = t.env->CallStaticBooleanMethod(t.classID, t.methodID);
+        if (result == JNI_TRUE) {
+            ret = true;
+            
+        } else {
+            ret = false;
+        }
+    }
+    
+    return ret;
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    if (networkStatus == ReachableViaWiFi)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+#else
+    return false;
+#endif
+}
+
 bool TH7Bridge::forceTouchAvailable()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

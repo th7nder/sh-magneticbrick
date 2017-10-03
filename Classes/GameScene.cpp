@@ -130,6 +130,10 @@ bool GameScene::init()
 #endif
     
     schedule(schedule_selector(GameScene::watcher), 3.0, kRepeatForever, 0.0);
+    
+    
+    //CCLOG("%s", TextureCache::getInstance()->getCachedTextureInfo().c_str());
+    //CCTextureCache::sharedTextureCache()->dumpCachedTextureInfo();
     return true;
 }
 
@@ -244,14 +248,13 @@ void GameScene::createLevel()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     level = Level::create(this);
     postEffect->addChild(level);
-    auto color = getLastTheme().getElementsColor();
-    levelPercentBar = ui::LoadingBar::create(Globals::resources["icon_progressbar_filled_" + color]);
+    levelPercentBar = ui::LoadingBar::create(Globals::resources["icon_progressbar_filled_white"]);
     levelPercentBar->setPosition(Vec2(visibleSize.width / 2, 50));
     levelPercentBar->setPercent(0);
     levelPercentBar->setName("Level Percent Bar");
     addChild(levelPercentBar);
     
-    levelPercentSprite = Sprite::create(Globals::resources["icon_progressbar_stroke_" + color]);
+    levelPercentSprite = Sprite::create(Globals::resources["icon_progressbar_stroke_white"]);
     levelPercentSprite->setPosition(Vec2(visibleSize.width / 2, 50));
     levelPercentSprite->setName("Level Percent Sprite");
     addChild(levelPercentSprite);
@@ -1054,8 +1057,8 @@ void GameScene::updateUI()
     
     
     background->setTexture(lastTheme.getBackgroundPath());
-    levelPercentBar->loadTexture(Globals::resources["icon_progressbar_filled_white"]);
-    levelPercentSprite->setTexture(Globals::resources["icon_progressbar_stroke_white"]);
+    levelPercentBar->setColor(currentUIColor);
+    levelPercentSprite->setColor(currentUIColor);
 
     settingsLayout->setColor(currentUIColor);
     waitLayout->setColor(currentUIColor);

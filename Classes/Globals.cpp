@@ -3,8 +3,8 @@
 //  MagneticBrick
 //
 //  Created by Konrad Stepniak on 11/03/2017.
-//
-//
+
+
 
 #include "Globals.hpp"
 
@@ -42,7 +42,7 @@ const int Globals::bricksSteps[] = {0, 9,18,27,36,54, 63, 72, 81, 90, 99, 108, 1
 
 const int Globals::bricksAfterWaiting = 20;
 const int Globals::timeToWait = 90;
-const float Globals::blurRadius = 2.6f; // 2.6
+const float Globals::blurRadius = 2.6f;//  2.6
 const float Globals::backgroundSpeed = 450.0f;
 bool Globals::iapLoaded = false;
 bool Globals::smallPhone = false;

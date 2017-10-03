@@ -95,7 +95,8 @@ void PopupLayout::createPriceLabel()
 
 void PopupLayout::createStar()
 {
-    star = Sprite::create(Globals::resources["icon_star_collect_black"]);
+    star = Sprite::create(Globals::resources["icon_star_collect_white"]);
+    star->setColor(Color3B::BLACK);
     star->setPosition(Vec2(343, 714));
     addChild(star);
 }

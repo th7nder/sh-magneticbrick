@@ -43,7 +43,7 @@ bool LoadingScene::init()
 void LoadingScene::loadResources()
 {
     
-    maxResources = (int)Globals::resources.size();
+    /*maxResources = (int)Globals::resources.size();
     for(auto resource : Globals::resources)
     {
         if(resource.second.find(".mp3") != -1)
@@ -59,6 +59,7 @@ void LoadingScene::loadResources()
             updateLoadingBar();
         } else
         {
+            updateLoadingBar();
             Director::getInstance()
             ->getTextureCache()
             ->addImageAsync(resource.second, [this](Texture2D* tex)
@@ -67,7 +68,14 @@ void LoadingScene::loadResources()
                             });
         }
 
-    }
+    }*/
+    
+
+    auto func = CallFunc::create([this](){
+        _director->replaceScene(TransitionFade::create(0.5, GameScene::create()));
+    });
+    
+    loadingBar->runAction(Sequence::create(ProgressFromTo::create(0.5, 0, 100), func, NULL));
 }
 
 void LoadingScene::updateLoadingBar()
