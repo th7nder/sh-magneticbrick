@@ -152,7 +152,7 @@ void AppDelegate::applicationWillEnterForeground() {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     auto sae = CocosDenshion::SimpleAudioEngine::getInstance();
     
-
+    // to do exists
     sae->resumeBackgroundMusic();
     
 #endif

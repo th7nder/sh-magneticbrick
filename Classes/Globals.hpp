@@ -15,6 +15,8 @@
 #include "ThemeManager.hpp"
 #include "SkinManager.hpp"
 #include "SimpleAudioEngine.h"
+#include "constants.cpp"
+#include "TH7Bridge.hpp"
 
 //#define DEBUG_LAYER 1
 //#define DOWNLOAD_MAPS 1

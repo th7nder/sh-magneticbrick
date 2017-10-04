@@ -7,12 +7,13 @@
 //
 
 #include "TH7Bridge.hpp"
-#include <platform/CCPlatformConfig.h>
+#include "cocos2d.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include <platform/android/jni/JniHelper.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include "Reachability.h"
+    #import <Foundation/NSFileManager.h>
 #endif
 
 bool TH7Bridge::isInternetAvailable()
@@ -78,6 +79,8 @@ bool TH7Bridge::isConnectedToWifi()
     return false;
 #endif
 }
+
+
 
 bool TH7Bridge::forceTouchAvailable()
 {

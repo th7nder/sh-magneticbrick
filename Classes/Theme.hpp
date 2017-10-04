@@ -26,6 +26,7 @@ private:
     cocos2d::Color4B themeColor;
     cocos2d::Color3B uiColor;
     bool whiteElements;
+    bool downloadInProgress;
 public:
     Theme(const std::string& codeName, const std::string& displayName, const cocos2d::Color4B& themeColor, bool whiteElements);
     std::string getElementsColor() const
@@ -33,6 +34,8 @@ public:
         return whiteElements ? "white" : "black";
         //return "white";
     }
+    
+    
     
     cocos2d::Color3B getUIColor()
     {
@@ -109,6 +112,16 @@ public:
     std::string getThumbnailBackgroundPath() const
     {
         return thumbnailBackgroundPath;
+    }
+    
+    bool isDownloadInProgress() const
+    {
+        return downloadInProgress;
+    }
+    
+    void setDownloadInProgress(bool value)
+    {
+        downloadInProgress = value;
     }
 };
 

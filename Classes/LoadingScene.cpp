@@ -42,8 +42,9 @@ bool LoadingScene::init()
 
 void LoadingScene::loadResources()
 {
-    
-    /*maxResources = (int)Globals::resources.size();
+    loadedResources = 0;
+    maxResources = (float)Globals::resources.size();
+    auto fu = FileUtils::getInstance();
     for(auto resource : Globals::resources)
     {
         if(resource.second.find(".mp3") != -1)
@@ -51,15 +52,21 @@ void LoadingScene::loadResources()
             if(resource.second.find("effect") != -1)
             {
                 CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(resource.second.c_str());
+                updateLoadingBar();
             } else
             {
-                CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic(resource.second.c_str());
+                if(fu->isFileExist(resource.second))
+                {
+                   CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic(resource.second.c_str());
+                }
+                
+                updateLoadingBar();
+                
             }
 
-            updateLoadingBar();
+            
         } else
         {
-            updateLoadingBar();
             Director::getInstance()
             ->getTextureCache()
             ->addImageAsync(resource.second, [this](Texture2D* tex)
@@ -68,21 +75,23 @@ void LoadingScene::loadResources()
                             });
         }
 
-    }*/
+    }
     
 
-    auto func = CallFunc::create([this](){
+    /*auto func = CallFunc::create([this](){
         _director->replaceScene(TransitionFade::create(0.5, GameScene::create()));
     });
     
-    loadingBar->runAction(Sequence::create(ProgressFromTo::create(0.5, 0, 100), func, NULL));
+    loadingBar->runAction(Sequence::create(ProgressFromTo::create(0.5, 0, 100), func, NULL));*/
 }
 
 void LoadingScene::updateLoadingBar()
 {
     loadedResources += 1.0;
+    CCLOG("spierdolony %f %f", loadedResources, maxResources);
     float percent = loadedResources / maxResources;
     this->loadingBar->setPercent(percent * 100);
+    CCLOG("max resources %f", percent);
     
     if(percent >= 1.0)
     {

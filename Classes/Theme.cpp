@@ -9,7 +9,7 @@
 #include "Theme.hpp"
 
 Theme::Theme(const std::string& codeName, const std::string& displayName, const cocos2d::Color4B& color, bool whiteElements) :
-codeName(codeName), displayName(displayName), themeColor(color), whiteElements(whiteElements)
+codeName(codeName), displayName(displayName), themeColor(color), whiteElements(whiteElements), downloadInProgress(false)
 {
     backgroundPath = "themes/" + codeName + "/background.png";
     playButtonPath = "themes/" + codeName + "/play_button.png";

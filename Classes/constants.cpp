@@ -11,6 +11,7 @@
 
 
 
+
 enum
 {
     kFilterCategoryLevel = 0x01,
@@ -24,6 +25,7 @@ inline double pixelsToMeters(double x)
 {
     return x / kPixelsPerMeter;
 }
+
 
 inline double metersToPixels(double x)
 {

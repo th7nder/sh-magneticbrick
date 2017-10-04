@@ -7,7 +7,7 @@
 //
 
 #include "ui/UILayout.h"
-#include "base/CCEventListenerKeyboard.h"
+#include "cocos2d.h"
 #include "BaseLayout.hpp"
 
 USING_NS_CC;

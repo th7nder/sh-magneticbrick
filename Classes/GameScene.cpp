@@ -8,6 +8,7 @@
 
 #include "GameScene.hpp"
 #include "TH7Bridge.hpp"
+
 USING_NS_CC;
 
 const float GameScene::transitionTime = 0.3;
@@ -22,15 +23,19 @@ selectLayout(nullptr),
 waitLayout(nullptr),
 winLoseLayout(nullptr),
 shopLayout(nullptr),
+downloader(nullptr),
 level(nullptr), uiContainer(nullptr), levelPercentBar(nullptr), inLayoutsTransition(false), visibleSize(Vec2::ZERO), popupLayout(nullptr), nextLevel(nullptr), tutorialLayout(nullptr), debugLayer(nullptr),
 kielniasUsedOnLevel(0)
 {
-
+    for(int i = 0; i < 10; i++)
+    {
+        downloadInProgress[i] = false;
+    }
 }
 
 GameScene::~GameScene()
 {
-
+    delete downloader;
 }
 
 int nb_nodes, nb_visible_nodes, nb_rgba_nodes, nb_not_letters_nodes,
@@ -127,14 +132,95 @@ bool GameScene::init()
     
     /*sdkbox::PluginUnityAds::setListener(this);
     sdkbox::PluginUnityAds::init();*/
+    
+    initDownloader();
 #endif
     
     schedule(schedule_selector(GameScene::watcher), 3.0, kRepeatForever, 0.0);
     
     
     //CCLOG("%s", TextureCache::getInstance()->getCachedTextureInfo().c_str());
-    //CCTextureCache::sharedTextureCache()->dumpCachedTextureInfo();
+    //CCTextureCache::sharedTextureCache()->dumpCachedTextureplayInfo();
+    
+    
+
+    auto func = CallFunc::create([this]{
+        const auto codename = getLastTheme().getCodeName();
+        auto path = Globals::resources["music_" + codename];
+        auto fu = FileUtils::getInstance();
+        if(fu->isFileExist(path))
+        {
+            auto sae = CocosDenshion::SimpleAudioEngine::getInstance();
+            sae->playBackgroundMusic(path.c_str(), true);
+        }
+    });
+    
+    auto seq = Sequence::create(DelayTime::create(0.5), func, NULL);
+    runAction(seq);
+
     return true;
+}
+
+void GameScene::initDownloader()
+{
+    downloader = new (std::nothrow) network::Downloader();
+    downloader->onTaskProgress = ([] (const network::DownloadTask& task, int64_t bytesReceived, int64_t totalBytesReceived, int64_t totalBytesExpected) {
+        CCLOG("Downloader Progress: %d, %d", totalBytesReceived, totalBytesExpected);
+    });
+    
+    downloader->onFileTaskSuccess = ([this] (const network::DownloadTask& task) {
+        //file downloaded, do what you need next
+        std::string sId = task.identifier;
+        int id = std::stoi(sId);
+        downloadInProgress[id] = false;
+    });
+    
+    downloader->onTaskError = ([this] (const network::DownloadTask& task, int errorCode, int errorCodeInternal, const std::string& errorStr) {
+        //file downloading error
+        std::string sId = task.identifier;
+        int id = std::stoi(sId);
+        downloadInProgress[id] = false;
+    });
+}
+
+void GameScene::downloadMusicForTheme(std::string codename, int id)
+{
+    std::string url = "http://fraj.eu/" + codename + ".mp3";
+    std::string filePath = FileUtils::getInstance()->getWritablePath() + codename + ".mp3";
+    
+    downloader->createDownloadFileTask(url, filePath, StringUtils::format("%d", id));
+}
+
+void GameScene::downloadMissingMusic()
+{
+    CCLOG("Downloader: connected to WiFi | Starting");
+    auto fu = FileUtils::getInstance();
+    auto themes = ThemeManager::getInstance()->getThemes();
+    int i = 0;
+    for(auto& theme: themes)
+    {
+        if(isThemeAvailable(i))
+        {
+            auto codename = theme.getCodeName();
+            if(!fu->isFileExist(Globals::resources["music_" + codename]))
+            {
+                if(!downloadInProgress[i])
+                {
+                    CCLOG("Downloader: need to download: %s", Globals::resources["music_" + codename].c_str());
+                    downloadInProgress[i] = true;
+                    downloadMusicForTheme(theme.getCodeName(), i);
+                }
+                else
+                {
+                    CCLOG("Downloader: download in progress");
+                }
+                
+            }
+        }
+        
+        
+        i++;
+    }
 }
 
 void GameScene::watcher(float dt)
@@ -155,6 +241,11 @@ void GameScene::watcher(float dt)
         if(getLastAdProvider() == "AdMob" && !sdkbox::PluginChartboost::isAvailable("Video"))
         {
             sdkbox::PluginChartboost::cache("Video");
+        }
+        
+        if(TH7Bridge::isConnectedToWifi())
+        {
+            downloadMissingMusic();
         }
     }
 #endif
@@ -492,7 +583,13 @@ void GameScene::onThemeAndLevelSelected(int themeId, int levelId)
             sae->stopBackgroundMusic();
         }
 
-        sae->playBackgroundMusic(Globals::resources["music_" + codename].c_str(), true);
+        // to do if file exists
+        auto path = Globals::resources["music_" + codename];
+        auto fu = FileUtils::getInstance();
+        if(fu->isFileExist(path))
+        {
+            sae->playBackgroundMusic(path.c_str(), true);
+        }
     }
     
     for(int i =0; i < 3; i++)
@@ -851,7 +948,14 @@ void GameScene::onPlayNextButtonClicked()
                 sae->stopBackgroundMusic();
             }
 
-            sae->playBackgroundMusic(Globals::resources["music_" + codename].c_str(), true);
+            // to do exists
+            auto path = Globals::resources["music_" + codename];
+            auto fu = FileUtils::getInstance();
+            if(fu->isFileExist(path))
+            {
+                sae->playBackgroundMusic(path.c_str(), true);
+            }
+            
         }
         
     }

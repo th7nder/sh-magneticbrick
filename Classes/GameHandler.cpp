@@ -95,10 +95,7 @@ GameHandler::GameHandler() : bricksRemaining(0), lastThemeId(0), currentPlayerSp
             skins[i].setAccess(false);
         }
     }
-    
-    const auto codename = getLastTheme().getCodeName();
-    sae->stopBackgroundMusic();
-    sae->playBackgroundMusic(Globals::resources["music_" + codename].c_str(), true);
+
     
 }
 

@@ -12,6 +12,7 @@
 
 
 #include "cocos2d.h"
+#include "network/CCDownloader.h"
 #include "network/HttpClient.h"
 #include "ui/UIPageView.h"
 #include "ui/UIScrollView.h"
@@ -60,8 +61,14 @@ class GameScene : public cocos2d::Scene, public  GameHandler
 #endif
 {
 private:
+    void initDownloader();
+    network::Downloader* downloader;
+    bool downloadInProgress[10];
     typedef Scene super;
     typedef GameScene self;
+    
+    void downloadMissingMusic();
+    void downloadMusicForTheme(std::string codename, int id);
 #if defined ADS
     void onAdColonyChange(const sdkbox::AdColonyAdInfo& info, bool available) override;
     void onAdColonyReward(const sdkbox::AdColonyAdInfo& info,

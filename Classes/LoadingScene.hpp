@@ -26,7 +26,7 @@ class LoadingScene : public cocos2d::Scene
     void loadResources();
     cocos2d::ui::LoadingBar* loadingBar;
     float loadedResources;
-    int maxResources;
+    float maxResources;
 CC_CONSTRUCTOR_ACCESS:
     LoadingScene();
     virtual ~LoadingScene();
