@@ -106,10 +106,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
     FileUtils::getInstance()->setSearchPaths(searchPaths);
     
-    sdkbox::PluginChartboost::setAutoCacheAds(false);
+    /*sdkbox::PluginChartboost::setAutoCacheAds(false);
     sdkbox::PluginChartboost::init();
     sdkbox::PluginAdColony::init();
-    sdkbox::PluginAdMob::init();
+    sdkbox::PluginAdMob::init();*/
 
     auto scene = LoadingScene::create();
     //auto scene = GameScene::create();

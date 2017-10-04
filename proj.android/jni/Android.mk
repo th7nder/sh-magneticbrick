@@ -23,6 +23,8 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 LOCAL_SHARED_LIBRARIES := libadcolonyso \
 libjsso \
 libadcolonyso \
+libjsso \
+libadcolonyso \
 libjsso
 LOCAL_WHOLE_STATIC_LIBRARIES := PluginAdMob \
 sdkbox \

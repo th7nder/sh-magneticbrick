@@ -165,14 +165,14 @@ void GameScene::initDownloader()
     downloader->onFileTaskSuccess = ([this] (const network::DownloadTask& task) {
         //file downloaded, do what you need next
         std::string sId = task.identifier;
-        int id = std::stoi(sId);
+        int id = atoi(sId.c_str());
         downloadInProgress[id] = false;
     });
     
     downloader->onTaskError = ([this] (const network::DownloadTask& task, int errorCode, int errorCodeInternal, const std::string& errorStr) {
         //file downloading error
         std::string sId = task.identifier;
-        int id = std::stoi(sId);
+        int id = atoi(sId.c_str());
         downloadInProgress[id] = false;
     });
 }

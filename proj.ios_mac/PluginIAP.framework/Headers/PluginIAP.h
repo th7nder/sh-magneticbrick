@@ -154,8 +154,22 @@ namespace sdkbox
         */
         static void removeListener();
 
-
         static void enableUserSideVerification( bool );
+
+        /**
+         * get auto invoke finishTransaction flag
+         */
+        static bool isAutoFinishTransaction();
+        
+        /**
+         * set auto invoke finishTransaction flag
+         */
+        static void setAutoFinishTransaction(bool b);
+        
+        /**
+         * to invoke ios finishTransaction api
+         */
+        static void finishTransaction(const std::string productid);
 
     };
 }

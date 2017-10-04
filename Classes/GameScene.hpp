@@ -10,7 +10,9 @@
 #define GameScene_hpp
 
 
-
+#include <iostream>
+#include <cstdlib>
+#include <string>
 #include "cocos2d.h"
 #include "network/CCDownloader.h"
 #include "network/HttpClient.h"

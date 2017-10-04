@@ -115,13 +115,13 @@ LOCAL_CPPFLAGS := -DSDKBOX_ENABLED
 LOCAL_LDLIBS := -landroid \
 -llog
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
-LOCAL_SHARED_LIBRARIES := libadcolonyso \
-libjsso \
-libadcolonyso \
-libjsso
+LOCAL_SHARED_LIBRARIES := libjsso
+#libadcolonyso \
+
+
 LOCAL_WHOLE_STATIC_LIBRARIES := PluginAdMob \
 sdkbox \
-PluginAdColony \
+#PluginAdColony \
 PluginIAP \
 android_native_app_glue \
 PluginChartboost \
@@ -141,7 +141,7 @@ include $(BUILD_SHARED_LIBRARY)
 $(call import-module,.)
 $(call import-module, ./sdkbox)
 $(call import-module, ./pluginadmob)
-$(call import-module, ./pluginadcolony)
+#$(call import-module, ./pluginadcolony)
 $(call import-module, ./pluginiap)
 $(call import-module, ./pluginchartboost)
 $(call import-module, ./pluginunityads)
