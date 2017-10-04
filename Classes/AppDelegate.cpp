@@ -105,6 +105,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
         Globals::setSmallPhone(true);
     }
     FileUtils::getInstance()->setSearchPaths(searchPaths);
+    
+    sdkbox::PluginChartboost::setAutoCacheAds(false);
+    sdkbox::PluginChartboost::init();
+    sdkbox::PluginAdColony::init();
+    sdkbox::PluginAdMob::init();
+
     auto scene = LoadingScene::create();
     //auto scene = GameScene::create();
     director->runWithScene(scene);

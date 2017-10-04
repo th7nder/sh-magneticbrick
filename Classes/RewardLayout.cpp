@@ -162,6 +162,7 @@ void RewardLayout::createBrickReward()
         skin = random(0, bricksToUnlock - 1);
         CCLOG("skin randed: %d", bricksArray[skin]);
         skins[bricksArray[skin]].setAccess(true);
+        gameHandler->setCurrentSkinId(bricksArray[skin]);
         this->icon = Sprite::create(skins[bricksArray[skin]].getIconPath());
         this->icon->setPosition(Vec2(320, 568));
         this->addChild(icon, 2);

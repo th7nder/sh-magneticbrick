@@ -115,17 +115,11 @@ bool GameScene::init()
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) or (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     sdkbox::PluginAdColony::setListener(this);
-    sdkbox::PluginAdColony::init();
-    
     sdkbox::IAP::setListener(this);
     sdkbox::IAP::init();
-    
     sdkbox::PluginAdMob::setListener(this);
-    sdkbox::PluginAdMob::init();
-
     sdkbox::PluginChartboost::setListener(this);
-    sdkbox::PluginChartboost::setAutoCacheAds(false);
-    sdkbox::PluginChartboost::init();
+
 
     
     // to do wyjebac to calkowicie
@@ -455,7 +449,7 @@ void GameScene::createUI()
     waitLayout = WaitLayout::createWithSize(visibleSize, this);
     waitLayout->setVisible(false);
     waitLayout->setCascadeOpacityEnabled(true);
-    waitLayout->setColor(currentUIColor);
+    //waitLayout->setColor(currentUIColor);
     uiContainer->addChild(waitLayout);
     
     createShopLayout();
