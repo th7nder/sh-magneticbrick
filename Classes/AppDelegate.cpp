@@ -4,7 +4,7 @@
 #include "Globals.hpp"
 
 #if defined ADS
-#include "PluginAdColony/PluginAdColony.h"
+//#include "PluginAdColony/PluginAdColony.h" adcolony removal
 #include "PluginIAP/PluginIAP.h"
 #include "PluginAdMob/PluginAdMob.h"
 #endif

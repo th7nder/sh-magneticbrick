@@ -245,9 +245,9 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         try {
             ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
             Bundle bundle = ai.metaData;
-            String libName = bundle.getString("android.app.lib_name");
-            System.loadLibrary("js");System.loadLibrary("adcolony");
-            System.loadLibrary(libName);
+          //  String libName = bundle.getString("android.app.lib_name"); // adcolony removal
+          //  System.loadLibrary("js");System.loadLibrary("adcolony");
+           // System.loadLibrary(libName);
         } catch (Exception e) {
             e.printStackTrace();
         }

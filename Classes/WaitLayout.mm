@@ -10,7 +10,7 @@
 #include "TH7Bridge.hpp"
 
 #if defined ADS
-#include "PluginAdColony/PluginAdColony.h"
+//#include "PluginAdColony/PluginAdColony.h" adcolony removal
 #include "PluginAdMob/PluginAdMob.h"
 #include "PluginChartboost/PluginChartboost.h"
 #endif
@@ -85,13 +85,13 @@ void WaitLayout::createButton()
                     pauseBackgroundMusic();
                     
                 }
-                else if(sdkbox::PluginAdColony::getStatus("video") == sdkbox::ADCOLONY_ZONE_STATUS_ACTIVE)
+                /*else if(sdkbox::PluginAdColony::getStatus("video") == sdkbox::ADCOLONY_ZONE_STATUS_ACTIVE)
                 {
                     sdkbox::PluginAdColony::show("video");
                     gameHandler->setLastAdProvider("AdColony");
                     pauseBackgroundMusic();
-                }
-                else if(sdkbox::PluginChartboost::isAvailable("Video"))
+                } adcolony removal */
+                if(sdkbox::PluginChartboost::isAvailable("Video"))
                 {
                     sdkbox::PluginChartboost::show("Video");
                     gameHandler->setLastAdProvider("Chartboost");
@@ -114,12 +114,12 @@ void WaitLayout::createButton()
                     gameHandler->setLastAdProvider("Chartboost");
                     pauseBackgroundMusic();
                 }
-                else if(sdkbox::PluginAdColony::getStatus("video") == sdkbox::ADCOLONY_ZONE_STATUS_ACTIVE)
+                /*else if(sdkbox::PluginAdColony::getStatus("video") == sdkbox::ADCOLONY_ZONE_STATUS_ACTIVE)
                 {
                     sdkbox::PluginAdColony::show("video");
                     gameHandler->setLastAdProvider("AdColony");
                     pauseBackgroundMusic();
-                }
+                } adcolony removal*/
                 else if(sdkbox::PluginAdMob::isAvailable("mb_video"))
                 {
                     sdkbox::PluginAdMob::show("mb_video");
@@ -137,13 +137,13 @@ void WaitLayout::createButton()
             {
                 
                 
-                if(sdkbox::PluginAdColony::getStatus("video") == sdkbox::ADCOLONY_ZONE_STATUS_ACTIVE)
+                /*if(sdkbox::PluginAdColony::getStatus("video") == sdkbox::ADCOLONY_ZONE_STATUS_ACTIVE)
                 {
                     sdkbox::PluginAdColony::show("video");
                     gameHandler->setLastAdProvider("AdColony");
                     pauseBackgroundMusic();
-                }
-                else if(sdkbox::PluginAdMob::isAvailable("mb_video"))
+                }adcolony removal */
+                if(sdkbox::PluginAdMob::isAvailable("mb_video"))
                 {
                     sdkbox::PluginAdMob::show("mb_video");
                     gameHandler->setLastAdProvider("AdMob");

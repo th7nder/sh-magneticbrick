@@ -115,7 +115,7 @@ bool GameScene::init()
     CCLOG("forceTouch available TH7: %d", TH7Bridge::forceTouchAvailable());
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) or (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    sdkbox::PluginAdColony::setListener(this);
+    //sdkbox::PluginAdColony::setListener(this); adcolony removal
     sdkbox::IAP::setListener(this);
     sdkbox::IAP::init();
     sdkbox::PluginAdMob::setListener(this);
@@ -228,10 +228,10 @@ void GameScene::watcher(float dt)
             sdkbox::IAP::refresh();
         }
         
-        if(getLastAdProvider() == "AdColony" && !sdkbox::PluginAdMob::isAvailable("mb_video"))
+        /*if(getLastAdProvider() == "AdColony" && !sdkbox::PluginAdMob::isAvailable("mb_video"))
         {
             sdkbox::PluginAdMob::cache("mb_video");
-        }
+        } adcolony removal */
         
         if(getLastAdProvider() == "AdMob" && !sdkbox::PluginChartboost::isAvailable("Video"))
         {
@@ -1691,7 +1691,7 @@ b2World* GameScene::getWorld()
 
 
 #if defined ADS
-void GameScene::onAdColonyChange(const sdkbox::AdColonyAdInfo& info, bool available)
+/*void GameScene::onAdColonyChange(const sdkbox::AdColonyAdInfo& info, bool available)
 {
    
 }
@@ -1717,12 +1717,11 @@ void GameScene::onAdColonyStarted(const sdkbox::AdColonyAdInfo& info)
 }
 void GameScene::onAdColonyFinished(const sdkbox::AdColonyAdInfo& info)
 {
-    /*setBricksRemaining(getBricksRemaining() + Globals::bricksAfterWaiting);
-    winLoseLayout->updateUI();
-    titleLayout->updateUI();
-    auto sae = CocosDenshion::SimpleAudioEngine::getInstance();
-    sae->resumeBackgroundMusic();*/
+
 }
+ 
+ adcolony removal
+ */
 
 void GameScene::onInitialized(bool ok)
 {
