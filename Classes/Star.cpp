@@ -49,13 +49,18 @@ void Star::setProperties(ValueMap &props)
     CCASSERT(!props["name"].isNull(), "initialSpeed was not set in map!");
     number = props["name"].asInt();
     if(gameHandler->getStar(number)) remove = true;
+    
+    gameHandler->addStarBar(getPositionY(), remove);
 }
 
 
 void Star::addSprite()
 {
     if(remove) return;
-    sprite = cocos2d::Sprite::create(Globals::resources["icon_star_collect_" + gameHandler->getLastTheme().getElementsColor()]);
+    //" + gameHandler->getLastTheme().getElementsColor()
+    
+    sprite = cocos2d::Sprite::create(Globals::resources["icon_star_collect_white"]);
+    sprite->setColor(Color3B(255, 215, 0));
     sprite->setAnchorPoint(Vec2::ZERO);
     sprite->setCascadeOpacityEnabled(true);
     auto seq = Sequence::create(FadeTo::create(0.5, 10), FadeIn::create(0.3), DelayTime::create(0.4), NULL);

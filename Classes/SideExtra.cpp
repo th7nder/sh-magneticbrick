@@ -49,6 +49,9 @@ bool SideExtra::init(GameHandler* handler)
 {
     if(!super::init(handler)) return false;
     gameHandler = handler;
+    
+    setCascadeOpacityEnabled(true);
+    setOpacity(120);
     return true;
 }
 

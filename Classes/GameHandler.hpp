@@ -101,7 +101,7 @@ public:
         playerStartY = y;
     }
     
-    void setFinishLineY(float y)
+    virtual void setFinishLineY(float y)
     {
         finishLineY = y;
     }
@@ -247,6 +247,8 @@ public:
     virtual void setPostEffectEnabled() = 0;
     
     virtual void onBackFromWait() = 0;
+    
+    virtual void addStarBar(float y, bool collected) = 0;
     
     
 };

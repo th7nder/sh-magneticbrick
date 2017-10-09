@@ -63,6 +63,19 @@ class GameScene : public cocos2d::Scene, public  GameHandler
 #endif
 {
 private:
+    struct StarBarInfo
+    {
+        float y;
+        bool filled;
+    };
+    
+    cocos2d::DrawNode* createStarBarStencilDown(float delta);
+    cocos2d::DrawNode* createStarBarStencilUp(float delta);
+    std::vector<StarBarInfo> starBarQueue;
+    Node* stencilContainer;
+    Node* starBarContainer;
+    void createStarBar(float y, bool collected);
+    
     void initDownloader();
     network::Downloader* downloader;
     bool downloadInProgress[10];
@@ -273,6 +286,10 @@ public:
 
     void watcher(float dt);
     cocos2d::Color3B currentUIColor;
+
+    
+    virtual void addStarBar(float y, bool collected) override;
+    virtual void setFinishLineY(float y) override;
 
 };
 #endif /* GameScene_hpp */

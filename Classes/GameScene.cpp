@@ -8,6 +8,7 @@
 
 #include "GameScene.hpp"
 #include "TH7Bridge.hpp"
+#include "ui/UIScale9Sprite.h"
 
 USING_NS_CC;
 
@@ -328,21 +329,136 @@ void GameScene::createBackground()
     postEffect->addChild(background);
 }
 
+DrawNode* GameScene::createStarBarStencilDown(float delta)
+{
+    DrawNode* stencil = DrawNode::create();
+    stencil->setAnchorPoint(Vec2::ZERO);
+    //CCLOG("%f", clippingNode->getContentSize().width);
+    
+    stencil->drawTriangle(Vec2(-15 + delta, -25), Vec2(15 + delta, -25), Vec2(0 + delta, 25), Color4F::MAGENTA);
+    
+    return stencil;
+}
+
+DrawNode* GameScene::createStarBarStencilUp(float delta)
+{
+    DrawNode* stencil = DrawNode::create();
+    stencil->setAnchorPoint(Vec2::ZERO);
+    stencil->drawTriangle(Vec2(0 + delta, -25), Vec2(16.8 + delta, 9), Vec2(-16.8 + delta, 9), Color4F::MAGENTA);
+    //stencil->drawTriangle(Vec2(-15 + delta, -25), Vec2(15 + delta, -25), Vec2(0 + delta, 25), Color4F::MAGENTA);
+
+    return stencil;
+}
+
+void GameScene::createStarBar(float y, bool collected)
+{
+    float wholeDistance = finishLineY - playerStartY; // not so sure;
+    float curr = finishLineY - y;
+    float percent = (1.0f - (curr / wholeDistance));
+    float delta = -300 + (percent) * 600;
+    
+    auto sprite = Sprite::create(Globals::resources[collected ? "barstar_full" : "barstar_empty"]);
+    //sprite->setColor(currentUIColor == Color3B::BLACK ? Color3B(50, 50, 50) : Color3B(200, 200, 200));
+    sprite->setColor(Color3B(255, 215, 0));
+    //sprite->setColor(currentUIColor);
+    sprite->setPosition(Vec2((visibleSize.width / 2) + delta, visibleSize.height - 46));
+    starBarContainer->addChild(sprite);
+    
+    stencilContainer->addChild(createStarBarStencilUp(delta));
+    stencilContainer->addChild(createStarBarStencilDown(delta));
+    //createStarBarStencilDown(delta);
+}
+
+void GameScene::addStarBar(float y, bool collected)
+{
+    if(y > finishLineY)
+    {
+        StarBarInfo i = {y, collected};
+        starBarQueue.push_back(i);
+    }
+    else
+    {
+        createStarBar(y, collected);
+    }
+}
+
+void GameScene::setFinishLineY(float y)
+{
+    finishLineY = y;
+    
+    if(y > 0)
+    {
+        for(const auto& sb : starBarQueue)
+        {
+            createStarBar(sb.y, sb.filled);
+        }
+        
+        starBarQueue.clear();
+    }
+    else
+    {
+        starBarContainer->removeAllChildren();
+        stencilContainer->removeAllChildren();
+    }
+
+}
+
 void GameScene::createLevel()
 {
+    
     auto visibleSize = Director::getInstance()->getVisibleSize();
+    
     level = Level::create(this);
     postEffect->addChild(level);
     levelPercentBar = ui::LoadingBar::create(Globals::resources["icon_progressbar_filled_white"]);
-    levelPercentBar->setPosition(Vec2(visibleSize.width / 2, 50));
+    levelPercentBar->setPosition(Vec2::ZERO);
+    //levelPercentBar->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - 50));
     levelPercentBar->setPercent(0);
     levelPercentBar->setName("Level Percent Bar");
-    addChild(levelPercentBar);
+    //addChild(levelPercentBar);
+    
     
     levelPercentSprite = Sprite::create(Globals::resources["icon_progressbar_stroke_white"]);
-    levelPercentSprite->setPosition(Vec2(visibleSize.width / 2, 50));
+    //levelPercentSprite->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - 50));
+    levelPercentSprite->setPosition(Vec2::ZERO);
     levelPercentSprite->setName("Level Percent Sprite");
-    addChild(levelPercentSprite);
+    //addChild(levelPercentSprite);
+    
+
+ 
+    
+    
+    auto clippingNode = ClippingNode::create();
+    clippingNode->setContentSize(levelPercentSprite->getContentSize());
+    clippingNode->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - 50));
+
+    stencilContainer = Node::create();
+    
+    starBarContainer = Node::create();
+    starBarContainer->setVisible(false);
+    addChild(starBarContainer, 1999);
+    
+    /*stencilContainer->addChild(createStarBarStencilUp(0.30));
+    stencilContainer->addChild(createStarBarStencilDown(0.30));
+    
+    stencilContainer->addChild(createStarBarStencilUp(0.60));
+    stencilContainer->addChild(createStarBarStencilDown(0.60));
+    
+    stencilContainer->addChild(createStarBarStencilUp(0.90));
+    stencilContainer->addChild(createStarBarStencilDown(0.90));*/
+    /*stencilContainer->addChild(createStarBarStencil(0.60));
+    stencilContainer->addChild(createStarBarStencil(0.90));*/
+    
+    clippingNode->setStencil(stencilContainer);
+    clippingNode->setInverted(true);
+    
+    addChild(clippingNode);
+    clippingNode->addChild(levelPercentSprite);
+    clippingNode->addChild(levelPercentBar);
+    
+    
+
+
     
     levelPercentSprite->setVisible(false);
     levelPercentBar->setVisible(false);
@@ -666,6 +782,7 @@ void GameScene::onPlayerDeath()
     if(getGameState() == Died)
         return;
     
+    
 
     kielniaLayout->setEnabled(false);
     kielniaLayout->setVisible(false);
@@ -699,6 +816,7 @@ void GameScene::onPlayerDeath()
     }
     else
     {
+        setFinishLineY(-1.0);
         fadeInLayout(winLoseLayout);
         blackout->setVisible(false);
     }
@@ -1069,8 +1187,8 @@ void GameScene::setStartingCameraAndBg(bool animated)
     }
 
 
-    levelPercentBar->setPositionY(50);
-    levelPercentSprite->setPositionY(50);
+    //levelPercentBar->setPositionY(50);
+    //levelPercentSprite->setPositionY(50);
 }
 
 void GameScene::onStarCollected(int number)
@@ -1096,11 +1214,13 @@ void GameScene::setGameState(GameHandler::GameState state)
         tapToPlay->runAction(FadeTo::create(transitionTime, 0));
         levelPercentSprite->setVisible(true);
         levelPercentBar->setVisible(true);
+        starBarContainer->setVisible(true);
     }
     else
     {
         levelPercentSprite->setVisible(false);
         levelPercentBar->setVisible(false);
+        starBarContainer->setVisible(false);
     }
 }
 
@@ -1516,6 +1636,8 @@ void GameScene::onNoThanksClicked()
     fadeOutLayout(kielniaLayout);
     setBlackout(false);
     fadeInLayout(winLoseLayout);
+    
+    setFinishLineY(-1.0);
 
 }
 

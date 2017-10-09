@@ -52,6 +52,11 @@ std::unordered_map<std::string, std::string> Globals::resources = Globals::initi
 std::unordered_map<std::string, std::string> Globals::initializeResources()
 {
     std::unordered_map<std::string, std::string> resources;
+    
+    
+    resources["barstar_empty"] = "ui/level/barstar_empty.png";
+    resources["barstar_full"] = "ui/level/barstar_full.png";
+    
     resources["splashscreen"] = "splash.png";
     resources["icon_loadingbar"] = "buttons/loadingbar.png";
     resources["logo_mb"] = "mb-logo.png";

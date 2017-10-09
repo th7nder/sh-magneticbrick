@@ -215,24 +215,28 @@ void ClippingNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
     _beforeVisitCmd.func = CC_CALLBACK_0(StencilStateManager::onBeforeVisit, _stencilStateManager);
     renderer->addCommand(&_beforeVisitCmd);
     
-    auto alphaThreshold = this->getAlphaThreshold();
-    if (alphaThreshold < 1)
+    if(_stencil != nullptr)
     {
+        auto alphaThreshold = this->getAlphaThreshold();
+        if (alphaThreshold < 1)
+        {
 #if CC_CLIPPING_NODE_OPENGLES
-        // since glAlphaTest do not exists in OES, use a shader that writes
-        // pixel only if greater than an alpha threshold
-        GLProgram *program = GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE_ALPHA_TEST_NO_MV);
-        GLint alphaValueLocation = glGetUniformLocation(program->getProgram(), GLProgram::UNIFORM_NAME_ALPHA_TEST_VALUE);
-        // set our alphaThreshold
-        program->use();
-        program->setUniformLocationWith1f(alphaValueLocation, alphaThreshold);
-        // we need to recursively apply this shader to all the nodes in the stencil node
-        // FIXME: we should have a way to apply shader to all nodes without having to do this
-        setProgram(_stencil, program);
+            // since glAlphaTest do not exists in OES, use a shader that writes
+            // pixel only if greater than an alpha threshold
+            GLProgram *program = GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE_ALPHA_TEST_NO_MV);
+            GLint alphaValueLocation = glGetUniformLocation(program->getProgram(), GLProgram::UNIFORM_NAME_ALPHA_TEST_VALUE);
+            // set our alphaThreshold
+            program->use();
+            program->setUniformLocationWith1f(alphaValueLocation, alphaThreshold);
+            // we need to recursively apply this shader to all the nodes in the stencil node
+            // FIXME: we should have a way to apply shader to all nodes without having to do this
+            setProgram(_stencil, program);
 #endif
-
+            
+        }
+        _stencil->visit(renderer, _modelViewTransform, flags);
     }
-    _stencil->visit(renderer, _modelViewTransform, flags);
+
 
     _afterDrawStencilCmd.init(_globalZOrder);
     _afterDrawStencilCmd.func = CC_CALLBACK_0(StencilStateManager::onAfterDrawStencil, _stencilStateManager);

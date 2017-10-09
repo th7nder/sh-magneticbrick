@@ -16,7 +16,7 @@ bool BaseLayout::init()
 {
     if(!super::init()) return false;
     
-    keyboardListener = EventListenerKeyboard::create();
+    /*keyboardListener = EventListenerKeyboard::create();
     keyboardListener->onKeyReleased = [this](cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event)
     {
         if (keyCode == EventKeyboard::KeyCode::KEY_BACK)
@@ -29,7 +29,7 @@ bool BaseLayout::init()
         }
     };
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);*/
     
     return true;
 }

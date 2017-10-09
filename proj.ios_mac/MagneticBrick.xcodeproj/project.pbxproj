@@ -607,7 +607,7 @@
 		71C7D3991F15622A00A1DB65 /* GlidingRotatingExtra.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GlidingRotatingExtra.hpp; sourceTree = "<group>"; };
 		71CFA7361EF9C9A60039BB26 /* CSESmall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSESmall.cpp; sourceTree = "<group>"; };
 		71CFA7371EF9C9A60039BB26 /* CSESmall.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CSESmall.hpp; sourceTree = "<group>"; };
-		71CFA73C1EF9CAC70039BB26 /* SideExtra.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SideExtra.cpp; sourceTree = "<group>"; };
+		71CFA73C1EF9CAC70039BB26 /* SideExtra.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SideExtra.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		71CFA73D1EF9CAC70039BB26 /* SideExtra.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SideExtra.hpp; sourceTree = "<group>"; };
 		71CFA7401EF9CD710039BB26 /* CSEMedium.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSEMedium.cpp; sourceTree = "<group>"; };
 		71CFA7411EF9CD710039BB26 /* CSEMedium.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CSEMedium.hpp; sourceTree = "<group>"; };
