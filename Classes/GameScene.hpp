@@ -49,7 +49,7 @@ class Player;
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) or (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-//#include "PluginAdColony/PluginAdColony.h" adcolony removal
+#include "PluginAdColony/PluginAdColony.h"
 #include "PluginIAP/PluginIAP.h"
 #include "PluginAdMob/PluginAdMob.h"
 #include "PluginChartboost/PluginChartboost.h"
@@ -57,7 +57,7 @@ class Player;
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) or (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-class GameScene : public cocos2d::Scene, public  GameHandler, /* adcolony removal public sdkbox::AdColonyListener,*/ public sdkbox::IAPListener, public sdkbox::AdMobListener, public sdkbox::ChartboostListener/*, public sdkbox::UnityAdsListener*/
+class GameScene : public cocos2d::Scene, public  GameHandler, public sdkbox::AdColonyListener, public sdkbox::IAPListener, public sdkbox::AdMobListener, public sdkbox::ChartboostListener/*, public sdkbox::UnityAdsListener*/
 #else
 class GameScene : public cocos2d::Scene, public  GameHandler
 #endif
@@ -85,11 +85,11 @@ private:
     void downloadMissingMusic();
     void downloadMusicForTheme(std::string codename, int id);
 #if defined ADS
-    /*void onAdColonyChange(const sdkbox::AdColonyAdInfo& info, bool available) override;
+    void onAdColonyChange(const sdkbox::AdColonyAdInfo& info, bool available) override;
     void onAdColonyReward(const sdkbox::AdColonyAdInfo& info,
                           const std::string& currencyName, int amount, bool success) override;
     void onAdColonyStarted(const sdkbox::AdColonyAdInfo& info) override;
-    void onAdColonyFinished(const sdkbox::AdColonyAdInfo& info) override; adcolony removal */ 
+    void onAdColonyFinished(const sdkbox::AdColonyAdInfo& info) override;
     
     virtual void onInitialized(bool ok) override;
     virtual void onSuccess(sdkbox::Product const& p) override;

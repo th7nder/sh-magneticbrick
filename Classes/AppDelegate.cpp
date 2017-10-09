@@ -4,9 +4,7 @@
 #include "Globals.hpp"
 
 #if defined ADS
-//#include "PluginAdColony/PluginAdColony.h" adcolony removal
 #include "PluginIAP/PluginIAP.h"
-#include "PluginAdMob/PluginAdMob.h"
 #endif
 
 USING_NS_CC;
@@ -106,10 +104,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
     FileUtils::getInstance()->setSearchPaths(searchPaths);
     
-    /*sdkbox::PluginChartboost::setAutoCacheAds(false);
-    sdkbox::PluginChartboost::init();
-    sdkbox::PluginAdColony::init();
-    sdkbox::PluginAdMob::init();*/
 
     auto scene = LoadingScene::create();
     //auto scene = GameScene::create();
