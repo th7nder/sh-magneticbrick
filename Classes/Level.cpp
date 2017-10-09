@@ -512,9 +512,9 @@ LevelObject* Level::addObject(std::string className, ValueMap& properties, bool 
     if(className == "Player")
     {
 
-        walls = (Walls*)addObject("Walls", properties);
+        //walls = (Walls*)addObject("Walls", properties);
         levelFollower = (LevelFollower*)addObject("LevelFollower", properties);
-        player = Player::create(gameHandler, walls, levelFollower);
+        player = Player::create(gameHandler, nullptr, levelFollower);
         o = player;
     }
     else if(className == "Walls")

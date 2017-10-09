@@ -844,6 +844,7 @@ void GameScene::onPlayerDeath()
 
 void GameScene::onPlayerWin()
 {
+    setFinishLineY(-1.0f);
     setGameState(Win);
     logEventWin(getLastThemeId(), getLastLevelId(), getCurrentProgress());
 
