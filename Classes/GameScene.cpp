@@ -102,6 +102,24 @@ bool GameScene::init()
 {
     if(!super::init()) return false;
     
+    auto themes = ThemeManager::getInstance()->getThemes();
+    int i = 1;
+    auto fu = cocos2d::FileUtils::getInstance();
+    std::string writablePath = fu->getWritablePath();
+    for(const auto& theme: themes)
+    {
+        auto codename = theme.getCodeName();
+        if(i > 1)
+        {
+            Globals::resources["music_" + codename] = writablePath + codename + ".mp3";
+            CCLOG("h3h3h3h3 %s", Globals::resources["music_" + codename].c_str());
+        }
+        else
+        {
+            Globals::resources["music_" + codename] = "sound/music/" + codename + ".mp3";
+        }
+    }
+    
     visibleSize = Director::getInstance()->getVisibleSize();
     createBackground();
     createLevel();

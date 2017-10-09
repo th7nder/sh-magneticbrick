@@ -203,14 +203,14 @@ std::unordered_map<std::string, std::string> Globals::initializeResources()
     resources["obstacle_bullet"] = "obstacles/bullet.png";
     auto themes = ThemeManager::getInstance()->getThemes();
     int i = 1;
-    auto fu = cocos2d::FileUtils::getInstance();
-    std::string writablePath = fu->getWritablePath();
+   // auto fu = cocos2d::FileUtils::getInstance();
+   // std::string writablePath = fu->getWritablePath();
     
     
     for(const auto& theme: themes)
     {
         auto codename = theme.getCodeName();
-        if(i > 1)
+        /*if(i > 1)
         {
             resources["music_" + codename] = writablePath + codename + ".mp3";
             CCLOG("h3h3h3h3 %s", resources["music_" + codename].c_str());
@@ -218,7 +218,7 @@ std::unordered_map<std::string, std::string> Globals::initializeResources()
         else
         {
             resources["music_" + codename] = "sound/music/" + codename + ".mp3";
-        }
+        }*/
     
         resources["background_" + codename] = "themes/" + codename + "/background.png";
         resources["icon_" + codename + "_play"] = "themes/" + codename + "/play_button.png";
