@@ -1222,10 +1222,11 @@ void GameScene::onStarCollected(int number, float x)
     
     addChild(starAnim);
     
+    //RotateBy::create
     float ratio = star->getContentSize().width / starAnim->getContentSize().width;
     starAnim->setScale(ratio);
     const float time = 0.5;
-    auto spawn = Spawn::create(ScaleTo::create(time, ratio), RotateBy::create(time, 360.0, 360.0), MoveTo::create(time, star->getPosition()), NULL);
+    auto spawn = Spawn::create(ScaleTo::create(time, ratio), RotateBy::create(time, 180.0, 180.0), MoveTo::create(time, star->getPosition()), NULL);
     auto func = CallFunc::create([starAnim, star]{
         starAnim->removeFromParent();
         star->setTexture(Globals::resources["barstar_full"]);

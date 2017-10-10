@@ -70,6 +70,7 @@ void WaitLayout::createButton()
     
     watchAd = SHButton::create(gameHandler, Globals::resources["watch_ad"]);
     watchAd->setPosition(Vec2(320, 286));
+    watchAd->setColor(Color3B(254, 254, 254));
     watchAd->addClickEventListener([this](Ref* sender){
 
 #if defined ADS

@@ -15,7 +15,6 @@
 #include "GameHandler.hpp"
 
 using namespace cocos2d;
-class GameNode;
 
 class LevelObject : public Node
 {
