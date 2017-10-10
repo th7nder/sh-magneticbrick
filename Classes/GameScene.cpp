@@ -368,7 +368,7 @@ DrawNode* GameScene::createStarBarStencilUp(float delta)
     return stencil;
 }
 
-void GameScene::createStarBar(float y, bool collected)
+void GameScene::createStarBar(float y, bool collected, int starId)
 {
     float wholeDistance = finishLineY - playerStartY; // not so sure;
     float curr = finishLineY - y;
@@ -376,27 +376,26 @@ void GameScene::createStarBar(float y, bool collected)
     float delta = -300 + (percent) * 600;
     
     auto sprite = Sprite::create(Globals::resources[collected ? "barstar_full" : "barstar_empty"]);
-    //sprite->setColor(currentUIColor == Color3B::BLACK ? Color3B(50, 50, 50) : Color3B(200, 200, 200));
     sprite->setColor(Color3B(255, 215, 0));
-    //sprite->setColor(currentUIColor);
     sprite->setPosition(Vec2((visibleSize.width / 2) + delta, visibleSize.height - 46));
+    sprite->setTag(starId);
     starBarContainer->addChild(sprite);
     
     stencilContainer->addChild(createStarBarStencilUp(delta));
     stencilContainer->addChild(createStarBarStencilDown(delta));
-    //createStarBarStencilDown(delta);
+
 }
 
-void GameScene::addStarBar(float y, bool collected)
+void GameScene::addStarBar(float y, bool collected, int starId)
 {
     if(y > finishLineY)
     {
-        StarBarInfo i = {y, collected};
+        StarBarInfo i = {y, collected, starId};
         starBarQueue.push_back(i);
     }
     else
     {
-        createStarBar(y, collected);
+        createStarBar(y, collected, starId);
     }
 }
 
@@ -408,13 +407,15 @@ void GameScene::setFinishLineY(float y)
     {
         for(const auto& sb : starBarQueue)
         {
-            createStarBar(sb.y, sb.filled);
+            createStarBar(sb.y, sb.filled, sb.starId);
         }
         
         starBarQueue.clear();
     }
     else
     {
+
+        removeChildByTag(2044);
         starBarContainer->removeAllChildren();
         stencilContainer->removeAllChildren();
     }
@@ -456,16 +457,6 @@ void GameScene::createLevel()
     starBarContainer->setVisible(false);
     addChild(starBarContainer, 1999);
     
-    /*stencilContainer->addChild(createStarBarStencilUp(0.30));
-    stencilContainer->addChild(createStarBarStencilDown(0.30));
-    
-    stencilContainer->addChild(createStarBarStencilUp(0.60));
-    stencilContainer->addChild(createStarBarStencilDown(0.60));
-    
-    stencilContainer->addChild(createStarBarStencilUp(0.90));
-    stencilContainer->addChild(createStarBarStencilDown(0.90));*/
-    /*stencilContainer->addChild(createStarBarStencil(0.60));
-    stencilContainer->addChild(createStarBarStencil(0.90));*/
     
     clippingNode->setStencil(stencilContainer);
     clippingNode->setInverted(true);
@@ -1210,11 +1201,39 @@ void GameScene::setStartingCameraAndBg(bool animated)
     //levelPercentSprite->setPositionY(50);
 }
 
-void GameScene::onStarCollected(int number)
+void GameScene::onStarCollected(int number, float x)
 {
     auto sae = CocosDenshion::SimpleAudioEngine::getInstance();
     sae->playEffect(Globals::resources["effect_star"].c_str());
     currentStarCollected[number - 1] = true;
+    
+    Sprite* star = starBarContainer->getChildByTag<Sprite*>(number);
+    
+    
+    
+    
+    
+    
+    //Skew
+    
+    auto starAnim = cocos2d::Sprite::create(Globals::resources["icon_star_collect_white"]);
+    starAnim->setPosition(Vec2(x, playerStartY));
+    starAnim->setColor(Color3B(255, 215, 0));
+    
+    addChild(starAnim);
+    
+    float ratio = star->getContentSize().width / starAnim->getContentSize().width;
+    starAnim->setScale(ratio);
+    const float time = 0.5;
+    auto spawn = Spawn::create(ScaleTo::create(time, ratio), RotateBy::create(time, 360.0, 360.0), MoveTo::create(time, star->getPosition()), NULL);
+    auto func = CallFunc::create([starAnim, star]{
+        starAnim->removeFromParent();
+        star->setTexture(Globals::resources["barstar_full"]);
+    });
+    auto seq = Sequence::create(spawn, func, NULL);
+    starAnim->runAction(seq);
+    starAnim->setTag(2044);
+
 }
 
 

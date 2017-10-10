@@ -67,6 +67,7 @@ private:
     {
         float y;
         bool filled;
+        int starId;
     };
     
     cocos2d::DrawNode* createStarBarStencilDown(float delta);
@@ -74,7 +75,7 @@ private:
     std::vector<StarBarInfo> starBarQueue;
     Node* stencilContainer;
     Node* starBarContainer;
-    void createStarBar(float y, bool collected);
+    void createStarBar(float y, bool collected, int starId);
     
     void initDownloader();
     network::Downloader* downloader;
@@ -223,7 +224,7 @@ public:
     virtual void onSettingsFromLoseClicked() override;
     virtual void onHomeFromLoseClicked() override;
  
-    virtual void onStarCollected(int number) override;
+    virtual void onStarCollected(int number, float x) override;
     
     virtual void onThemeAndLevelSelected(int themeId, int levelId) override;
     virtual void onPlayerUpdate(float dt, float playerY) override;
@@ -288,7 +289,7 @@ public:
     cocos2d::Color3B currentUIColor;
 
     
-    virtual void addStarBar(float y, bool collected) override;
+    virtual void addStarBar(float y, bool collected, int starId) override;
     virtual void setFinishLineY(float y) override;
 
 };

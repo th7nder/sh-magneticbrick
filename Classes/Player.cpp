@@ -265,7 +265,8 @@ bool Player::OnContactBegin(LevelObject *other, b2Body* otherBody)
         if(!inTeleport)
         {
             other->remove = true;
-            gameHandler->onStarCollected(((Star*)other)->getNumber());
+            gameHandler->onStarCollected(((Star*)other)->getNumber(), other->getPositionX());
+            
         }
         
     }

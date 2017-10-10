@@ -50,7 +50,7 @@ void Star::setProperties(ValueMap &props)
     number = props["name"].asInt();
     if(gameHandler->getStar(number)) remove = true;
     
-    gameHandler->addStarBar(getPositionY(), remove);
+    gameHandler->addStarBar(getPositionY(), remove, number);
 }
 
 

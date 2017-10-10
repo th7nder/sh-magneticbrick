@@ -184,7 +184,7 @@ public:
     virtual void onShopFromWinLose() = 0;
     
     
-    virtual void onStarCollected(int number) = 0;
+    virtual void onStarCollected(int number, float x) = 0;
     
     
     virtual void onPlayNextButtonClicked() = 0;
@@ -248,7 +248,7 @@ public:
     
     virtual void onBackFromWait() = 0;
     
-    virtual void addStarBar(float y, bool collected) = 0;
+    virtual void addStarBar(float y, bool collected, int starId) = 0;
     
     
 };

@@ -159,12 +159,12 @@ void WinLoseLayout::updateStars()
     
     for(int i = 0; i < filledCount; i++)
     {
-        stars[i]->setTexture(Globals::resources["icon_star_full_" + stringColor]);
+        stars[i]->setTexture(Globals::resources["icon_star_full_white"]);
     }
     
     for(int i = filledCount; i < 3; i++)
     {
-        stars[i]->setTexture(Globals::resources["icon_star_empty_" + stringColor]);
+        stars[i]->setTexture(Globals::resources["icon_star_empty_white"]);
     }
 }
 
@@ -313,7 +313,8 @@ void WinLoseLayout::createStars()
     int count = 0;
     for(int i = 0; i < 3; i++)
     {
-        stars[i] = Sprite::create(Globals::resources["icon_star_full_" + stringColor]);
+        stars[i] = Sprite::create(Globals::resources["icon_star_full_white"]);
+        stars[i]->setColor(Color3B(255, 215, 0));
         stars[i]->setPosition(Vec2(startLeftPos.x + (count * 100), startLeftPos.y));
         addChild(stars[i]);
         count++;
