@@ -172,14 +172,14 @@ bool Switch::OnContactBegin(LevelObject *other, b2Body* otherBody)
         player->setNearSwitch(side);
         
   
-       /* float playerLeftBarrierX = body->GetPosition().x;
+        /*float playerLeftBarrierX = body->GetPosition().x;
         if(side == Left)
         {
-            playerLeftBarrierX -= pixelsToMeters(_contentSize.width / 2);
+            playerLeftBarrierX += pixelsToMeters(_contentSize.width / 2);
         }
         else
         {
-            playerLeftBarrierX += pixelsToMeters(_contentSize.width / 2);
+            playerLeftBarrierX -= pixelsToMeters(_contentSize.width / 2);
         }
         
         player->adjustLeftBrickBarrier(playerLeftBarrierX);*/

@@ -27,6 +27,7 @@ class WinLoseLayout : public cocos2d::ui::Layout
     void createReplayButton();
     
     cocos2d::ui::Button* playButton;
+    cocos2d::Label* nextLabel;
     void createPlayButton();
     
     SHButton* backButton;

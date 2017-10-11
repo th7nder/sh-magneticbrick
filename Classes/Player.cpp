@@ -366,7 +366,7 @@ void Player::updateBricksSpacing()
     if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
     
 
-    if(inTeleport) return;
+    //if(inTeleport) return;
     auto width = getContentSize().width;
     float force;
     if(gameHandler->getGravity())
@@ -427,10 +427,12 @@ void Player::adjustLeftBrickBarrier(float x)
      leftBarrier->SetTransform(b2Vec2(leftBarrierAdjust, leftBarrier->GetPosition().y), 0.0);
      leftBarrierAdjust = 0.0;
      }*/
-    //float diff = x - leftBarrier->GetPosition().x;
-    //startTouchPosition.x -= metersToPixels(diff);
+   /* float diff = metersToPixels(x - leftBarrier->GetPosition().x);
+    float percent = diff / 640;
+    float realDiff = percent * (640 / 2.5);
+    startTouchPosition.x -= realDiff;
     
-    //CCLOG("difference: %f", metersToPixels(diff));
+    CCLOG("difference: %f", realDiff);*/
     
 }
 
@@ -450,7 +452,7 @@ void Player::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
             {
                 float difference = (touchPos.x - startTouchPosition.x);
                 static const float base = 640 / 2.5;
-                if(!nearSwitch)
+                if(!nearSwitch && !inTeleport)
                 {
                     force = difference / base;
                 }
@@ -460,10 +462,10 @@ void Player::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
                 {
                     startTouchPosition.x += touchPos.x - (startTouchPosition.x + base);
                     force = 1.0;
-                } else if(nearSwitch)
+                } else if(nearSwitch || inTeleport)
                 {
                     float currForce = difference / base;
-                    if((nearSwitch == 1 && currForce > force) || (currForce == 2 && currForce < force))
+                    if(inTeleport || (nearSwitch == 1 && currForce > force) || (currForce == 2 && currForce < force))
                     {
                         float deltaForce = currForce - force;
                         startTouchPosition.x += base * deltaForce;

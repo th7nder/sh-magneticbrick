@@ -117,6 +117,7 @@ void WinLoseLayout::updateUI()
     auto stringColor = gameHandler->getLastTheme().getElementsColor();
     replayButton->loadTextureNormal(gameHandler->getLastTheme().getReplayButtonPath());
     playButton->loadTextureNormal(gameHandler->getLastTheme().getPlayButtonPath());
+    nextLabel->setColor(gameHandler->getLastTheme().isWhite() ?  Color3B(0, 0, 0) : Color3B(255, 255, 255));
     backButton->loadTextureNormal(Globals::resources["icon_back_left_" + stringColor]);
     failedLabel->setColor(color);
     progressLabel->setColor(color);
@@ -187,6 +188,20 @@ void WinLoseLayout::createPlayButton()
     playButton->addClickEventListener([this](Ref* sender){
         this->gameHandler->onPlayNextButtonClicked();
     });
+    
+    nextLabel = Label::createWithTTF("NEXT", Globals::gameFont, 30);
+    nextLabel->setColor(gameHandler->getLastTheme().isWhite() ? Color3B(0, 0, 0) : Color3B(255, 255, 255));
+    nextLabel->setAnchorPoint(Vec2(0.5, 0.5));
+    nextLabel->setPosition(playButton->getContentSize() / 2);
+    playButton->addChild(nextLabel);
+    
+    
+    
+    
+    
+    auto sequence = Sequence::create(ScaleTo::create(1, 1.15), ScaleTo::create(1, 1.0), NULL);
+    auto action = RepeatForever::create(sequence);
+    playButton->runAction(action);
     addChild(playButton);
 }
 

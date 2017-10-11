@@ -91,10 +91,16 @@ void TitleLayout::createPlayButton(const std::string& playImage)
     playButton->setPosition(pos);
     playButton->addClickEventListener(CC_CALLBACK_1(TitleLayout::onPlayButtonClicked, this));
     
+    
+
+    
     auto sequence = Sequence::create(ScaleTo::create(1, 1.15), ScaleTo::create(1, 1.0), NULL);
     auto action = RepeatForever::create(sequence);
     playButton->runAction(action);
     addChild(playButton);
+    
+
+    
 }
 
 
