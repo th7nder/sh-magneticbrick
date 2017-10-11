@@ -15,7 +15,7 @@ Player::Player() :
 rightBody(nullptr),
 rightSprite(nullptr),
 speed(0.0),
-startLeftPos(0.0f), startRightPos(0.0f), startTouchPosition(Vec2::ZERO), playerSize(Vec2::ZERO), leftBarrier(nullptr),previousRightPosition(Vec2::ZERO),rightBarrier(nullptr), isTouching(false), inTeleport(false)
+startLeftPos(0.0f), startRightPos(0.0f), startTouchPosition(Vec2::ZERO), playerSize(Vec2::ZERO), leftBarrier(nullptr),previousRightPosition(Vec2::ZERO),rightBarrier(nullptr), isTouching(false), inTeleport(false), nearSwitch(0)
 {
     currentTeleportTarget = "";
 }
@@ -430,17 +430,40 @@ void Player::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
         else
         {
             auto touchPos = touch->getLocation();
-            if(/*touchPos.y > startTouchPosition.y || */touchPos.x > startTouchPosition.x) // second or
+            if(touchPos.x > startTouchPosition.x)
             {
-                //float difference = (touchPos.y - startTouchPosition.y); // old
                 float difference = (touchPos.x - startTouchPosition.x);
-                static const float base = 640 / 2.5;//(ownVisibleSize.height / 7);
-                force = difference / base;
+                static const float base = 640 / 2.5;
+                if(!nearSwitch)
+                {
+                    force = difference / base;
+                }
+                
+                
                 if(force >= 1.0)
                 {
                     startTouchPosition.x += touchPos.x - (startTouchPosition.x + base);
-                    // startTouchPosition.y += touchPos.y - (startTouchPosition.y + base); old
                     force = 1.0;
+                } else if(nearSwitch)
+                {
+                    float currForce = difference / base;
+
+                    CCLOG("nearSwitch %d currForce - force %f", nearSwitch, currForce - force);
+                    if((nearSwitch == 1 && currForce > force) || (currForce == 2 && currForce < force))
+                    {
+                        float deltaForce = currForce - force;
+                        startTouchPosition.x += base * deltaForce;
+                        //CCLOG("upgrading force by: %f", base * deltaForce);
+                        //CCLOG("previous force: %f curr force: %f", force, (touchPos.x - startTouchPosition.x) / base);
+                        
+                        force = (touchPos.x - startTouchPosition.x) / base;
+                    }
+                    else
+                    {
+                        nearSwitch = 0;
+                        force = currForce;
+                    }
+                
                 }
             } else {
                 startTouchPosition = touchPos;

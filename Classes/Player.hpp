@@ -19,11 +19,14 @@
 #include "TeleportOut.hpp"
 #include "Walls.hpp"
 #include "LevelFollower.hpp"
+
 class Player : public LevelObject, public Touchable
 {
 private:
     typedef LevelObject super;
     typedef Player self;
+    
+    
 CC_CONSTRUCTOR_ACCESS:
     Player();
     b2Body* rightBody;
@@ -57,6 +60,8 @@ CC_CONSTRUCTOR_ACCESS:
     EventListenerTouchAllAtOnce* listener;
     std::string currentTeleportTarget;
     bool tutorialPlayer;
+    
+    int nearSwitch;
 public:
     virtual int getZ() const override
     {
@@ -98,6 +103,13 @@ public:
     void resetSpriteY();
     
     virtual Sprite* getRightSprite() {return rightSprite;}
+    
+    
+    void setNearSwitch(int value)
+    {
+        nearSwitch = value;
+    }
+    
     
 
     

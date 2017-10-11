@@ -7,8 +7,9 @@
 //
 
 #include "Switch.hpp"
+#include "Player.hpp"
 
-Switch::Switch() : side(Side::NotSet), button(nullptr), buttonBody(nullptr), target(""), underBody(nullptr)
+Switch::Switch() : side(Side::NotSet), button(nullptr), buttonBody(nullptr), target(""), underBody(nullptr), intelGiver(false)
 {
     
 }
@@ -48,6 +49,13 @@ void Switch::setProperties(ValueMap &props)
     CCASSERT(!props["target"].isNull(), "Switch without target!");
     side = props["side"].asString() == "right" ? Side::Right : Side::Left;
     target = props["target"].asString();
+    
+    if(getPositionX() < _director->getVisibleSize().width / 2)
+    {
+        intelGiver = true;
+    }
+    
+    
 }
 
 void Switch::addSprite()
@@ -93,8 +101,8 @@ void Switch::initPhysics(b2World *world)
 {
     auto contentSize = getContentSize();
     
-    body = world->CreateBody(createBody(side == Side::Right ? getPositionX() : getPositionX() + contentSize.width / 2, getPositionY()));
-    body->CreateFixture(createFixture(createRectangularShape(contentSize.width, contentSize.height)));
+    body = world->CreateBody(createBody(side == Side::Right ? getPositionX() : getPositionX() + contentSize.width / 2, getPositionY() + (contentSize.height / 4)));
+    body->CreateFixture(createFixture(createRectangularShape(contentSize.width, contentSize.height + (contentSize.height / 2))));
     
     
     underBody = createUnderbody(world, side == Side::Right ? getPositionX() : getPositionX() + contentSize.width / 2, getPositionY() - contentSize.height / 2, pixelsToMeters(contentSize.width - 10));
@@ -138,11 +146,11 @@ bool Switch::OnContactBegin(LevelObject *other, b2Body* otherBody)
         return true;
     }
     
-    switchY = buttonBody->GetPosition().y - pixelsToMeters(buttonSize.height / 2);
+    /*switchY = buttonBody->GetPosition().y - pixelsToMeters(buttonSize.height / 2);
     if(!invisible && brickY - switchY >= 0 && brickY - switchY <= 0.1f)
     {
         return true;
-    }
+    }*/
     
     auto laserNode = getParent()->getChildByName(target);
     auto laser = dynamic_cast<Laser*>(laserNode);
@@ -154,6 +162,34 @@ bool Switch::OnContactBegin(LevelObject *other, b2Body* otherBody)
         std::string effect = StringUtils::format("effect_laseroff_%d", random(1, 3));
         sae->playEffect(Globals::resources[effect.c_str()].c_str());
     }
+    
+    if(intelGiver && otherBody == body)
+    {
+      //  CCLOG("giving intel");
+        Player* player = dynamic_cast<Player*>(other);
+        player->setNearSwitch(side);
+    }
+   
+    
+    return false;
+}
+
+bool Switch::OnContactEnd(LevelObject *other)
+{
+    if(!intelGiver) return false;
+    
+   // CCLOG("%d intelGivr %f %f", intelGiver, getPositionX(), _director->getVisibleSize().width / 2);
+    
+    float switchY = body->GetPosition().y + pixelsToMeters(_contentSize.height / 4);
+    float playerY = other->getBody()->GetPosition().y;
+    
+    if(playerY >= switchY)
+    {
+        Player* player = dynamic_cast<Player*>(other);
+        player->setNearSwitch(0);
+    }
+    
+    
     
     return false;
 }

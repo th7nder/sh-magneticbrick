@@ -35,6 +35,8 @@ private:
     b2Body* underBody;
     Size buttonSize;
     
+    bool intelGiver;
+    
     b2Body* createUnderbody(b2World* world, float x, float y, float width);
 CC_CONSTRUCTOR_ACCESS:
     Switch();
@@ -49,6 +51,8 @@ public:
     
     virtual void initPhysics(b2World* world) override;
     virtual bool OnContactBegin(LevelObject* other, b2Body* body) override;
+    virtual bool OnContactEnd(LevelObject* other) override;
+
 };
 
 #endif /* Switch_hpp */
