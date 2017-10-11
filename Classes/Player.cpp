@@ -284,6 +284,7 @@ bool Player::OnContactEnd(LevelObject *other)
 
 void Player::savePreviousStates()
 {
+    
     previousPosition = Vec2(body->GetPosition().x, body->GetPosition().y);
     previousRightPosition = Vec2(rightBody->GetPosition().x, rightBody->GetPosition().y);
 }
@@ -418,6 +419,21 @@ void Player::updateBricksSpacing()
 
 }
 
+void Player::adjustLeftBrickBarrier(float x)
+{
+    
+    /*if(leftBarrierAdjust)
+     {
+     leftBarrier->SetTransform(b2Vec2(leftBarrierAdjust, leftBarrier->GetPosition().y), 0.0);
+     leftBarrierAdjust = 0.0;
+     }*/
+    //float diff = x - leftBarrier->GetPosition().x;
+    //startTouchPosition.x -= metersToPixels(diff);
+    
+    //CCLOG("difference: %f", metersToPixels(diff));
+    
+}
+
 void Player::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
 {
     if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
@@ -447,15 +463,10 @@ void Player::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
                 } else if(nearSwitch)
                 {
                     float currForce = difference / base;
-
-                    CCLOG("nearSwitch %d currForce - force %f", nearSwitch, currForce - force);
                     if((nearSwitch == 1 && currForce > force) || (currForce == 2 && currForce < force))
                     {
                         float deltaForce = currForce - force;
                         startTouchPosition.x += base * deltaForce;
-                        //CCLOG("upgrading force by: %f", base * deltaForce);
-                        //CCLOG("previous force: %f curr force: %f", force, (touchPos.x - startTouchPosition.x) / base);
-                        
                         force = (touchPos.x - startTouchPosition.x) / base;
                     }
                     else

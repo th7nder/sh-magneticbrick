@@ -513,7 +513,7 @@ LevelObject* Level::addObject(std::string className, ValueMap& properties, bool 
     {
 
         //walls = (Walls*)addObject("Walls", properties);
-        //properties["initialSpeed"] = 100.0f;
+        properties["initialSpeed"] = 150.0f;
         levelFollower = (LevelFollower*)addObject("LevelFollower", properties);
         player = Player::create(gameHandler, nullptr, levelFollower);
         o = player;

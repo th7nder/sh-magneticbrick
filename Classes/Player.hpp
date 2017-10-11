@@ -111,6 +111,9 @@ public:
     }
     
     
+    void adjustLeftBrickBarrier(float x);
+    
+    
 
     
 };

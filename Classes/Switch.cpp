@@ -136,13 +136,15 @@ bool Switch::OnContactBegin(LevelObject *other, b2Body* otherBody)
     bool invisible = other->getOpacity() != 255;
     if(!invisible && otherBody == underBody)
     {
+        CCLOG("underbody");
         return true;
     }
     
-    float switchY = body->GetPosition().y - pixelsToMeters(height / 2);
+    float switchY = body->GetPosition().y - pixelsToMeters(1.5 * height / 2);
     float brickY = other->getBody()->GetPosition().y + pixelsToMeters(other->height / 2);
-    if(!invisible && brickY - switchY >= 0 && brickY - switchY <= 0.1f)
+    if(!invisible && brickY - switchY >= 0 && brickY - switchY <= 0.015f)
     {
+        CCLOG("catcher %f", brickY - switchY);
         return true;
     }
     
@@ -168,6 +170,19 @@ bool Switch::OnContactBegin(LevelObject *other, b2Body* otherBody)
       //  CCLOG("giving intel");
         Player* player = dynamic_cast<Player*>(other);
         player->setNearSwitch(side);
+        
+  
+       /* float playerLeftBarrierX = body->GetPosition().x;
+        if(side == Left)
+        {
+            playerLeftBarrierX -= pixelsToMeters(_contentSize.width / 2);
+        }
+        else
+        {
+            playerLeftBarrierX += pixelsToMeters(_contentSize.width / 2);
+        }
+        
+        player->adjustLeftBrickBarrier(playerLeftBarrierX);*/
     }
    
     
