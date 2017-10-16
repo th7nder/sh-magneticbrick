@@ -26,7 +26,8 @@ winLoseLayout(nullptr),
 shopLayout(nullptr),
 downloader(nullptr),
 level(nullptr), uiContainer(nullptr), levelPercentBar(nullptr), inLayoutsTransition(false), visibleSize(Vec2::ZERO), popupLayout(nullptr), nextLevel(nullptr), tutorialLayout(nullptr), debugLayer(nullptr),
-kielniasUsedOnLevel(0)
+kielniasUsedOnLevel(0),
+adColonyReceived(false)
 {
     for(int i = 0; i < 10; i++)
     {
@@ -135,9 +136,12 @@ bool GameScene::init()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) or (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     sdkbox::PluginAdColony::setListener(this);
     sdkbox::IAP::setListener(this);
-    sdkbox::IAP::init();
     sdkbox::PluginAdMob::setListener(this);
     sdkbox::PluginChartboost::setListener(this);
+    
+    sdkbox::PluginAdColony::init();
+    sdkbox::PluginAdMob::init();
+    sdkbox::PluginChartboost::init();
 
 
     
@@ -149,7 +153,7 @@ bool GameScene::init()
     initDownloader();
 #endif
     
-    schedule(schedule_selector(GameScene::watcher), 3.0, kRepeatForever, 0.0);
+    schedule(schedule_selector(GameScene::watcher), 3.0, kRepeatForever, 3.0);
     
     
     //CCLOG("%s", TextureCache::getInstance()->getCachedTextureInfo().c_str());
@@ -243,7 +247,7 @@ void GameScene::watcher(float dt)
     {
         if(!Globals::iapLoaded)
         {
-            sdkbox::IAP::refresh();
+            sdkbox::IAP::init();
         }
         
         if(getLastAdProvider() == "AdColony" && !sdkbox::PluginAdMob::isAvailable("mb_video"))
@@ -1732,7 +1736,7 @@ b2World* GameScene::getWorld()
 #if defined ADS
 void GameScene::onAdColonyChange(const sdkbox::AdColonyAdInfo& info, bool available)
 {
-   
+    adColonyReceived = available;
 }
 void GameScene::onAdColonyReward(const sdkbox::AdColonyAdInfo& info,
                       const std::string& currencyName, int amount, bool success)
@@ -1752,11 +1756,11 @@ void GameScene::onAdColonyReward(const sdkbox::AdColonyAdInfo& info,
 
 void GameScene::onAdColonyStarted(const sdkbox::AdColonyAdInfo& info)
 {
-
+    CCLOG("onAdColonyStarted");
 }
 void GameScene::onAdColonyFinished(const sdkbox::AdColonyAdInfo& info)
 {
-
+    CCLOG("onAdColonyFinished");
 }
  
 
@@ -1984,6 +1988,7 @@ void GameScene::onRestoreComplete(bool ok, const std::string &msg)
 void GameScene::adViewDidReceiveAd(const std::string &name)
 {
     CCLOG("didReceiveAd: %s", name.c_str());
+    adColonyReceived = true;
 }
 
 void GameScene::adViewDidFailToReceiveAdWithError(const std::string &name, const std::string &msg)

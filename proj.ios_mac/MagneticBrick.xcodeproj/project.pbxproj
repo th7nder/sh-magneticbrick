@@ -202,6 +202,8 @@
 		716097CE1EF4031D009DE2DA /* TutorialLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 716097CB1EF4031D009DE2DA /* TutorialLayout.cpp */; };
 		716097D21EF4456B009DE2DA /* RewardLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 716097D01EF4456B009DE2DA /* RewardLayout.cpp */; };
 		716097D31EF4456B009DE2DA /* RewardLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 716097D01EF4456B009DE2DA /* RewardLayout.cpp */; };
+		716BFCCD1F94F6DF00FFA2AB /* RewardPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 716BFCCB1F94F6DF00FFA2AB /* RewardPopup.cpp */; };
+		716BFCCE1F94F6DF00FFA2AB /* RewardPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 716BFCCB1F94F6DF00FFA2AB /* RewardPopup.cpp */; };
 		716C1DD51ECB9B750049719D /* WaitLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 716C1DD31ECB9B750049719D /* WaitLayout.mm */; };
 		716C1DD61ECB9B750049719D /* WaitLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 716C1DD31ECB9B750049719D /* WaitLayout.mm */; };
 		716EA80C1EFAF4B9007D0298 /* CECometBlue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 716EA80A1EFAF4B9007D0298 /* CECometBlue.cpp */; };
@@ -538,6 +540,8 @@
 		716097CC1EF4031D009DE2DA /* TutorialLayout.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TutorialLayout.hpp; sourceTree = "<group>"; };
 		716097D01EF4456B009DE2DA /* RewardLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RewardLayout.cpp; sourceTree = "<group>"; };
 		716097D11EF4456B009DE2DA /* RewardLayout.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RewardLayout.hpp; sourceTree = "<group>"; };
+		716BFCCB1F94F6DF00FFA2AB /* RewardPopup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardPopup.cpp; sourceTree = "<group>"; };
+		716BFCCC1F94F6DF00FFA2AB /* RewardPopup.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RewardPopup.hpp; sourceTree = "<group>"; };
 		716C1DD31ECB9B750049719D /* WaitLayout.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WaitLayout.mm; sourceTree = "<group>"; };
 		716C1DD41ECB9B750049719D /* WaitLayout.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WaitLayout.hpp; sourceTree = "<group>"; };
 		716EA80A1EFAF4B9007D0298 /* CECometBlue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CECometBlue.cpp; sourceTree = "<group>"; };
@@ -1090,6 +1094,8 @@
 				71B844661EE234A9002FDFB9 /* SHShopItem.hpp */,
 				71B844691EE243C2002FDFB9 /* SHShopBonusItem.cpp */,
 				71B8446A1EE243C2002FDFB9 /* SHShopBonusItem.hpp */,
+				716BFCCB1F94F6DF00FFA2AB /* RewardPopup.cpp */,
+				716BFCCC1F94F6DF00FFA2AB /* RewardPopup.hpp */,
 			);
 			name = Elements;
 			sourceTree = "<group>";
@@ -1378,6 +1384,7 @@
 				71343F7C1EF82702009D5C70 /* BacteriaBlue.cpp in Sources */,
 				71343F891EF87666009D5C70 /* InfectionStart.cpp in Sources */,
 				711794ED1E8C74ED0016E830 /* Player.cpp in Sources */,
+				716BFCCD1F94F6DF00FFA2AB /* RewardPopup.cpp in Sources */,
 				71BD48631EFC529000333B90 /* HETail.cpp in Sources */,
 				716EA8141EFAF582007D0298 /* CEAlienBlue.cpp in Sources */,
 				711794F31E8C74ED0016E830 /* Switch.cpp in Sources */,
@@ -1525,6 +1532,7 @@
 				716EA8111EFAF549007D0298 /* CECometRed.cpp in Sources */,
 				711794D31E8C74D00016E830 /* B2DebugDrawLayer.cpp in Sources */,
 				71BD48641EFC529000333B90 /* HETail.cpp in Sources */,
+				716BFCCE1F94F6DF00FFA2AB /* RewardPopup.cpp in Sources */,
 				711794AD1E8C743A0016E830 /* constants.cpp in Sources */,
 				71B844681EE234A9002FDFB9 /* SHShopItem.cpp in Sources */,
 				716EA8151EFAF582007D0298 /* CEAlienBlue.cpp in Sources */,

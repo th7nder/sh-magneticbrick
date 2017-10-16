@@ -70,6 +70,8 @@ private:
         int starId;
     };
     
+    bool adColonyReceived;
+    
     cocos2d::DrawNode* createStarBarStencilDown(float delta);
     cocos2d::DrawNode* createStarBarStencilUp(float delta);
     std::vector<StarBarInfo> starBarQueue;
@@ -110,6 +112,8 @@ private:
     virtual void adViewWillLeaveApplication(const std::string &name) override;
     virtual void reward(const std::string &name, const std::string &currency, double amount) override;
     
+    
+
     virtual void onChartboostCached(const std::string& name) override;
     virtual bool onChartboostShouldDisplay(const std::string& name) override;
     virtual void onChartboostDisplay(const std::string& name) override;
