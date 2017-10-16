@@ -17,12 +17,14 @@
 #include "Globals.hpp"
 #include "SHButton.hpp"
 
+
+#include "RewardPopup.hpp"
 class TitleLayout : public cocos2d::ui::Layout
 {
 private:
     typedef cocos2d::ui::Layout super;
     typedef TitleLayout self;
-    
+
     
     cocos2d::Sprite* logo;
     void createLogo();

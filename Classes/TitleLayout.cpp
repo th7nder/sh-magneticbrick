@@ -49,8 +49,14 @@ bool TitleLayout::initWithSize(cocos2d::Size size, GameHandler* handler, const C
     createBricksRemaining(color, removeAds, bricksRemaining);
     
     
+    auto omg = RewardPopup::create(gameHandler, Globals::resources["thumbnail_jungle_unlockable"], 3, 9);
+    omg->setPosition(_director->getVisibleSize() / 2);
+    addChild(omg);
+    
+    
     return true;
 }
+
 
 void TitleLayout::updateRemainingBricks(bool removeAds, int bricksRemaining)
 {
