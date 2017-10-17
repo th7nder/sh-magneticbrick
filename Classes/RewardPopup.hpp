@@ -16,12 +16,15 @@
 #include "Globals.hpp"
 #include "GameHandler.hpp"
 
+#include "LoadingFromTo.hpp"
+#include "LabelFromTo.hpp"
 
 class RewardPopup : public cocos2d::Node
 {
     typedef cocos2d::Node super;
     GameHandler* gameHandler;
     
+    bool chapter;
     int lowValue;
     int highValue;
     
@@ -47,8 +50,10 @@ CC_CONSTRUCTOR_ACCESS:
     RewardPopup();
 public:
     virtual ~RewardPopup();
-    static RewardPopup* create(GameHandler* gameHandler, const std::string& icon, int lowValue, int highValue);
-    virtual bool init(GameHandler* gameHandler, const std::string& icon, int lowValue, int highValue);
+    static RewardPopup* create(GameHandler* gameHandler, const std::string& icon, int lowValue, int highValue, bool chapter);
+    virtual bool init(GameHandler* gameHandler, const std::string& icon, int lowValue, int highValue, bool chapter);
+    
+    void launch(int prevStars);
     
 };
 #endif /* RewardPopup_hpp */

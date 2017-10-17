@@ -49,9 +49,10 @@ bool TitleLayout::initWithSize(cocos2d::Size size, GameHandler* handler, const C
     createBricksRemaining(color, removeAds, bricksRemaining);
     
     
-    auto omg = RewardPopup::create(gameHandler, Globals::resources["thumbnail_jungle_unlockable"], 3, 9);
-    omg->setPosition(_director->getVisibleSize() / 2);
-    addChild(omg);
+    temp = RewardPopup::create(gameHandler, Globals::resources["reward_guess"], 30, 40, false);
+    temp->setPosition(_director->getVisibleSize() / 2);
+    addChild(temp);
+    
     
     
     return true;
@@ -205,7 +206,8 @@ void TitleLayout::onSettingsButtonClicked(cocos2d::Ref *ref)
 
 void TitleLayout::onPlayButtonClicked(cocos2d::Ref *ref)
 {
-    gameHandler->onPlayButtonClicked();
+    temp->launch(3);
+    //gameHandler->onPlayButtonClicked();
 }
 
 void TitleLayout::onShopButtonClicked(cocos2d::Ref *ref)

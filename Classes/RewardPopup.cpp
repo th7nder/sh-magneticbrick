@@ -9,7 +9,7 @@
 
 
 USING_NS_CC;
-RewardPopup::RewardPopup() : bg(nullptr)
+RewardPopup::RewardPopup() : bg(nullptr), chapter(false)
 {
     
 }
@@ -21,10 +21,10 @@ RewardPopup::~RewardPopup()
 
 
 
-RewardPopup* RewardPopup::create(GameHandler *gameHandler, const std::string &icon, int lowValue, int highValue)
+RewardPopup* RewardPopup::create(GameHandler *gameHandler, const std::string &icon, int lowValue, int highValue, bool chapter)
 {
     RewardPopup * ret = new (std::nothrow) RewardPopup();
-    if (ret && ret->init(gameHandler, icon, lowValue, highValue))
+    if (ret && ret->init(gameHandler, icon, lowValue, highValue, chapter))
     {
         ret->autorelease();
     }
@@ -36,11 +36,12 @@ RewardPopup* RewardPopup::create(GameHandler *gameHandler, const std::string &ic
 }
 
 
-bool RewardPopup::init(GameHandler *gameHandler, const std::string &icon, int lowValue, int highValue)
+bool RewardPopup::init(GameHandler *gameHandler, const std::string &icon, int lowValue, int highValue, bool chapter)
 {
     if(!super::init()) return false;
     this->lowValue = lowValue;
     this->highValue = highValue;
+    this->chapter = chapter;
     setAnchorPoint(Vec2(0.5, 0.5));
     createBackground();
     
@@ -54,29 +55,41 @@ bool RewardPopup::init(GameHandler *gameHandler, const std::string &icon, int lo
 
 void RewardPopup::createIcon(std::string source)
 {
-    item = Sprite::create(source);
-    item->setAnchorPoint(Vec2::ZERO);
-    auto currSize = item->getContentSize() * 0.3;
-    Vec2 pos = getContentSize() / 2;
-    pos.x -= currSize.width / 2;
-    //item->setPosition(pos);
-    item->setScale(0.3);
-    item->setPosition(Vec2(0, 0));
-    //addChild(item);
     
+    if(chapter)
+    {
+        item = Sprite::create(source);
+        item->setAnchorPoint(Vec2::ZERO);
+        auto currSize = item->getContentSize() * 0.3;
+        Vec2 pos = getContentSize() / 2;
+        pos.x -= currSize.width / 2;
+        item->setScale(0.3);
+        item->setPosition(Vec2(0, 0));
+        currSize.height = 76.0;
+        auto clipNode = createRoundedRectMaskNode(currSize, 10.0, 3.0f, 10);
+        clipNode->setAnchorPoint(Vec2(0.5, 0.5));
+        clipNode->setPosition(pos);
+        addChild(clipNode);
+        clipNode->addChild(item);
+    }
+    else
+    {
+        item = Sprite::create(source);
+        Vec2 pos = getContentSize() / 2;
+        pos.y += 30.0;
+        item->setPosition(pos);
+        addChild(item);
+    }
+    
+}
 
-    
-    currSize.height = 76.0;
-    
-    CCLOG("%.4f %.4f", currSize.height, currSize.width);
-    // create masked image and position to center it on screen
-    auto clipNode = createRoundedRectMaskNode(currSize, 10.0, 3.0f, 10);
-    //clipNode->setInverted(true);
-    clipNode->setAnchorPoint(Vec2(0.5, 0.5));
-    clipNode->setPosition(pos);
-    addChild(clipNode);
-    clipNode->addChild(item);
-    
+void RewardPopup::launch(int prevStars)
+{
+    CCLOG("prev stars: %d", prevStars);
+    float prevPercent = (prevStars / static_cast<float>(highValue)) * 100.0;
+    CCLOG("launching bar: %f %f", prevPercent, bar->getPercent());
+    bar->runAction(LoadingFromTo::create(1.0, prevPercent, bar->getPercent()));
+    amountLabel->runAction(LabelFromTo::create(1.0, prevStars, lowValue));
 }
 
 void RewardPopup::createBackground()

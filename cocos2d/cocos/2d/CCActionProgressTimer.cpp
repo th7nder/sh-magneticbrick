@@ -126,6 +126,7 @@ void ProgressFromTo::startWithTarget(Node *target)
 
 void ProgressFromTo::update(float time)
 {
+    CCLOG("settings percentage to: %f", _from + (_to - _from) * time);
     ((kProgressTimerCast)(_target))->setPercentage(_from + (_to - _from) * time);
 }
 

@@ -225,6 +225,10 @@
 		7170B8B01EF02531008B42AB /* Gravity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7170B8AE1EF02531008B42AB /* Gravity.cpp */; };
 		7170B8B11EF02531008B42AB /* Gravity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7170B8AE1EF02531008B42AB /* Gravity.cpp */; };
 		717BCC251F642C9100B64F3F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 717BCC241F642C9100B64F3F /* Reachability.m */; };
+		718D23351F966B2B0083D787 /* LoadingFromTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 718D23331F966B2B0083D787 /* LoadingFromTo.cpp */; };
+		718D23361F966B2B0083D787 /* LoadingFromTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 718D23331F966B2B0083D787 /* LoadingFromTo.cpp */; };
+		718D23391F966D110083D787 /* LabelFromTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 718D23371F966D110083D787 /* LabelFromTo.cpp */; };
+		718D233A1F966D110083D787 /* LabelFromTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 718D23371F966D110083D787 /* LabelFromTo.cpp */; };
 		719C3D481E8CA0E7004E9194 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 719C3D431E8CA0E7004E9194 /* Default-568h@2x.png */; };
 		719C3D491E8CA0E7004E9194 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 719C3D431E8CA0E7004E9194 /* Default-568h@2x.png */; };
 		719C3D4A1E8CA0E7004E9194 /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 719C3D441E8CA0E7004E9194 /* Default-667h@2x.png */; };
@@ -564,6 +568,10 @@
 		7170B8AF1EF02531008B42AB /* Gravity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Gravity.hpp; sourceTree = "<group>"; };
 		717BCC231F642C9100B64F3F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		717BCC241F642C9100B64F3F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		718D23331F966B2B0083D787 /* LoadingFromTo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoadingFromTo.cpp; sourceTree = "<group>"; };
+		718D23341F966B2B0083D787 /* LoadingFromTo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LoadingFromTo.hpp; sourceTree = "<group>"; };
+		718D23371F966D110083D787 /* LabelFromTo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LabelFromTo.cpp; sourceTree = "<group>"; };
+		718D23381F966D110083D787 /* LabelFromTo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LabelFromTo.hpp; sourceTree = "<group>"; };
 		719C3D431E8CA0E7004E9194 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		719C3D441E8CA0E7004E9194 /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
 		719C3D451E8CA0E7004E9194 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
@@ -884,6 +892,10 @@
 				715DDE0B1EEEBDCD004F0519 /* Skin.hpp */,
 				715DDE0F1EEEBFB7004F0519 /* SkinManager.cpp */,
 				715DDE101EEEBFB7004F0519 /* SkinManager.hpp */,
+				718D23331F966B2B0083D787 /* LoadingFromTo.cpp */,
+				718D23341F966B2B0083D787 /* LoadingFromTo.hpp */,
+				718D23371F966D110083D787 /* LabelFromTo.cpp */,
+				718D23381F966D110083D787 /* LabelFromTo.hpp */,
 				711794BB1E8C74680016E830 /* UI */,
 				711794BA1E8C74530016E830 /* Level */,
 				711794B91E8C744E0016E830 /* Scenes */,
@@ -1441,6 +1453,7 @@
 				71343F851EF86AB5009D5C70 /* BacteriaGreen.cpp in Sources */,
 				71B844671EE234A9002FDFB9 /* SHShopItem.cpp in Sources */,
 				71AFCEBD1EE973F10093FD31 /* BlurFromTo.cpp in Sources */,
+				718D23351F966B2B0083D787 /* LoadingFromTo.cpp in Sources */,
 				716EA8251EFB1929007D0298 /* WEHat.cpp in Sources */,
 				715DDE151EEEE1CA004F0519 /* BlackoutStart.cpp in Sources */,
 				71343F811EF867E7009D5C70 /* BacteriaPink.cpp in Sources */,
@@ -1457,6 +1470,7 @@
 				7123078A1F6F43D500B7C4A8 /* BaseLayout.cpp in Sources */,
 				711794B61E8C743A0016E830 /* Touchable.cpp in Sources */,
 				71BD48671EFC52FC00333B90 /* HESkull.cpp in Sources */,
+				718D23391F966D110083D787 /* LabelFromTo.cpp in Sources */,
 				711795141E8C75150016E830 /* SHButton.cpp in Sources */,
 				71C7D39A1F15622A00A1DB65 /* GlidingRotatingExtra.cpp in Sources */,
 				715DDE111EEEBFB7004F0519 /* SkinManager.cpp in Sources */,
@@ -1495,6 +1509,7 @@
 				71343F8A1EF87666009D5C70 /* InfectionStart.cpp in Sources */,
 				711794F41E8C74ED0016E830 /* Switch.cpp in Sources */,
 				71CFA7391EF9C9A60039BB26 /* CSESmall.cpp in Sources */,
+				718D23361F966B2B0083D787 /* LoadingFromTo.cpp in Sources */,
 				716EA8191EFAF5CB007D0298 /* CEAlienGreen.cpp in Sources */,
 				716EA8221EFB18C9007D0298 /* WEBoot.cpp in Sources */,
 				7170B8B11EF02531008B42AB /* Gravity.cpp in Sources */,
@@ -1530,6 +1545,7 @@
 				71C7D3961F155FFA00A1DB65 /* Parrot.cpp in Sources */,
 				713190831EE07CAF00F495A0 /* BulletTimeEnd.cpp in Sources */,
 				716EA8111EFAF549007D0298 /* CECometRed.cpp in Sources */,
+				718D233A1F966D110083D787 /* LabelFromTo.cpp in Sources */,
 				711794D31E8C74D00016E830 /* B2DebugDrawLayer.cpp in Sources */,
 				71BD48641EFC529000333B90 /* HETail.cpp in Sources */,
 				716BFCCE1F94F6DF00FFA2AB /* RewardPopup.cpp in Sources */,

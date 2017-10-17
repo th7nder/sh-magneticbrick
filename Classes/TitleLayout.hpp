@@ -26,6 +26,9 @@ private:
     typedef TitleLayout self;
 
     
+    
+    RewardPopup* temp;
+    
     cocos2d::Sprite* logo;
     void createLogo();
     
