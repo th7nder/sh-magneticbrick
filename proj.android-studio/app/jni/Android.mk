@@ -109,10 +109,9 @@ $(LOCAL_PATH)/../../../Classes/GlidingExtra.cpp \
 $(LOCAL_PATH)/../../../Classes/LevelFollower.cpp \
 $(LOCAL_PATH)/../../../Classes/GlidingRotatingExtra.cpp \
 $(LOCAL_PATH)/../../../Classes/Parrot.cpp \
-$(LOCAL_PATH)/../../../Classes/Parrot.cpp \
 $(LOCAL_PATH)/../../../Classes/LoadingFromTo.cpp \
 $(LOCAL_PATH)/../../../Classes/LabelFromTo.cpp \
-$(LOCAL_PATH)/../../../Classes/RewardLayout.cpp \
+$(LOCAL_PATH)/../../../Classes/RewardPopup.cpp \
 $(LOCAL_PATH)/../../../Classes/constants.cpp
 
 LOCAL_CPPFLAGS := -DSDKBOX_ENABLED
