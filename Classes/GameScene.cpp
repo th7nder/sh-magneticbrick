@@ -421,7 +421,7 @@ void GameScene::setFinishLineY(float y)
 
         removeChildByTag(2044);
         removeChildByTag(2044);
-        removeChildByTag(2044);
+        removeChildByTag(2044); // cocos2dx sugggzzzz
         starBarContainer->removeAllChildren();
         stencilContainer->removeAllChildren();
     }
