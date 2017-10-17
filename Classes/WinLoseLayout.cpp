@@ -9,7 +9,7 @@
 #include "WinLoseLayout.hpp"
 USING_NS_CC;
 
-WinLoseLayout::WinLoseLayout() : replayButton(nullptr), backButton(nullptr), failedLabel(nullptr), bricksRemainingTitleLabel(nullptr), bricksRemainingLabel(nullptr)
+WinLoseLayout::WinLoseLayout() : replayButton(nullptr), backButton(nullptr), failedLabel(nullptr), bricksRemainingTitleLabel(nullptr), bricksRemainingLabel(nullptr), popupCount(0)
 {
     
 }
@@ -368,5 +368,50 @@ void WinLoseLayout::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unusedEv
             gameHandler->onHomeFromLoseClicked();
         }
     }
+    
+}
+
+void WinLoseLayout::createRewardPopup(std::string icon, int prevStars, int nextStars, int maxStars, bool chapter, int number)
+{
+    
+
+    auto popup = RewardPopup::create(gameHandler, icon, nextStars, maxStars, prevStars, chapter);
+    popup->setAnchorPoint(Vec2(0.5, 0.5));
+    popup->setPosition(getContentSize() / 2);
+    
+    float topY = _contentSize.height + (popup->getContentSize().height / 2);
+    float bottomY = _contentSize.height - (popup->getContentSize().height / 2);
+    
+    if(number == 1)
+    {
+        bottomY -= 100.0;
+        bottomY -= popup->getContentSize().height;
+    }
+    else if(number == 2)
+    {
+        bottomY -= 50.0;
+        topY += 100.0;
+        topY += popup->getContentSize().height;
+    }
+    
+    popup->setPositionY(topY);
+    addChild(popup);
+    
+    
+    auto func = CallFunc::create([this, popup](){
+        popup->launch();
+        popupCount -= 1;
+    });
+    
+                        
+    
+
+    auto seq = Sequence::create(MoveTo::create(1.0, Vec2(popup->getPositionX(), bottomY)), func, DelayTime::create(9.0), FadeOut::create(0.5), RemoveSelf::create(), NULL);
+    
+    popupCount++;
+    
+    popup->runAction(seq);
+    
+    
     
 }

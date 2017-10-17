@@ -49,9 +49,9 @@ GameHandler::GameHandler() : bricksRemaining(0), lastThemeId(0), currentPlayerSp
         themePrices[i] = "$2.99";
     }
     
-    if(!ud->getBoolForKey("resetted693", false))
+    if(!ud->getBoolForKey("resetted698", false))
     {
-        ud->setBoolForKey("resetted693", true);
+        ud->setBoolForKey("resetted698", true);
         setRemoveAds(false);
         setKielnias(Globals::startingKielnias);
         bricksRemaining = Globals::startingBricks;
@@ -397,9 +397,9 @@ bool GameHandler::isThemeAvailable(int theme)
 {
     if(theme == 0) return true;
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-    return true;
-#endif
+//#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+ //   return true;
+//#endif
    
 #if defined DOWNLOAD_MAPS
     return true;

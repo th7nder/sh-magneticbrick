@@ -17,6 +17,8 @@
 #include "SHButton.hpp"
 #include "GameHandler.hpp"
 
+#include "RewardPopup.hpp"
+
 class WinLoseLayout : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout super;
@@ -69,6 +71,8 @@ class WinLoseLayout : public cocos2d::ui::Layout
     
     void disableWidget(Widget* w);
     void enableWidget(Widget* w);
+    
+    int popupCount;
 CC_CONSTRUCTOR_ACCESS:
     WinLoseLayout();
 public:
@@ -80,6 +84,15 @@ public:
     static self* createWithSize(cocos2d::Size size, GameHandler* handler);
     virtual bool initWithSize(cocos2d::Size size, GameHandler* handler);
     void onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unusedEvent) override;
+    
+    
+    void createRewardPopup(std::string icon, int prevStars, int nextStars, int maxStars, bool chapter, int number);
+    
+    
+    void decPopupCount()
+    {
+        popupCount--;
+    }
     
     void updateUI();
 };

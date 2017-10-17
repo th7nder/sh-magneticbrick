@@ -420,6 +420,8 @@ void GameScene::setFinishLineY(float y)
     {
 
         removeChildByTag(2044);
+        removeChildByTag(2044);
+        removeChildByTag(2044);
         starBarContainer->removeAllChildren();
         stencilContainer->removeAllChildren();
     }
@@ -843,9 +845,14 @@ void GameScene::onPlayerWin()
     setGameState(Win);
     logEventWin(getLastThemeId(), getLastLevelId(), getCurrentProgress());
 
+    int collectedStars = 0;
     for(int i = 0; i < 3; i++)
     {
-        if(currentStarCollected[i]) saveStar(i + 1);
+        if(currentStarCollected[i])
+        {
+            saveStar(i + 1);
+            collectedStars++;
+        }
     }
     winLoseLayout->updateUI();
     showUI();
@@ -909,6 +916,7 @@ void GameScene::onPlayerWin()
     }
     
 
+
     
 
     for(int i = 1; i < 16; i++)
@@ -921,10 +929,65 @@ void GameScene::onPlayerWin()
         }
     }
     
+    int lastDifference = 999;
+    int currDiff = 0;
+    int themeRewardInfo = 0;
+    for(int i = 1; i < themes.size(); i++)
+    {
+        currDiff = Globals::chaptersSteps[i] - starsCount;
+        if(currDiff > 0 && currDiff < lastDifference && !isThemeAvailable(i))
+        {
+            lastDifference = currDiff;
+            themeRewardInfo = i;
+        }
+    }
+    
+    
+    CCLOG("info about theme: %s", themes[themeRewardInfo].getCodeName().c_str());
+    
+    int stepInfo = 666;
+    for(int i = 15; i >= 0; i--)
+    {
+        if(!brickAtStepUnlocked(i))
+        {
+            stepInfo = i;
+        }
+    }
+    
+    if(themeRewardInfo != 0 && stepInfo != 666)
+    {
+        winLoseLayout->createRewardPopup(Globals::resources["thumbnail_" + themes[themeRewardInfo].getCodeName() + "_unlockable"], starsCount - collectedStars, starsCount, Globals::bricksSteps[stepInfo], true, 1);
+        winLoseLayout->createRewardPopup(Globals::resources["reward_guess"], starsCount - collectedStars, starsCount, Globals::bricksSteps[stepInfo], false, 2);
+    }
+    else if(themeRewardInfo != 0)
+    {
+        winLoseLayout->createRewardPopup(Globals::resources["thumbnail_" + themes[themeRewardInfo].getCodeName() + "_unlockable"], starsCount - collectedStars, starsCount, Globals::bricksSteps[stepInfo], true, 0);
+    }
+    else if(stepInfo != 666)
+    {
+        winLoseLayout->createRewardPopup(Globals::resources["reward_guess"], starsCount - collectedStars, starsCount, Globals::bricksSteps[stepInfo], false, 0);
+    }
+    
+    
+    
+    
     auto sae = CocosDenshion::SimpleAudioEngine::getInstance();
     sae->playEffect(Globals::resources["effect_lvlcompleted"].c_str());
     
-    fadeInLayout(winLoseLayout);
+    
+    
+    
+    winLoseLayout->setEnabled(false);
+    winLoseLayout->setVisible(true);
+    winLoseLayout->setOpacity(0);
+    winLoseLayout->setPosition(Vec2::ZERO);
+    auto func = CallFunc::create([this]()
+                                 {
+                                     winLoseLayout->setEnabled(true);
+                                 });
+    
+    auto seq = Sequence::create(FadeIn::create(transitionTime), func, NULL);
+    winLoseLayout->runAction(seq);
 }
 
 
@@ -1213,7 +1276,7 @@ void GameScene::onStarCollected(int number, float x)
     
     Sprite* star = starBarContainer->getChildByTag<Sprite*>(number);
     
-    
+    if(star == nullptr) return;
     
     
     

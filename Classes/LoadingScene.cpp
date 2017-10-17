@@ -67,12 +67,22 @@ void LoadingScene::loadResources()
             
         } else
         {
-            Director::getInstance()
-            ->getTextureCache()
-            ->addImageAsync(resource.second, [this](Texture2D* tex)
-                            {
-                                this->updateLoadingBar();
-                            });
+            if(resource.second.find("/background.png") != -1)
+            {
+                loadedResources += 1.0;
+                updateLoadingBar();
+                CCLOG("skipping background %s", resource.second.c_str());
+            }
+            else
+            {
+                Director::getInstance()
+                ->getTextureCache()
+                ->addImageAsync(resource.second, [this](Texture2D* tex)
+                                {
+                                    this->updateLoadingBar();
+                                });
+            }
+
         }
 
     }

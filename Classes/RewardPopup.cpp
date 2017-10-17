@@ -6,10 +6,10 @@
 //
 
 #include "RewardPopup.hpp"
-
+#include "WinLoseLayout.hpp";
 
 USING_NS_CC;
-RewardPopup::RewardPopup() : bg(nullptr), chapter(false)
+RewardPopup::RewardPopup() : bg(nullptr), chapter(false), isRemoving(false)
 {
     
 }
@@ -21,10 +21,10 @@ RewardPopup::~RewardPopup()
 
 
 
-RewardPopup* RewardPopup::create(GameHandler *gameHandler, const std::string &icon, int lowValue, int highValue, bool chapter)
+RewardPopup* RewardPopup::create(GameHandler *gameHandler, const std::string &icon, int lowValue, int highValue, int prevValue, bool chapter)
 {
     RewardPopup * ret = new (std::nothrow) RewardPopup();
-    if (ret && ret->init(gameHandler, icon, lowValue, highValue, chapter))
+    if (ret && ret->init(gameHandler, icon, lowValue, highValue, prevValue, chapter))
     {
         ret->autorelease();
     }
@@ -36,20 +36,35 @@ RewardPopup* RewardPopup::create(GameHandler *gameHandler, const std::string &ic
 }
 
 
-bool RewardPopup::init(GameHandler *gameHandler, const std::string &icon, int lowValue, int highValue, bool chapter)
+bool RewardPopup::init(GameHandler *gameHandler, const std::string &icon, int lowValue, int highValue, int prevValue, bool chapter)
 {
+    setCascadeOpacityEnabled(true);
+    setTouchEnabled(true);
     if(!super::init()) return false;
     this->lowValue = lowValue;
     this->highValue = highValue;
     this->chapter = chapter;
+    this->prevValue = prevValue;
     setAnchorPoint(Vec2(0.5, 0.5));
     createBackground();
     
-    float percent = lowValue / static_cast<double>(highValue);
+    float percent = prevValue / static_cast<double>(highValue);
     percent *= 100.0;
     createLoadingBar(percent);
     createIcon(icon);
     createAmountLabel();
+    return true;
+}
+
+bool RewardPopup::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unusedEvent)
+{
+    if(!isRemoving)
+    {
+        isRemoving = true;
+        runAction(Sequence::create(FadeOut::create(1.0), RemoveSelf::create(), NULL));
+        ((WinLoseLayout*)getParent())->decPopupCount();
+    }
+    
     return true;
 }
 
@@ -71,6 +86,7 @@ void RewardPopup::createIcon(std::string source)
         clipNode->setPosition(pos);
         addChild(clipNode);
         clipNode->addChild(item);
+        clipNode->setCascadeOpacityEnabled(true);
     }
     else
     {
@@ -83,19 +99,17 @@ void RewardPopup::createIcon(std::string source)
     
 }
 
-void RewardPopup::launch(int prevStars)
+void RewardPopup::launch()
 {
-    CCLOG("prev stars: %d", prevStars);
-    float prevPercent = (prevStars / static_cast<float>(highValue)) * 100.0;
-    CCLOG("launching bar: %f %f", prevPercent, bar->getPercent());
-    bar->runAction(LoadingFromTo::create(1.0, prevPercent, bar->getPercent()));
-    amountLabel->runAction(LabelFromTo::create(1.0, prevStars, lowValue));
+    float nextPercent = (lowValue / static_cast<float>(highValue)) * 100.0;
+    bar->runAction(LoadingFromTo::create(1.0, bar->getPercent(), nextPercent));
+    amountLabel->runAction(LabelFromTo::create(1.0, prevValue, lowValue));
 }
 
 void RewardPopup::createBackground()
 {
     bg = Sprite::create(Globals::resources["shop_brick_at"]);
-    bg->setOpacity(220);
+    bg->setOpacity(240);
     setContentSize(bg->getContentSize());
     bg->setAnchorPoint(Vec2::ZERO);
     bg->setPosition(Vec2::ZERO);
@@ -122,9 +136,20 @@ void RewardPopup::createLoadingBar(float percent)
 
 void RewardPopup::createAmountLabel()
 {
-    amountLabel = Label::createWithTTF(StringUtils::format("%d/%d", lowValue, highValue), Globals::gameFont, 25.0);
+    
+
+    
+    
+    
+    restLabel = Label::createWithTTF(StringUtils::format("/%d", highValue), Globals::gameFont, 25.0);
+    restLabel->setAnchorPoint(Vec2(0.5, 0.5));
+    restLabel->setPosition(Vec2(getContentSize().width / 2 + 10, 30));
+    addChild(restLabel);
+    
+    
+    amountLabel = Label::createWithTTF(StringUtils::format("%d", prevValue), Globals::gameFont, 25.0);
     amountLabel->setAnchorPoint(Vec2(0.5, 0.5));
-    amountLabel->setPosition(Vec2(getContentSize().width / 2, 30));
+    amountLabel->setPosition(Vec2(restLabel->getPositionX() - (restLabel->getContentSize().width / 2) - (amountLabel->getContentSize().width / 2) - 1, 30));
     addChild(amountLabel);
     
     auto star = Sprite::create(Globals::resources["shop_bigstar_indicator_white"]);
@@ -132,17 +157,7 @@ void RewardPopup::createAmountLabel()
     star->setScale(0.30);
     star->setPosition(amountLabel->getPosition());
     
-    float dX = 35;
-    if(lowValue >= 10)
-    {
-        dX += 5;
-    }
-    
-    if(highValue >= 10)
-    {
-        dX += 5;
-    }
-    star->setPositionX(star->getPositionX() + dX);
+    star->setPositionX(restLabel->getPositionX() + amountLabel->getContentSize().width / 2 + star->getContentSize().width / 2 * 0.3 + 8);
     addChild(star);
 }
 

@@ -27,7 +27,6 @@ private:
 
     
     
-    RewardPopup* temp;
     
     cocos2d::Sprite* logo;
     void createLogo();
