@@ -28,6 +28,10 @@ private:
     
     
     
+    void createStarLabel(const cocos2d::Color3B& color);
+    cocos2d::Sprite* starInd;
+    cocos2d::Label* starLabel;
+    
     cocos2d::Sprite* logo;
     void createLogo();
     

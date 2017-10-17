@@ -50,8 +50,36 @@ bool TitleLayout::initWithSize(cocos2d::Size size, GameHandler* handler, const C
     
     
     
-    
+    createStarLabel(color);
     return true;
+}
+
+
+void TitleLayout::createStarLabel(const Color3B& color)
+{
+    // 177 165 148
+    Vec2 pos(310, settingsButton->getPositionY());
+    int starCount = gameHandler->getStarCount();
+    if(starCount > 9)
+    {
+        pos.x -= 15;
+    }
+    if(starCount > 99)
+    {
+        pos.x -= 29;
+    }
+    
+    starLabel = Label::createWithTTF(StringUtils::format("%d", starCount), Globals::gameFont, 51.0);
+    starLabel->setColor(color);
+    starLabel->setPosition(pos);
+    addChild(starLabel);
+    
+    
+    pos.x = 350;
+    starInd = Sprite::create(Globals::resources["shop_star_indicator_white"]);
+    starInd->setColor(Color3B(255, 215, 0));
+    starInd->setPosition(pos);
+    addChild(starInd);
 }
 
 
@@ -74,7 +102,23 @@ void TitleLayout::updateUITheme(const cocos2d::Color3B& color, const std::string
     settingsButton->setColor(color);
     bricksRemainingLabel->setColor(color);
     bricksRemainingTitleLabel->setColor(color);
+    starLabel->setColor(color);
     playButton->loadTextureNormal(playImage);
+    
+    int starCount = gameHandler->getStarCount();
+    if(starCount > 99)
+    {
+        starLabel->setPositionX(310 - 29);
+    } else if(starCount > 9)
+    {
+        starLabel->setPositionX(310 - 15);
+    }
+    else
+    {
+        starLabel->setPositionX(310);
+    }
+    
+    starLabel->setString(StringUtils::format("%d", starCount));
 
 }
 

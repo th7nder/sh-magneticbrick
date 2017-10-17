@@ -429,6 +429,8 @@ void SpriteFrameCache::addSpriteFramesWithFile(const std::string& plist)
         }
         addSpriteFramesWithDictionary(dict, texturePath);
         _loadedFileNames->insert(plist);
+        
+        CCLOG("appending: %s", texturePath.c_str());
     }
 }
 

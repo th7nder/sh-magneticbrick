@@ -6,7 +6,7 @@
 //
 
 #include "RewardPopup.hpp"
-#include "WinLoseLayout.hpp";
+#include "WinLoseLayout.hpp"
 
 USING_NS_CC;
 RewardPopup::RewardPopup() : bg(nullptr), chapter(false), isRemoving(false)
@@ -39,7 +39,7 @@ RewardPopup* RewardPopup::create(GameHandler *gameHandler, const std::string &ic
 bool RewardPopup::init(GameHandler *gameHandler, const std::string &icon, int lowValue, int highValue, int prevValue, bool chapter)
 {
     setCascadeOpacityEnabled(true);
-    setTouchEnabled(true);
+ 
     if(!super::init()) return false;
     this->lowValue = lowValue;
     this->highValue = highValue;
@@ -53,6 +53,9 @@ bool RewardPopup::init(GameHandler *gameHandler, const std::string &icon, int lo
     createLoadingBar(percent);
     createIcon(icon);
     createAmountLabel();
+    
+    
+   setTouchEnabled(true);
     return true;
 }
 
@@ -61,7 +64,7 @@ bool RewardPopup::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unusedEven
     if(!isRemoving)
     {
         isRemoving = true;
-        runAction(Sequence::create(FadeOut::create(1.0), RemoveSelf::create(), NULL));
+        runAction(Sequence::create(FadeOut::create(0.3), RemoveSelf::create(), NULL));
         ((WinLoseLayout*)getParent())->decPopupCount();
     }
     

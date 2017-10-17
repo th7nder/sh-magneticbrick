@@ -12,6 +12,7 @@ Theme::Theme(const std::string& codeName, const std::string& displayName, const 
 codeName(codeName), displayName(displayName), themeColor(color), whiteElements(whiteElements), downloadInProgress(false)
 {
     backgroundPath = "themes/" + codeName + "/background.png";
+    //backgroundPath = codeName + "_background.png"
     playButtonPath = "themes/" + codeName + "/play_button.png";
     replayButtonPath = "themes/" + codeName + "/replay_button.png";
     thumbnailUnlockedPath = "themes/" + codeName + "/thumbnail-unlocked.png";

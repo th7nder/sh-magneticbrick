@@ -107,8 +107,11 @@ bool GameScene::init()
     int i = 1;
     auto fu = cocos2d::FileUtils::getInstance();
     std::string writablePath = fu->getWritablePath();
+    
+    
     for(const auto& theme: themes)
     {
+        
         auto codename = theme.getCodeName();
         if(i > 1)
         {
@@ -345,7 +348,11 @@ void GameScene::createBackground()
     addChild(postEffect);
     
     
+    
+    
+    
     background = Sprite::create(getLastTheme().getBackgroundPath());
+    //background = Sprite::createWithSpriteFrameName(getLastTheme().getBackgroundPath());
     background->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
     background->setName("Background");
     postEffect->addChild(background);
@@ -1381,6 +1388,7 @@ void GameScene::updateUI()
     
     
     background->setTexture(lastTheme.getBackgroundPath());
+    //background->setSpriteFrame(lastTheme.getBackgroundPath());
     levelPercentBar->setColor(currentUIColor);
     levelPercentSprite->setColor(currentUIColor);
 

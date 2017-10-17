@@ -49,9 +49,9 @@ GameHandler::GameHandler() : bricksRemaining(0), lastThemeId(0), currentPlayerSp
         themePrices[i] = "$2.99";
     }
     
-    if(!ud->getBoolForKey("resetted698", false))
+    if(!ud->getBoolForKey("resetted699", false))
     {
-        ud->setBoolForKey("resetted698", true);
+        ud->setBoolForKey("resetted699", true);
         setRemoveAds(false);
         setKielnias(Globals::startingKielnias);
         bricksRemaining = Globals::startingBricks;
