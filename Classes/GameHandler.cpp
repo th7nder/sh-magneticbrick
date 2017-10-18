@@ -49,7 +49,7 @@ GameHandler::GameHandler() : bricksRemaining(0), lastThemeId(0), currentPlayerSp
         themePrices[i] = "$2.99";
     }
     
-    if(!ud->getBoolForKey("resetted699", false))
+    /*if(!ud->getBoolForKey("resetted699", false))
     {
         ud->setBoolForKey("resetted699", true);
         setRemoveAds(false);
@@ -94,7 +94,7 @@ GameHandler::GameHandler() : bricksRemaining(0), lastThemeId(0), currentPlayerSp
         {
             skins[i].setAccess(false);
         }
-    }
+    }*/
 
     
 }
