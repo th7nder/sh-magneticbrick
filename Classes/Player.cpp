@@ -366,7 +366,14 @@ void Player::updateBricksSpacing()
     if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
     
 
-    //if(inTeleport) return;
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    if(gameHandler->getForceTouch())
+    {
+        if(inTeleport) return;
+    }
+#endif
+    
     float width = getContentSize().width;
     float force;
     if(gameHandler->getGravity())
