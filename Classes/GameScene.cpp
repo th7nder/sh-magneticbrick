@@ -1353,7 +1353,7 @@ void GameScene::onGameExit()
 
 void GameScene::onGameEnter()
 {
-    if(getGameState() != Playing)
+    if(getGameState() != Playing && getGameState() != ReadyToPlay)
     {
         postEffect->setPostEffectsEnabled(true);
         postEffect->requestRedraw();
