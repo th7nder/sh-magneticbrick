@@ -367,7 +367,7 @@ void Player::updateBricksSpacing()
     
 
     //if(inTeleport) return;
-    auto width = getContentSize().width;
+    float width = getContentSize().width;
     float force;
     if(gameHandler->getGravity())
     {
@@ -378,12 +378,19 @@ void Player::updateBricksSpacing()
         force = this->force;
     }
     
-    auto leftBarrierPos = pixelsToMeters(startLeftPos - ((startLeftPos  - playerSize.width / 2) * force));
-    auto previousBrickXVel = body->GetLinearVelocity().x;
-    auto previousRightBrickXVel = rightBody->GetLinearVelocity().x;
-    auto leftBrickPos = body->GetPosition().x;
-    auto halfPlayerWidth = pixelsToMeters(playerSize.width / 2);
-    auto rightBarrierPos = pixelsToMeters(startRightPos + (width - (playerSize.width / 2) - startRightPos) * force);
+    /*CCLOG("FORCE: %f", force);
+    CCLOG("FORCE thos: %f", this->force);
+    CCLOG("StartLeftPos: %f", startLeftPos);
+    CCLOG("PlayerSize: %f", playerSize.width);*/
+    
+    //force = 0.5;
+    
+    float leftBarrierPos = pixelsToMeters(startLeftPos - ((startLeftPos  - playerSize.width / 2) * force));
+    float previousBrickXVel = body->GetLinearVelocity().x;
+    float previousRightBrickXVel = rightBody->GetLinearVelocity().x;
+    float leftBrickPos = body->GetPosition().x;
+    float halfPlayerWidth = pixelsToMeters(playerSize.width / 2);
+    float rightBarrierPos = pixelsToMeters(startRightPos + (width - (playerSize.width / 2) - startRightPos) * force);
     
     float brickVelocity = -64.0f;
     float rightBrickVelocity = 64.0f;
@@ -400,6 +407,9 @@ void Player::updateBricksSpacing()
         rightBarrierPos += halfPlayerWidth;
     }
     
+    
+    
+    CCLOG("leftBarrier: %.4f rightBarrier: %.4f", leftBarrierPos, rightBarrierPos);
 
     
     rightBarrier->SetTransform(b2Vec2(rightBarrierPos, rightBarrier->GetPosition().y), 0.0);
@@ -439,19 +449,24 @@ void Player::adjustLeftBrickBarrier(float x)
 void Player::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
 {
     if(gameHandler->getGameState() == GameHandler::GameState::Tutorial && !tutorialPlayer) return;
-    for(const auto& touch : touches)
+    for(cocos2d::Touch* touch : touches)
     {
+        CCLOG("for touch in touches");
         if(gameHandler->getForceTouch())
         {
             force = touch->getCurrentForce() / touch->getMaxForce();
+            CCLOG("for touch in not ZERCIU SSIE");
         }
         else
         {
-            auto touchPos = touch->getLocation();
+            Vec2 touchPos = touch->getLocation();
+            CCLOG("in here");
             if(touchPos.x > startTouchPosition.x)
             {
                 float difference = (touchPos.x - startTouchPosition.x);
-                static const float base = 640 / 2.5;
+                static const float base = 640.0f / 2.5f;
+                CCLOG("Base: %f", base);
+                CCLOG("difference: %f", difference);
                 if(!nearSwitch && !inTeleport)
                 {
                     force = difference / base;
@@ -484,6 +499,8 @@ void Player::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
             }
         }
         updateBricksSpacing();
+        
+        
         
     }
 }

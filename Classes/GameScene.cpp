@@ -124,6 +124,13 @@ bool GameScene::init()
         }
     }
     
+    setForceTouchAvailable(TH7Bridge::forceTouchAvailable());
+    if(!TH7Bridge::forceTouchAvailable())
+    {
+        setForceTouch(false);
+    }
+
+    
     visibleSize = Director::getInstance()->getVisibleSize();
     createBackground();
     createLevel();
@@ -133,7 +140,6 @@ bool GameScene::init()
     createPopupLayout();
     
     
-    setForceTouchAvailable(TH7Bridge::forceTouchAvailable());
     CCLOG("forceTouch available TH7: %d", TH7Bridge::forceTouchAvailable());
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) or (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

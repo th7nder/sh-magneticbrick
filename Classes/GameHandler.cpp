@@ -134,7 +134,7 @@ void GameHandler::setRemoveAds(bool v)
 bool GameHandler::getTutorialDisplayed() const
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-    return true;
+    return false;
 #endif
     
     return tutorialDisplayed;
