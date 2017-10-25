@@ -831,6 +831,9 @@ void GameScene::onPlayerDeath()
     
     shopLayout->updateUI();
     
+    const int remainingBricks = getBricksRemaining();
+    titleLayout->updateRemainingBricks(getRemoveAds(), remainingBricks);
+    
     
     
     
@@ -868,6 +871,8 @@ void GameScene::onPlayerWin()
         }
     }
     winLoseLayout->updateUI();
+    const int remainingBricks = getBricksRemaining();
+    titleLayout->updateRemainingBricks(getRemoveAds(), remainingBricks);
     showUI();
     
     setBlackout(false);
