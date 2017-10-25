@@ -146,6 +146,7 @@ namespace cocos2d { namespace network {
                 DLLOG("DownloaderAndroid::onProgress can't find task with id: %d", taskId);
                 return;
             }
+
             DownloadTaskAndroid *coTask = iter->second;
             function<int64_t(void*, int64_t)> transferDataToBuffer;
             onTaskProgress(*coTask->task, dl, dlNow, dlTotal, transferDataToBuffer);
@@ -160,6 +161,7 @@ namespace cocos2d { namespace network {
                 DLLOG("DownloaderAndroid::_onFinish can't find task with id: %d", taskId);
                 return;
             }
+
             DownloadTaskAndroid *coTask = iter->second;
             string str = (errStr ? errStr : "");
             _taskMap.erase(iter);
@@ -192,6 +194,7 @@ static void _nativeOnProgress(JNIEnv *env, jclass clazz, jint id, jint taskId, j
         DLLOG("_nativeOnProgress can't find downloader by key: %p for task: %d", clazz, id);
         return;
     }
+
     cocos2d::network::DownloaderAndroid *downloader = iter->second;
     downloader->_onProcess((int)taskId, (int64_t)dl, (int64_t)dlnow, (int64_t)dltotal);
 }

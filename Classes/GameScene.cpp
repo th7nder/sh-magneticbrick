@@ -196,6 +196,7 @@ void GameScene::initDownloader()
     
     downloader->onFileTaskSuccess = ([this] (const network::DownloadTask& task) {
         //file downloaded, do what you need next
+        CCLOG("downloader task success");
         std::string sId = task.identifier;
         int id = atoi(sId.c_str());
         downloadInProgress[id] = false;
@@ -203,6 +204,7 @@ void GameScene::initDownloader()
     
     downloader->onTaskError = ([this] (const network::DownloadTask& task, int errorCode, int errorCodeInternal, const std::string& errorStr) {
         //file downloading error
+        CCLOG("downloader error: %s", errorStr.c_str());
         std::string sId = task.identifier;
         int id = atoi(sId.c_str());
         downloadInProgress[id] = false;
@@ -213,6 +215,7 @@ void GameScene::downloadMusicForTheme(std::string codename, int id)
 {
     std::string url = "http://fraj.eu/" + codename + ".mp3";
     std::string filePath = FileUtils::getInstance()->getWritablePath() + codename + ".mp3";
+    CCLOG("storing to filePath: %s", filePath.c_str());
     
     downloader->createDownloadFileTask(url, filePath, StringUtils::format("%d", id));
 }
@@ -228,7 +231,8 @@ void GameScene::downloadMissingMusic()
         if(isThemeAvailable(i))
         {
             auto codename = theme.getCodeName();
-            if(!fu->isFileExist(Globals::resources["music_" + codename]))
+            std::string filePath = FileUtils::getInstance()->getWritablePath() + codename + ".mp3";
+            if(!fu->isFileExist(filePath))
             {
                 if(!downloadInProgress[i])
                 {
