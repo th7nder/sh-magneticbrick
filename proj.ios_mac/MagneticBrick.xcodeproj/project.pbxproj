@@ -1042,6 +1042,7 @@
 			children = (
 				71CFA73B1EF9C9AB0039BB26 /* Extras */,
 				711794D61E8C74ED0016E830 /* LevelObject.hpp */,
+				711794D51E8C74ED0016E830 /* LevelObject.cpp */,
 				711794D71E8C74ED0016E830 /* Player.cpp */,
 				711794D81E8C74ED0016E830 /* Player.hpp */,
 				7137F21A1F040F7900B254E1 /* LevelFollower.cpp */,
@@ -1049,7 +1050,6 @@
 				71B74FBB1ED830E700C6088A /* Walls.cpp */,
 				71B74FBC1ED830E700C6088A /* Walls.hpp */,
 				711794D91E8C74ED0016E830 /* HorizontalObstacle.cpp */,
-				711794D51E8C74ED0016E830 /* LevelObject.cpp */,
 				711794DA1E8C74ED0016E830 /* HorizontalObstacle.hpp */,
 				711794DB1E8C74ED0016E830 /* MovingObstacle.cpp */,
 				711794DC1E8C74ED0016E830 /* MovingObstacle.hpp */,

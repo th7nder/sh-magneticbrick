@@ -56,7 +56,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("MagneticBrick", cocos2d::Rect(0, 0, 480, 854));
+        glview = GLViewImpl::createWithRect("MagneticBrick", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
 #else
         glview = GLViewImpl::create("MagneticBrick");
 #endif
@@ -82,8 +82,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
     // if the frame's height is larger than the height of small size.
     else if (frameSize.height > smallResolutionSize.height)
-    {        
-        director->setContentScaleFactor(mediumResolutionSize.width/designResolutionSize.width);
+    {
+        director->setContentScaleFactor((mediumResolutionSize.width)/designResolutionSize.width);
         searchPaths.push_back("2x");
 
     }

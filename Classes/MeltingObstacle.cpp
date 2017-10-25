@@ -61,8 +61,7 @@ void MeltingObstacle::addSprite()
 {
     auto spr = Sprite::create(centerTexture);
     spr->setAnchorPoint(Vec2::ZERO);
-    addChild(spr);
-    
+
     
     auto width = spr->getContentSize().width;
     auto height = spr->getContentSize().height;
@@ -72,14 +71,21 @@ void MeltingObstacle::addSprite()
     {
         amount++;
     }
+    
+    float centerWidth = (amount - 1) * width;
     if(amount > 1)
     {
         spr = Sprite::create(centerTexture);
         spr->setAnchorPoint(Vec2::ZERO);
-        spr->setPosition(Vec2(width, 0));
-        spr->setContentSize(Size((amount - 1) * width, height));
+        spr->setContentSize(Size(centerWidth + 40, height));
+        spr->setPosition(Vec2(width - 40, 0));
+        
         addChild(spr);
     }
+    
+    
+
+    
     
 }
 void MeltingObstacle::launch()

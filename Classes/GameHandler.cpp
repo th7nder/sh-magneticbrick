@@ -137,7 +137,7 @@ void GameHandler::setRemoveAds(bool v)
 bool GameHandler::getTutorialDisplayed() const
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-    return false;
+    return true;
 #endif
     
     return tutorialDisplayed;
@@ -400,9 +400,9 @@ bool GameHandler::isThemeAvailable(int theme)
 {
     if(theme == 0) return true;
 
-//#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
- //   return true;
-//#endif
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+    return true;
+#endif
    
 #if defined DOWNLOAD_MAPS
     return true;
