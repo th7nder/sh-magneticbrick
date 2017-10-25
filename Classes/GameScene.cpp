@@ -104,7 +104,7 @@ bool GameScene::init()
     if(!super::init()) return false;
     
     auto themes = ThemeManager::getInstance()->getThemes();
-    int i = 1;
+    int i = 0;
     auto fu = cocos2d::FileUtils::getInstance();
     std::string writablePath = fu->getWritablePath();
     
@@ -113,7 +113,7 @@ bool GameScene::init()
     {
         
         auto codename = theme.getCodeName();
-        if(i > 1)
+        if(i > 0)
         {
             Globals::resources["music_" + codename] = writablePath + codename + ".mp3";
             CCLOG("h3h3h3h3 %s", Globals::resources["music_" + codename].c_str());
@@ -122,6 +122,8 @@ bool GameScene::init()
         {
             Globals::resources["music_" + codename] = "sound/music/" + codename + ".mp3";
         }
+        
+        i++;
     }
     
     setForceTouchAvailable(TH7Bridge::forceTouchAvailable());
@@ -204,7 +206,6 @@ void GameScene::initDownloader()
     
     downloader->onTaskError = ([this] (const network::DownloadTask& task, int errorCode, int errorCodeInternal, const std::string& errorStr) {
         //file downloading error
-        CCLOG("downloader error: %s", errorStr.c_str());
         std::string sId = task.identifier;
         int id = atoi(sId.c_str());
         downloadInProgress[id] = false;
@@ -228,6 +229,11 @@ void GameScene::downloadMissingMusic()
     int i = 0;
     for(auto& theme: themes)
     {
+        if(i == 0)
+        {
+            i++;
+            continue;
+        }
         if(isThemeAvailable(i))
         {
             auto codename = theme.getCodeName();
@@ -245,6 +251,10 @@ void GameScene::downloadMissingMusic()
                     CCLOG("Downloader: download in progress");
                 }
                 
+            }
+            else
+            {
+                CCLOG("Downloader %s exists", filePath.c_str());
             }
         }
         

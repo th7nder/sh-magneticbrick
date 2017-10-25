@@ -408,7 +408,6 @@ bool GameHandler::isThemeAvailable(int theme)
     return true;
 #else
     
-
     
     return ud->getBoolForKey(StringUtils::format("theme_available_%d", theme).c_str(), false);
 #endif
