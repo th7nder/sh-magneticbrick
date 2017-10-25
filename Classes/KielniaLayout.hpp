@@ -29,6 +29,8 @@ private:
     typedef KielniaLayout self;
     GameHandler* gameHandler;
     
+    
+    bool inAnimation;
     cocos2d::Sprite* shine;
     cocos2d::Sprite* timerSprite;
     cocos2d::ProgressTimer* timer;

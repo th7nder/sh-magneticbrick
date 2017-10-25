@@ -837,7 +837,7 @@ void GameScene::onPlayerDeath()
     postEffect->setPostEffectsEnabled(true);
     postEffect->runAction(BlurFromTo::create(blurTime, 0.0, Globals::blurRadius));
     
-    if(getKielnias() && kielniasUsedOnLevel + 1 <= 2)
+    if(getKielnias() > 0 && kielniasUsedOnLevel + 1 <= 2)
     {
         fadeInLayout(kielniaLayout);
         kielniaLayout->launchTimer();

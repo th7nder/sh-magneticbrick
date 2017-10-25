@@ -9,7 +9,7 @@
 #include "KielniaLayout.hpp"
 
 USING_NS_CC;
-KielniaLayout::KielniaLayout()
+KielniaLayout::KielniaLayout() : inAnimation(false)
 {
     
 }
@@ -127,6 +127,9 @@ bool KielniaLayout::initWithSize(cocos2d::Size size, cocos2d::Color3B& color, in
     
     
     sure->addClickEventListener([this](Ref* sender){
+        if(inAnimation) return;
+        
+        inAnimation = true;
         playClickSound();
         int kielnias = gameHandler->getKielnias();
         kielniasRemaining->setString(StringUtils::format("%d", kielnias - 1));
@@ -139,6 +142,7 @@ bool KielniaLayout::initWithSize(cocos2d::Size size, cocos2d::Color3B& color, in
         auto func = CallFunc::create([this](){
             kielniasRemainingSecond->setVisible(false);
             kielniasRemainingSecond->setScale(1.0);
+            inAnimation = false;
             this->gameHandler->onKielniaUsed();
         });
         
