@@ -974,7 +974,7 @@ void GameScene::onPlayerWin()
     }
     else if(themeRewardInfo != 0)
     {
-        winLoseLayout->createRewardPopup(Globals::resources["thumbnail_" + themes[themeRewardInfo].getCodeName() + "_unlockable"], starsCount - collectedStars, starsCount, Globals::bricksSteps[stepInfo], true, 0);
+        winLoseLayout->createRewardPopup(Globals::resources["thumbnail_" + themes[themeRewardInfo].getCodeName() + "_unlockable"], starsCount - collectedStars, starsCount, Globals::chaptersSteps[themeRewardInfo], true, 0);
     }
     else if(stepInfo != 666)
     {
