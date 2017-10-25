@@ -58,11 +58,11 @@ bool TitleLayout::initWithSize(cocos2d::Size size, GameHandler* handler, const C
 void TitleLayout::createStarLabel(const Color3B& color)
 {
     // 177 165 148
-    Vec2 pos(310, settingsButton->getPositionY());
+    Vec2 pos(305, settingsButton->getPositionY());
     int starCount = gameHandler->getStarCount();
     if(starCount > 9)
     {
-        pos.x -= 15;
+        pos.x -= 14;
     }
     if(starCount > 99)
     {
@@ -93,6 +93,21 @@ void TitleLayout::updateRemainingBricks(bool removeAds, int bricksRemaining)
     {
         bricksRemainingLabel->setString(StringUtils::format("%d", bricksRemaining));
     }
+    
+    int starCount = gameHandler->getStarCount();
+    if(starCount > 99)
+    {
+        starLabel->setPositionX(305 - 29);
+    } else if(starCount > 9)
+    {
+        starLabel->setPositionX(305 - 14);
+    }
+    else
+    {
+        starLabel->setPositionX(305);
+    }
+    
+    starLabel->setString(StringUtils::format("%d", starCount));
 }
 
 
@@ -108,14 +123,14 @@ void TitleLayout::updateUITheme(const cocos2d::Color3B& color, const std::string
     int starCount = gameHandler->getStarCount();
     if(starCount > 99)
     {
-        starLabel->setPositionX(310 - 29);
+        starLabel->setPositionX(305 - 29);
     } else if(starCount > 9)
     {
-        starLabel->setPositionX(310 - 15);
+        starLabel->setPositionX(305 - 14);
     }
     else
     {
-        starLabel->setPositionX(310);
+        starLabel->setPositionX(305);
     }
     
     starLabel->setString(StringUtils::format("%d", starCount));
