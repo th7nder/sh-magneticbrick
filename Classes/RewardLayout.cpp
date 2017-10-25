@@ -208,6 +208,24 @@ bool RewardLayout::launchBrickReward()
         removeChild(icon);
         icon = nullptr;
     }
+    
+    auto skins = SkinManager::getInstance()->getSkins();
+    int size = (int)skins.size();
+    int bricksToUnlock = 0;
+    for(int i = 1; i < size; i++)
+    {
+        if(!skins[i].getAccess())
+        {
+            bricksToUnlock++;
+        }
+    }
+    
+    if(!bricksToUnlock)
+    {
+        CCLOG("no bricks to unlock");
+        return false;
+    }
+    
     brickReward->setEnabled(true);
     brickReward->setVisible(true);
     chapterReward->setVisible(false);

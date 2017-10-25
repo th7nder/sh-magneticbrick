@@ -253,7 +253,7 @@ void ShopLayout::updateUI()
 
     
     int step = -1;
-    for(int i = 1; i < 16; i++)
+    for(int i = 1; i < 15; i++)
     {
         if(!gameHandler->brickAtStepUnlocked(i))
         {
@@ -470,7 +470,7 @@ void ShopLayout::createBrickAtSprite()
     
 
     int step = -1;
-    for(int i = 1; i < 16; i++)
+    for(int i = 1; i < 15; i++)
     {
         if(!gameHandler->brickAtStepUnlocked(i))
         {

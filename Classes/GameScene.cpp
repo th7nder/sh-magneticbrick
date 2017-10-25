@@ -932,13 +932,19 @@ void GameScene::onPlayerWin()
 
     
 
-    for(int i = 1; i < 16; i++)
+    for(int i = 1; i < 15; i++) // heheh bricks numbers
     {
         if(starsCount >= Globals::bricksSteps[i] && !brickAtStepUnlocked(i))
         {
             setBrickAtStepUnlocked(i);
-            launchBrickReward();
-            return;
+            if(launchBrickReward())
+            {
+                return;
+            }
+            else
+            {
+                break;
+            }
         }
     }
     
@@ -959,7 +965,7 @@ void GameScene::onPlayerWin()
     CCLOG("info about theme: %s", themes[themeRewardInfo].getCodeName().c_str());
     
     int stepInfo = 666;
-    for(int i = 15; i >= 0; i--)
+    for(int i = 14; i >= 0; i--) // hehe brick step
     {
         if(!brickAtStepUnlocked(i))
         {
@@ -1698,13 +1704,19 @@ void GameScene::onBuyChapterCompleted()
 void GameScene::onChapterRewardEnded()
 {
     int starsCount = getStarCount();
-    for(int i = 1; i < 16; i++)
+    for(int i = 1; i < 15; i++)
     {
         if(starsCount >= Globals::bricksSteps[i] && !brickAtStepUnlocked(i))
         {
             setBrickAtStepUnlocked(i);
-            launchBrickReward();
-            return;
+            if(launchBrickReward())
+            {
+                return;
+            }
+            else
+            {
+                break;
+            }
         }
     }
     
