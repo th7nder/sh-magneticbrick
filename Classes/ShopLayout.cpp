@@ -262,7 +262,22 @@ void ShopLayout::updateUI()
         }
     }
     
-    numberLabel->setString(StringUtils::format("%d", step));
+    
+    if(step == -1)
+    {
+        brickAtSprite->setVisible(false);
+        numberLabel->setVisible(false);
+        brickAtLabel->setVisible(false);
+        brickAtStar->setVisible(false);
+        scrollingBricks->setContentSize(Size(bricksContainer->getContentSize().width, 550 + brickAtSprite->getContentSize().height));
+    }
+    else
+    {
+        scrollingBricks->setContentSize(Size(bricksContainer->getContentSize().width, 550));
+        numberLabel->setString(StringUtils::format("%d", step));
+    }
+    
+    
     
     
     backButton->loadTextureNormal(Globals::resources["icon_back_right_" + strColor]);
@@ -432,6 +447,7 @@ void ShopLayout::createKielniaLabel()
 
 void ShopLayout::createBrickAtSprite()
 {
+
     //const Vec2 pos(320, 730);
 // 2 cyfry + 24 px w prawo gwiazdka ||// -2 px w lewo label
 // 3 cyfry + 48 px w prawo gwiazdka || -2px w lewo
@@ -440,17 +456,19 @@ void ShopLayout::createBrickAtSprite()
     brickAtSprite->setPosition(pos);
     bricksContainer->addChild(brickAtSprite);
     
-    auto label = Label::createWithTTF("NEW BRICK AT", Globals::gameFont, 41.0);
-    label->setColor(Color3B(0, 0, 0));
-    label->setPosition(Vec2(pos.x, pos.y + 50));
-    bricksContainer->addChild(label);
+    brickAtLabel = Label::createWithTTF("NEW BRICK AT", Globals::gameFont, 41.0);
+    brickAtLabel->setColor(Color3B(0, 0, 0));
+    brickAtLabel->setPosition(Vec2(pos.x, pos.y + 50));
+    bricksContainer->addChild(brickAtLabel);
     
     
-    auto star = Sprite::create(Globals::resources["shop_bigstar_indicator_white"]);
-    star->setColor(Color3B::BLACK);
-    star->setPosition(Vec2(pos.x + 32 + 24, pos.y - 23));
-    bricksContainer->addChild(star);
+    brickAtStar = Sprite::create(Globals::resources["shop_bigstar_indicator_white"]);
+    brickAtStar->setColor(Color3B::BLACK);
+    brickAtStar->setPosition(Vec2(pos.x + 32 + 24, pos.y - 23));
+    bricksContainer->addChild(brickAtStar);
     
+    
+
     int step = -1;
     for(int i = 1; i < 16; i++)
     {
@@ -460,10 +478,22 @@ void ShopLayout::createBrickAtSprite()
             break;
         }
     }
+  
+
     numberLabel = Label::createWithTTF(StringUtils::format("%d", step), Globals::gameFontBold, 84.0);
     numberLabel->setColor(Color3B(0, 0, 0));
     numberLabel->setPosition(Vec2(pos.x - 46 - 2, pos.y - 23));
     bricksContainer->addChild(numberLabel);
+    
+
+    
+    if(step == -1)
+    {
+        brickAtSprite->setVisible(false);
+        numberLabel->setVisible(false);
+        brickAtLabel->setVisible(false);
+        brickAtStar->setVisible(false);
+    }
     
     
 
@@ -482,13 +512,23 @@ void ShopLayout::createScrollingBricks()
         innerHeight = 550;
     }
     scrollingBricks = ui::ScrollView::create();
-    scrollingBricks->setContentSize(Size(bricksContainer->getContentSize().width, 550));
     scrollingBricks->setPosition(Vec2::ZERO);
+    if(!brickAtSprite->isVisible())
+    {
+        scrollingBricks->setContentSize(Size(bricksContainer->getContentSize().width, 550 + brickAtSprite->getContentSize().height));
+    }
+    else
+    {
+        scrollingBricks->setContentSize(Size(bricksContainer->getContentSize().width, 550));
+    }
+    
+    
     scrollingBricks->setBounceEnabled(true);
     scrollingBricks->setScrollBarEnabled(false);
     scrollingBricks->setInnerContainerSize(Size(bricksContainer->getContentSize().width, innerHeight));
     bricksContainer->addChild(scrollingBricks);
     
+
     
     int lastAvailable = 1;
     for(int i = 1; i < skins.size(); i++)

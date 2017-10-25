@@ -42,6 +42,8 @@ GameHandler::GameHandler() : bricksRemaining(0), lastThemeId(0), currentPlayerSp
     
     auto skins = SkinManager::getInstance()->getSkins();
     skins[0].setAccess(true);
+    
+
 
     
     for(int i = 0; i < 10; i++)

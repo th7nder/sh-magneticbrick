@@ -59,6 +59,8 @@ private:
     void createKielniaLabel();
     
     Sprite* brickAtSprite;
+    Label* brickAtLabel;
+    Sprite* brickAtStar;
     void createBrickAtSprite();
     
     ui::Layout* bricksContainer;
