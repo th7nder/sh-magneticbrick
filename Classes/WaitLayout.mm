@@ -317,7 +317,7 @@ void WaitLayout::onGameEnter()
     {
         if(difference > Globals::timeToWait * 2 && gameHandler->getBricksRemaining() < 10)
         {
-            gameHandler->setBricksRemaining(gameHandler->getBricksRemaining() + Globals::bricksAfterWaiting);
+            gameHandler->setBricksRemaining(gameHandler->getBricksRemaining() + 10);
             gameHandler->updateUI();
         }
         return;
