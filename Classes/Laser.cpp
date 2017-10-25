@@ -66,20 +66,29 @@ void Laser::addSprite()
     {
         amount++;
     }
+    
+    float centerWidth = (amount - 2) * width;
+    float maxWidth = width + centerWidth + width;
+    if(maxWidth < this->width)
+    {
+        centerWidth += this->width - maxWidth;
+    }
     if(amount > 2)
     {
         spr = Sprite::create(centerTexture);
         spr->setAnchorPoint(Vec2::ZERO);
         spr->setPosition(Vec2(width, sprY));
-        spr->setContentSize(Size((amount - 2) * width, height));
+        spr->setContentSize(Size(centerWidth, height));
         addChild(spr);
     }
     
     spr = Sprite::create(rightTexture);
     spr->setAnchorPoint(Vec2::ZERO);
-    spr->setPositionX(width + ((amount - 2) * width));
+    spr->setPositionX(centerWidth + width);
     spr->setPositionY(sprY);
     addChild(spr);
+    
+    
 }
 
 
